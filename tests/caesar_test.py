@@ -1,0 +1,64 @@
+import random
+
+import pytest
+
+from cryptopy.ciphers import caesar
+
+
+# Random Strings
+def random_string(length: int, string_num: int = 100) -> list[str]:
+    random.seed(69420)
+    all_strings: list[str] = []
+    letters: str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,.'"
+    for _ in range(string_num):
+        all_strings.append(''.join(random.choice(letters) for _ in range(length)))
+    return all_strings
+
+
+# Encryption tests
+def test_caesar_encrypt():
+    assert caesar.encrypt('ABC', 3) == 'DEF'
+    assert (
+        caesar.encrypt("Sentence with puctuation, they're really cool, right?", 25)
+        == "Rdmsdmbd vhsg otbstzshnm, sgdx'qd qdzkkx bnnk, qhfgs?"
+    )
+    # Make sure shift out of bounds raises error
+    with pytest.raises(ValueError):
+        caesar.encrypt('ABC', -1)
+        caesar.encrypt('ABC', 26)
+
+
+# Decryption tests
+def test_caesar_decrypt():
+    assert caesar.decrypt('DEF', 3) == 'ABC'
+    assert (
+        caesar.decrypt("Rdmsdmbd vhsg otbstzshnm, sgdx'qd qdzkkx bnnk, qhfgs?", 25)
+        == "Sentence with puctuation, they're really cool, right?"
+    )
+    # Make sure shift out of bounds raises error
+    with pytest.raises(ValueError):
+        caesar.decrypt('DEF', -1)
+        caesar.decrypt('DEF', 26)
+
+
+# Benchmarks (cause why not?)
+def test_caesar_encrypt_benchmark(benchmark):
+    strings: list[str] = random_string(1000)
+    shifts: list[int] = [random.randint(0, 25) for _ in range(100)]
+
+    def multi_encrypt():
+        for string, shift in zip(strings, shifts, strict=True):
+            caesar.encrypt(string, shift)
+
+    benchmark(multi_encrypt)
+
+
+def test_caesar_decrypt_benchmark(benchmark):
+    strings: list[str] = random_string(1000)
+    shifts: list[int] = [random.randint(0, 25) for _ in range(100)]
+
+    def multi_decrypt():
+        for string, shift in zip(strings, shifts, strict=True):
+            caesar.decrypt(string, shift)
+
+    benchmark(multi_decrypt)

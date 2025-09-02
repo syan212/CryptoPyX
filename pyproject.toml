@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cryptopy"
+requires-python = ">=3.11"
+version = "0.0.1"
+description = "A cryptography package"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+  { name="Siqi Yan", email="syan235711@gmail.com" }
+]
+# Dependencies
+dependencies = ["numpy (>=2.3.2,<3.0.0)"] 
+# Classifiers
+classifiers = [
+    # Topics
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    # Languages
+    "Natural Language :: English",
+    # License
+    "License :: OSI Approved :: MIT License",
+    # Audience
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    # Development Status
+    "Development Status :: 1 - Planning",
+    # Python Versions
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    # Other
+    "Typing :: Typed",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.4.1"
+pytest-benchmark = "^5.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.12.11"
