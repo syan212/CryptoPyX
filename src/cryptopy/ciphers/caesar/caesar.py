@@ -4,6 +4,7 @@ def encrypt(plaintext: str, shift: int) -> str:
 
     :param plaintext: The text to be encrypted.
     :param shift: The number of positions to shift each letter (0-25).
+
     :return: The encrypted ciphertext.
     """
     base: int
@@ -29,6 +30,7 @@ def decrypt(ciphertext: str, shift: int) -> str:
     :param plaintext: The text to be decrypted.
     :param shift: The number of positions to shift each letter (0-25).
         It should be the same as used for encryption.
+
     :return: The encrypted ciphertext.
     """
     base: int
