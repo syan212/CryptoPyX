@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  Linting-Formating-Tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            python-version: '3.11'
+            
+      - name: Install Poetry
+        run: |
+            pip install poetry
+
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4.2.4
+        with:
+          path: .venv
+          key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            poetry-${{ runner.os }}-
+            
+      - name: Poetry Config
+        run: |
+          poetry config virtualenvs.in-project true
+            
+      - name: Install dependencies
+        run: |
+          poetry install --no-interaction --all-groups
+
+      
+      - name: Ruff linting and formatting
+        run: |
+          poetry run ruff check .
+          poetry run ruff format --check .
+    
+      - name: Run tests with pytest
+        run: |
+          poetry run pytest
