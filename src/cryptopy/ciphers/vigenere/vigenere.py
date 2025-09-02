@@ -3,12 +3,12 @@ import numpy as np
 
 # Encryption
 def encrypt(plaintext: str, key: str) -> str:
-    """"Encrypts plaintext using a Vigenere cipher with the given key.
-    
+    """ "Encrypts plaintext using a Vigenere cipher with the given key.
+
     :param plaintext: The text to be encrypted.
-    :param key: The keyword used for encryption. Non-alphabetic characters are ignored. 
+    :param key: The keyword used for encryption. Non-alphabetic characters are ignored.
         If no alphabetic characters are present, a ValueError is raised.
-    
+
     :return: The encrypted ciphertext.
     """
     A: int = ord('A')
@@ -40,11 +40,11 @@ def encrypt(plaintext: str, key: str) -> str:
 # Decryption
 def decrypt(ciphertext: str, key: str) -> str:
     """Decrypts ciphertext using a Vigenere cipher with the given key.
-    
+
     :param ciphertext: The text to be decrypted.
-    :param key: The keyword used for decryption. Non-alphabetic characters are ignored. 
+    :param key: The keyword used for decryption. Non-alphabetic characters are ignored.
         If no alphabetic characters are present, a ValueError is raised.
-        
+
     :return: The decrypted plaintext.
     """
     A: int = ord('A')
