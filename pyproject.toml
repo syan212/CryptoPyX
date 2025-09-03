@@ -8,7 +8,9 @@ requires-python = ">=3.11"
 version = "0.0.1"
 description = "A simple cryptography package"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["cryptography", "cipher", "encryption", "decryption", "security"]
 authors = [
   { name="Siqi Yan", email="syan235711@gmail.com" }
 ]
@@ -38,6 +40,10 @@ classifiers = [
     "Typing :: Typed",
     "Operating System :: OS Independent",
 ]
+
+[project.urls]
+Repository = "https://github.com/syan212/CryptoPyX"
+issues = "https://github.com/syan212/CryptoPyX/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
