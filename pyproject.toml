@@ -3,10 +3,10 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cryptopy"
+name = "cryptopyx"
 requires-python = ">=3.11"
 version = "0.0.1"
-description = "A cryptography package"
+description = "A simple cryptography package"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
