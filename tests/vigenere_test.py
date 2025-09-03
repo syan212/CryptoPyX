@@ -1,7 +1,8 @@
 import random
 
 import pytest
-from cryptopy.ciphers import vigenere
+
+from cryptopyx.ciphers import vigenere
 
 
 # Random Strings

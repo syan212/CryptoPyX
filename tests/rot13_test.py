@@ -1,6 +1,6 @@
 import random
 
-from cryptopy.ciphers import rot13
+from cryptopyx.ciphers import rot13
 
 
 # Random Strings

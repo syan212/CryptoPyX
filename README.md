@@ -13,13 +13,13 @@ A simple python cryptogrpahy package.
 Currently, this is not yet on PyPi. Therefore, to install it, you need to first clone the repository
 
 ``` bash
-git clone https://github.com/syan212/CryptoPy.git
+git clone https://github.com/syan212/CryptoPyX.git
 ```
 
 Then install it using pip in the directory
 
 ``` bash
-cd CryptoPy
+cd CryptoPyX
 pip install .
 ```
 
@@ -28,7 +28,7 @@ Now you should have it installed.
 ## Example Usage
 
 ``` python
-from cryptopy.ciphers import caesar
+from cryptopyx.ciphers import caesar
 caesar.encrypt('ABC', 3) # DEF
 caesar.decrypt('DEF', 3) # ABC
 ```
