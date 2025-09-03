@@ -1,6 +1,8 @@
 # CryptoPyX
 
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/syan212/CryptoPyX)
+![GitHub branch check runs](https://img.shields.io/github/check-runs/syan212/CryptoPyX/main)
 
 > [!CAUTION]
 > This is still under early development!

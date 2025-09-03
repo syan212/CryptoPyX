@@ -45,10 +45,7 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[tool.poetry.group.test.dependencies]
-pytest = "^8.4.1"
-pytest-benchmark = "^5.1.0"
-
-
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.12.11"
+pytest = "^8.4.1"
+pytest-benchmark = "^5.1.0"
