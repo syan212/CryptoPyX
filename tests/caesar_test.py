@@ -1,7 +1,6 @@
 import random
 
 import pytest
-
 from cryptopy.ciphers import caesar
 
 
