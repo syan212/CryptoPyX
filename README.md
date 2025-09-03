@@ -12,20 +12,19 @@ A simple python cryptogrpahy package.
 
 ## Installation guide
 
-Currently, this is not yet on PyPi. Therefore, to install it, you need to first clone the repository
+Install from PyPI
+
+```bash
+pip install cryptopyx
+```
+
+Or install from github for the latest version
 
 ``` bash
 git clone https://github.com/syan212/CryptoPyX.git
-```
-
-Then install it using pip in the directory
-
-``` bash
 cd CryptoPyX
 pip install .
 ```
-
-Now you should have it installed.
 
 ## Example Usage
 

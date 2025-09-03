@@ -40,12 +40,6 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --no-interaction --all-groups
-          
-      - name: Debug Poetry environment
-        run: |
-          poetry env info
-          poetry show --with dev
-          poetry run pip list
       
       - name: Ruff linting and formatting
         run: |
