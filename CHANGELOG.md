@@ -3,6 +3,7 @@
 **v0.0.2: Second test release**
 Features:
 Updated README to reStructuredText
+Added CHANGELOG.md
 No new encryptions added
 
 **v0.0.1: First test release**
