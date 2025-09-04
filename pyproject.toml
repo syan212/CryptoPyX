@@ -42,6 +42,7 @@ classifiers = [
 [project.urls]
 Repository = "https://github.com/syan212/CryptoPyX"
 issues = "https://github.com/syan212/CryptoPyX/issues"
+Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
