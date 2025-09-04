@@ -5,7 +5,7 @@ Features:
 
 Updated README to reStructuredText
 Added CHANGELOG.md
-No new encryptions added
+ROT13 added
 
 **v0.0.1: First test release**
 Features:
