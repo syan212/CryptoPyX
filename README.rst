@@ -22,6 +22,10 @@ CryptoPyX
    :target: https://github.com/syan212/Army-API/actions
    :alt: GitHub branch check runs
 
+.. image:: https://img.shields.io/github/deployments/syan212/cryptopyx/pypi
+   :target: https://github.com/syan212/CryptoPyX/deployments/pypi
+   :alt: GitHub deployments
+
 .. image:: https://img.shields.io/github/license/syan212/cryptopyx
    :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
    :alt: GitHub License
