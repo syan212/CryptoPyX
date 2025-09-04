@@ -23,8 +23,6 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     # Languages
     "Natural Language :: English",
-    # License
-    "License :: OSI Approved :: MIT License",
     # Audience
     "Intended Audience :: Developers",
     "Intended Audience :: Education",
