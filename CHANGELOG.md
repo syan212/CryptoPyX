@@ -1,5 +1,10 @@
 # Changelog
 
+**v0.0.3: Third test release (Not released yet)**
+Features:
+
+Fixed [Issue 1](https://github.com/syan212/CryptoPyX/issues/1)
+
 **v0.0.2: Second test release**
 Features:
 
