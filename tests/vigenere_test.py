@@ -18,6 +18,7 @@ def random_string(length: int, string_num: int = 100) -> list[str]:
 # Encryption tests
 def test_vigenere_encrypt():
     assert vigenere.encrypt('ATTACKATDAWN', 'LEMON') == 'LXFOPVEFRNHR'
+    assert vigenere.encrypt('哈哈', 'LEMON') == '哈哈'
     assert (
         vigenere.encrypt('Spaces and punctuation, right?', 'LEMON')
         == 'Dtmqrd ezr cfrohhlxuca, cmsvg?'
@@ -31,6 +32,7 @@ def test_vigenere_encrypt():
 # Decryption tests
 def test_vigenere_decrypt():
     assert vigenere.decrypt('LXFOPVEFRNHR', 'LEMON') == 'ATTACKATDAWN'
+    assert vigenere.decrypt('哈哈', 'LEMON') == '哈哈'
     assert (
         vigenere.decrypt('Dtmqrd ezr cfrohhlxuca, cmsvg?', 'LEMON')
         == 'Spaces and punctuation, right?'

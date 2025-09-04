@@ -11,7 +11,7 @@ def encrypt(plaintext: str) -> str:
     # Encryption processs
     ciphertext: str = ''
     for char in plaintext:
-        if char.isalpha():
+        if char.isalpha() and char.isascii():
             base = ord('A') if char.isupper() else ord('a')
             ciphertext += chr((ord(char) - base + 13) % 26 + base)
         else:
@@ -32,7 +32,7 @@ def decrypt(ciphertext: str) -> str:
     # Decryption process
     plaintext: str = ''
     for char in ciphertext:
-        if char.isalpha():
+        if char.isalpha() and char.isascii():
             base = ord('A') if char.isupper() else ord('a')
             plaintext += chr((ord(char) - base - 13) % 26 + base)
         else:
