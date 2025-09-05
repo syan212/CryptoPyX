@@ -7,28 +7,32 @@ CryptoPyX
     :alt: Ruff
 
 .. image:: https://img.shields.io/pypi/pyversions/cryptopyx
-   :target: https://pypi.org/project/cryptopyx/
-   :alt: PyPI - Python Version
+    :target: https://pypi.org/project/cryptopyx/
+    :alt: PyPI - Python Version
 
 .. image:: https://img.shields.io/pypi/v/cryptopyx
-   :alt: PyPI - Version
-   :target: https://pypi.org/project/cryptopyx/
+    :alt: PyPI - Version
+    :target: https://pypi.org/project/cryptopyx/
 
 .. image:: https://img.shields.io/github/commit-activity/m/syan212/cryptopyx
-   :target: https://github.com/syan212/CryptoPyX/commits/main/
-   :alt: GitHub commit activity
+    :target: https://github.com/syan212/CryptoPyX/commits/main/
+    :alt: GitHub commit activity
 
-.. image:: https://img.shields.io/github/check-runs/syan212/cryptopyx/main
-   :target: https://github.com/syan212/Army-API/actions
-   :alt: GitHub branch check runs
+.. image:: https://github.com/syan212/CryptoPyX/actions/workflows/ci.yml/badge.svg?branch=main
+    :target: https://github.com/syan212/CryptoPyX/actions/workflows/ci.yml
+    :alt: CI Status
 
-.. image:: https://img.shields.io/github/deployments/syan212/cryptopyx/pypi
-   :target: https://github.com/syan212/CryptoPyX/deployments/pypi
-   :alt: GitHub deployments
+.. image:: https://github.com/syan212/CryptoPyX/actions/workflows/dependabot/dependabot-updates/badge.svg
+    :target: https://github.com/syan212/CryptoPyX/actions/workflows/dependabot/dependabot-updates
+    :alt: Dependabot Status
+
+.. image:: https://github.com/syan212/CryptoPyX/actions/workflows/pypi.yml/badge.svg?event=release
+    :target: https://github.com/syan212/CryptoPyX/actions/workflows/pypi.yml
+    :alt: Publish to PyPI Status
 
 .. image:: https://img.shields.io/github/license/syan212/cryptopyx
-   :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
-   :alt: GitHub License
+    :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
+    :alt: GitHub License
 
 **Notice**:
 
