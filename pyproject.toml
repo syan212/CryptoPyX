@@ -15,7 +15,9 @@ authors = [
   { name="Siqi Yan", email="syan235711@gmail.com" }
 ]
 # Dependencies
-dependencies = ["numpy >=2.3.2"] 
+dependencies = [
+  "numpy >=2.3.2"
+] 
 # Classifiers
 classifiers = [
     # Topics
