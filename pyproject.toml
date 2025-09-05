@@ -52,5 +52,5 @@ where = ["src"]
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.12.12"
-pytest = "^8.4.1"
+pytest = "^8.4.2"
 pytest-benchmark = "^5.1.0"
