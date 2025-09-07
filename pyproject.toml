@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
 
 [project]
 name = "cryptopyx"
 requires-python = ">=3.11"
 version = "0.0.2"
-description = "A simple cryptography package"
+description = "A simple cryptography package written in Rust"
 readme = "README.rst"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -16,7 +16,8 @@ authors = [
 ]
 # Dependencies
 dependencies = [
-  "numpy >=2.3.2"
+  "numpy >=2.3.2",
+  "maturin (>=1.9.4,<2.0.0)"
 ] 
 # Classifiers
 classifiers = [
@@ -46,11 +47,11 @@ Repository = "https://github.com/syan212/CryptoPyX"
 issues = "https://github.com/syan212/CryptoPyX/issues"
 Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
 
-[tool.setuptools]
-package-dir = {"" = "src"}
-
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.maturin]
+python-source = "python"
+bindings = "pyo3"
+# "extension-module" tells pyo3 we want to build an extension module (skips linking against libpython.so)
+features = ["pyo3/extension-module"]
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.12.12"
