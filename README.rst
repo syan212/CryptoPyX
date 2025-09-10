@@ -10,13 +10,13 @@ CryptoPyX
     :target: https://pypi.org/project/cryptopyx/
     :alt: PyPI - Python Version
 
-.. image:: https://img.shields.io/pypi/v/cryptopyx
+.. image:: https://img.shields.io/pypi/v/cryptopyx?label=PyPI%20Version&color=blue
     :alt: PyPI - Version
-    :target: https://pypi.org/project/cryptopyx/
+    :target: https://pypi.org/project/cryptopyx/#history
 
-.. image:: https://img.shields.io/github/commit-activity/m/syan212/cryptopyx
-    :target: https://github.com/syan212/CryptoPyX/commits/main/
-    :alt: GitHub commit activity
+.. image:: https://img.shields.io/pypi/dm/cryptopyx?label=PyPI%20Downloads&color=blue
+    :alt: PyPI - Downloads
+    :target: https://pypi.org/project/cryptopyx/
 
 .. image:: https://github.com/syan212/CryptoPyX/actions/workflows/ci.yml/badge.svg?branch=main
     :target: https://github.com/syan212/CryptoPyX/actions/workflows/ci.yml
