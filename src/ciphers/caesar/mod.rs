@@ -40,10 +40,8 @@ fn decrypt_or_encrypt(input: &str, shift: i32, mode: &str) -> PyResult<String> {
             continue;
         };
         let shifted_byte: u8 = if mode == "encrypt" {
-            println!("Encrypting");
             ((((byte_num - base + shift)).rem_euclid(26)) + base) as u8
         } else if mode == "decrypt" {
-            println!("Decrypting");
             ((((byte_num - base - shift)).rem_euclid(26)) + base) as u8
         } else {
             return Err(pyo3::exceptions::PyValueError::new_err(
