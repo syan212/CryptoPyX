@@ -51,9 +51,3 @@ python-source = "python"
 bindings = "pyo3"
 # "extension-module" tells pyo3 we want to build an extension module (skips linking against libpython.so)
 features = ["pyo3/extension-module"]
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.12.12"
-pytest = "^8.4.2"
-pytest-benchmark = "^5.1.0"
-maturin = "^1.9.4"
