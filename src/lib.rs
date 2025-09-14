@@ -5,7 +5,6 @@ use pyo3::types::PyModule;
 mod ciphers{
     // ciphers submodules
     pub mod caesar;
-    pub mod vigenere;
     pub mod rot13;
 }
 
@@ -40,14 +39,6 @@ fn register_caesar_submodule<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     m.add_submodule(&caesar_module)?;
     // Fix sys.modules problem manually
     fix_sys(m, "cryptopyx.ciphers.caesar", &caesar_module)?;
-    Ok(())
-}
-
-// Register vigenere submodule under ciphers
-fn register_vigenere_submodule<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
-    let vigenere_module: Bound<'_, PyModule> = PyModule::new(m.py(), "vigenere")?;
-    // TODO: Add functions to vigenere submodule
-    m.add_submodule(&vigenere_module)?;
     Ok(())
 }
 
