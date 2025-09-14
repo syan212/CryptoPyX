@@ -1,6 +1,6 @@
 use pyo3::prelude::*;
 
-// Build table for specifc shift
+// Build table for specific shift
 const fn build_table(shift: i8) -> [u8; 256]{
     let mut table = [0u8; 256];
     let mut byte = 0;
@@ -29,6 +29,7 @@ const fn build_all_tables() -> [[u8; 256]; 26] {
     tables
 }
 
+// Special enum for encrypt/decrypt mode
 #[derive(Copy, Clone)]
 enum Mode {
     Encrypt,
@@ -38,6 +39,7 @@ enum Mode {
 // All Caesar Lookup Tables
 static CAESAR_TABLES: [[u8; 256]; 26] = build_all_tables();
 
+// The exposed python functions
 #[pyfunction]
 pub fn encrypt(input: &str, shift: i32) -> PyResult<String> {
     let result: String = decrypt_or_encrypt(input, shift, Mode::Encrypt)?;
@@ -50,6 +52,7 @@ pub fn decrypt(input: &str, shift: i32) -> PyResult<String> {
     Ok(result)
 }
 
+// Actual implementation
 fn decrypt_or_encrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
     // Validate shift range
     if (-25..=25).contains(&shift) == false {

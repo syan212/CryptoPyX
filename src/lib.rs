@@ -20,7 +20,6 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     let ciphers_module: Bound<'_, PyModule> = PyModule::new(m.py(), "ciphers")?;
     // Register submodules under ciphers
     register_caesar_submodule(&ciphers_module)?;
-    register_vigenere_submodule(&ciphers_module)?;
     register_rot13_submodule(&ciphers_module)?;
     // Add ciphers submodule to parent module
     m.add_submodule(&ciphers_module)?;

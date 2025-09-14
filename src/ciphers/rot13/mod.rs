@@ -18,6 +18,7 @@ static ROT13_TABLE: [u8; 256] = {
     table
 };
 
+// The exposed python functions
 #[pyfunction]
 pub fn encrypt(input: &str) -> PyResult<String> {
     rotate(input)
@@ -28,8 +29,8 @@ pub fn decrypt(input: &str) -> PyResult<String> {
     rotate(input)
 }
 
+// Main ROT13 logic
 fn rotate(input: &str) -> PyResult<String> {
-    // Main ROT13 logic
     let mut result: Vec<u8> = Vec::with_capacity(input.len());
     for &byte in input.as_bytes() {
         result.push(ROT13_TABLE[byte as usize]);
