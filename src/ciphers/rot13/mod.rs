@@ -1,6 +1,6 @@
 use pyo3::prelude::*;
 
-/// Precomputed ROT13 lookup table
+// Precomputed ROT13 lookup table
 static ROT13_TABLE: [u8; 256] = {
     let mut table = [0u8; 256];
     let mut i = 0;
