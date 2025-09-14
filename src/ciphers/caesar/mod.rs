@@ -1,22 +1,24 @@
 use pyo3::prelude::*;
 
-fn i8(x: u8) -> i8 {
-    x as i8
+#[derive(Copy, Clone)]
+enum Mode {
+    Encrypt,
+    Decrypt,
 }
 
 #[pyfunction]
 pub fn encrypt(input: &str, shift: i32) -> PyResult<String> {
-    let result: String = decrypt_or_encrypt(input, shift, "encrypt")?;
+    let result: String = decrypt_or_encrypt(input, shift, Mode::Encrypt)?;
     Ok(result)
 }
 
 #[pyfunction]
 pub fn decrypt(input: &str, shift: i32) -> PyResult<String> {
-    let result: String = decrypt_or_encrypt(input, shift, "decrypt")?;
+    let result: String = decrypt_or_encrypt(input, shift, Mode::Decrypt)?;
     Ok(result)
 }
 
-fn decrypt_or_encrypt(input: &str, shift: i32, mode: &str) -> PyResult<String> {
+fn decrypt_or_encrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
     // Validate shift range
     if (-25..=25).contains(&shift) == false {
         return Err(pyo3::exceptions::PyValueError::new_err(
@@ -29,25 +31,21 @@ fn decrypt_or_encrypt(input: &str, shift: i32, mode: &str) -> PyResult<String> {
     // Main encryption/decryption logic
     let mut result: Vec<u8> = Vec::with_capacity(input.len());
     for &byte in input.as_bytes() {
-        let byte_num: i8 = i8(byte);
+        let byte_num: i8 = byte as i8;
         let base: i8 = if byte.is_ascii_lowercase() {
-            i8(b'a')
+            b'a' as i8
         } else if byte.is_ascii_uppercase() {
-            i8(b'A')
+            b'A' as i8
         } else {
             let shifted_byte: u8 = byte as u8;
             result.push(shifted_byte);
             continue;
         };
-        let shifted_byte: u8 = if mode == "encrypt" {
-            ((((byte_num - base + shift)).rem_euclid(26)) + base) as u8
-        } else if mode == "decrypt" {
-            ((((byte_num - base - shift)).rem_euclid(26)) + base) as u8
-        } else {
-            return Err(pyo3::exceptions::PyValueError::new_err(
-                "Mode must be either 'encrypt' or 'decrypt'",
-            ));
+        let dir: i8 = match mode {
+            Mode::Encrypt => 1,
+            Mode::Decrypt => -1,
         };
+        let shifted_byte: u8 = ((byte_num - base + shift * dir).rem_euclid(26) + base) as u8;
         result.push(shifted_byte);
     }
     let result_string: String = String::from_utf8(result)?;
