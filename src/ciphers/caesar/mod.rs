@@ -1,7 +1,7 @@
 use pyo3::prelude::*;
 
 // Build table for specific shift
-const fn build_table(shift: i8) -> [u8; 256]{
+const fn build_table(shift: i8) -> [u8; 256] {
     let mut table = [0u8; 256];
     let mut byte = 0;
     while byte < 256 {
@@ -14,7 +14,7 @@ const fn build_table(shift: i8) -> [u8; 256]{
             byte as u8
         };
         byte += 1;
-    } 
+    }
     table
 }
 
@@ -64,7 +64,7 @@ fn decrypt_or_encrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
     let shift: usize = shift.rem_euclid(26) as usize;
     // If the shift is 0, just return the string
     if shift == 0 {
-        return Ok(String::from(input))
+        return Ok(String::from(input));
     }
     // Compute forwards shift to find correct table
     let forward_shift = match mode {

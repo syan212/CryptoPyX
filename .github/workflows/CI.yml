@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  Linting-Formatiing-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - '3.11'
+          - '3.12'
+          - '3.13'
+    name: Python ${{ matrix.python-version }} - Linting, Formatting and Tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            python-version: ${{ matrix.python-version }}
+            cache: pip
+      
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+      
+      - name: Install dependenices
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      
+      - name: Maturin build
+        run: |
+          source .venv/bin/activate
+          maturin develop
+          
+      - name: Run test and formatting
+        run: |
+          source .venv/bin/activate
+          pytest
+          ruff check . && ruff format --diff

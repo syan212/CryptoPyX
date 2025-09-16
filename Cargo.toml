@@ -1,10 +1,11 @@
 [package]
-name = "cryptopyx"
+name = "_cryptopyx"
+# Update pyproject version too
 version = "0.0.2"
 edition = "2024"
 
 [lib]
-name = "cryptopyx"
+name = "_cryptopyx"
 crate-type = ["cdylib"]
 
 [dependencies]
