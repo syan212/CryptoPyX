@@ -1,4 +1,4 @@
-ruff >=0.12.12
+ruff >=0.13.0
 pytest >=8.4.2
 pytest-benchmark >=5.1.0
 maturin >=1.9.4
