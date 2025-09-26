@@ -9,15 +9,29 @@ on:
       - main
 
 jobs:
-  Linting-Formatiing-test:
-    runs-on: ubuntu-latest
+  Linux-CI:
+    runs-on: ${{ matrix.platform.runner }}
     strategy:
       matrix:
         python-version:
           - '3.11'
           - '3.12'
           - '3.13'
-    name: Python ${{ matrix.python-version }} - Linting, Formatting and Tests
+        platform:
+          - runner: ubuntu-22.04
+            target: x86_64
+          - runner: ubuntu-22.04
+            target: x86
+          - runner: ubuntu-22.04
+            target: aarch64
+          - runner: ubuntu-22.04
+            target: armv7
+          - runner: ubuntu-22.04
+            target: s390x
+          - runner: ubuntu-22.04
+            target: ppc64le
+
+    name: Python ${{ matrix.python-version }} - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
 
     steps:
       - name: Checkout repository
@@ -33,21 +47,19 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
-      
+        
       - name: Install dependenices
         run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install -r requirements.txt
           pip install -r requirements-dev.txt
       
       - name: Maturin build
         run: |
-          source .venv/bin/activate
-          maturin develop
+          maturin build --release --out dist
+          pip install dist/*
           
       - name: Run test and formatting
         run: |
-          source .venv/bin/activate
+          shopt -s globstar
           pytest
           ruff check . && ruff format --diff
+          rustfmt --check src/**/*.rs
