@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+env:
+  # Change the pyproject and cargo too if changing this
+  PY_VERSION: "3.9"
+
 jobs:
   Linux-CI:
     runs-on: ${{ matrix.platform.runner }}
@@ -37,8 +41,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-            # Change the pyproject and cargo too if changing this
-            python-version: 3.9
+            python-version: ${{ env.PY_VERSION }}
             cache: pip
       
       - name: Set up Rust
@@ -61,7 +64,50 @@ jobs:
           pytest
           ruff check . && ruff format --diff
           rustfmt --check src/**/*.rs
-  
+
+  Windows-CI:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        platform:
+          - runner: windows-latest
+            target: x64
+          - runner: windows-latest
+            target: x86
+    
+    name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            python-version: ${{ env.PY_VERSION }}
+            cache: pip
+      
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+        
+      - name: Install dependenices
+        run: |
+          pip install -r requirements-dev.txt
+          
+      - name: Maturin build
+        run: |
+          maturin build --release --out dist
+          pip install dist/*
+          
+      - name: Run test and formatting
+        run: |
+          shopt -s globstar
+          pytest
+          ruff check . && ruff format --diff
+          rustfmt --check src/**/*.rs
+
   sdist-CI:
     runs-on: ubuntu-latest
     name: Python CI - sdist
@@ -72,8 +118,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-            # Change the pyproject and cargo too if changing this
-            python-version: 3.9
+            python-version: ${{ env.PY_VERSION }}
             cache: pip
       
       - name: Set up Rust
