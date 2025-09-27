@@ -13,6 +13,10 @@ env:
   # Change the pyproject and cargo too if changing this
   PY_VERSION: "3.9"
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   Linux-CI:
     runs-on: ${{ matrix.platform.runner }}
@@ -99,7 +103,7 @@ jobs:
       - name: Maturin build
         run: |
           maturin build --release --out dist
-          pip install dist/*
+          pip install dist/*.whl
           
       - name: Run test and formatting
         run: |
