@@ -53,7 +53,7 @@ jobs:
         with:
           components: rustfmt
         
-      - name: Install dependenices
+      - name: Install dependencies
         run: |
           pip install -r requirements-dev.txt
           
@@ -96,7 +96,7 @@ jobs:
         with:
           components: rustfmt
         
-      - name: Install dependenices
+      - name: Install dependencies
         run: |
           pip install -r requirements-dev.txt
           
@@ -130,7 +130,7 @@ jobs:
         with:
           components: rustfmt
 
-      - name: Install dependenices
+      - name: Install dependencies
         run: |
           pip install -r requirements-dev.txt
           
