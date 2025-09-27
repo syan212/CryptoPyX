@@ -17,10 +17,6 @@ jobs:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
       matrix:
-        python-version:
-          - '3.11'
-          - '3.12'
-          - '3.13'
         platform:
           - runner: ubuntu-22.04
             target: x86_64
@@ -34,8 +30,8 @@ jobs:
             target: s390x
           - runner: ubuntu-22.04
             target: ppc64le
-
-    name: Python ${{ matrix.python-version }} - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
+    
+    name: Python CI ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
 
     steps:
       - name: Checkout repository
@@ -44,7 +40,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-            python-version: ${{ matrix.python-version }}
+            # Change the pyproject and cargo too if changing this
+            python-version: 3.9
             cache: pip
       
       - name: Set up Rust
@@ -55,7 +52,7 @@ jobs:
       - name: Install dependenices
         run: |
           pip install -r requirements-dev.txt
-      
+          
       - name: Maturin build
         run: |
           maturin build --release --out dist

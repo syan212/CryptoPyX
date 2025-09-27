@@ -1,4 +1,9 @@
-ruff >=0.13.0
-pytest >=8.4.2
-pytest-benchmark >=5.1.0
-maturin >=1.9.4
+iniconfig==2.1.0
+maturin==1.9.4
+packaging==25.0
+pluggy==1.6.0
+py-cpuinfo==9.0.0
+Pygments==2.19.2
+pytest==8.4.2
+pytest-benchmark==5.1.0
+ruff==0.13.0

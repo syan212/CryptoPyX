@@ -36,8 +36,7 @@ CryptoPyX
 
 **Notice**:
 
-    **This is still under early development!
-    Don't use it!**
+    **This is still under early development!**
 
 A simple python cryptography package.
 

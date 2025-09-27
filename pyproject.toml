@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "cryptopyx"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 # Update cargo version too
 version = "0.0.2"
 description = "A simple cryptography package written in Rust"
@@ -22,22 +22,36 @@ classifiers = [
     # Topics
     "Topic :: Security :: Cryptography",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering",
+
     # Languages
     "Natural Language :: English",
+
     # Audience
     "Intended Audience :: Developers",
     "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
+
     # Development Status
     "Development Status :: 1 - Planning",
+
     # Python Versions
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    # Other
+
+    # Rust Implementation
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    
+    # OS
+    "Operating System :: POSIX :: Linux",
+
+    # Typing
     "Typing :: Typed",
-    "Operating System :: OS Independent",
 ]
 
 [project.urls]
