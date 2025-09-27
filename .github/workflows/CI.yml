@@ -28,7 +28,7 @@ jobs:
           - runner: ubuntu-22.04
             target: ppc64le
     
-    name: Python CI ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
+    name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
 
     steps:
       - name: Checkout repository
@@ -55,6 +55,41 @@ jobs:
           maturin build --release --out dist
           pip install dist/*
           
+      - name: Run test and formatting
+        run: |
+          shopt -s globstar
+          pytest
+          ruff check . && ruff format --diff
+          rustfmt --check src/**/*.rs
+  
+  sdist-CI:
+    runs-on: ubuntu-latest
+    name: Python CI - sdist
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            # Change the pyproject and cargo too if changing this
+            python-version: 3.9
+            cache: pip
+      
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+
+      - name: Install dependenices
+        run: |
+          pip install -r requirements-dev.txt
+          
+      - name: Maturin build
+        run: |
+          maturin build --release --sdist --out dist
+          pip install dist/*.tar.gz
+
       - name: Run test and formatting
         run: |
           shopt -s globstar
