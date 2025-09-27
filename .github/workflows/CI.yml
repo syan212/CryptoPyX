@@ -6,6 +6,7 @@ on:
       - "CI-*"
     branches:
       - main
+      - rustification
     
   pull_request:
     branches:
