@@ -18,26 +18,9 @@ defaults:
     shell: bash
 
 jobs:
-  Linux-CI:
-    runs-on: ${{ matrix.platform.runner }}
-    strategy:
-      matrix:
-        platform:
-          - runner: ubuntu-latest
-            target: x86_64
-          - runner: ubuntu-latest
-            target: x86
-          - runner: ubuntu-latest
-            target: arm64
-          - runner: ubuntu-latest
-            target: armv7
-          - runner: ubuntu-latest
-            target: s390x
-          - runner: ubuntu-latest
-            target: ppc64le
-    
-    name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
-
+  # Quick CI on MacOS, Windows and Ubuntu
+  CI:
+    runs-on: [windows-latest, macos-latest, ubuntu-latest]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -56,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements-dev.txt
-          
+
       - name: Maturin build
         run: |
           maturin build --release --out dist
@@ -68,15 +51,79 @@ jobs:
           pytest
           ruff check . && ruff format --diff
           rustfmt --check src/**/*.rs
+  
+  # Builds run if the CI is successful
 
-      - name: Upload wheels
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: wheels-${{ runner.os }}-${{ matrix.platform.target }}
-          path: dist/*
-
-  Windows-CI:
+  # Linux Build, covers x86_64, i686, aarch64, armv7, s390x and powerpc64le
+  Linux-Build:
     runs-on: ${{ matrix.platform.runner }}
+    needs: CI
+    strategy:
+      matrix:
+        platform:
+          - runner: ubuntu-latest
+            target: x86_64
+          - runner: ubuntu-latest
+            target: i686
+          - runner: ubuntu-latest
+            target: aarch64
+          - runner: ubuntu-latest
+            target: armv7
+          - runner: ubuntu-latest
+            target: s390x
+          - runner: ubuntu-latest
+            target: powerpc64le  
+    name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            python-version: ${{ env.PY_VERSION }}
+            cache: pip
+      
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+        
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+      
+      - name: Update apt
+        run: | 
+          sudo apt update
+
+      - name: Install cross-compile tools for i686
+        if: matrix.platform.target == 'i686'
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt install -y gcc-multilib g++-multilib libc6-dev-i386
+
+      - name: Install cross-compile tools for aarch64
+        if: matrix.platform.target == 'aarch64'
+        run: |
+          sudo dpkg --add-architecture aarch64 
+          sudo apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
+      - name: Maturin build
+        run: |
+          rustup target add ${{ matrix.platform.target }}-unknown-linux-gnu
+          maturin build --release --out dist --target ${{ matrix.platform.target }}-unknown-linux-gnu
+
+      # - name: Upload wheels
+      #   uses: actions/upload-artifact@v4.6.2
+      #   with:
+      #     name: wheels-${{ runner.os }}-${{ matrix.platform.target }}
+      #     path: dist/*
+
+  # Windows Build, covers x86 and x64
+  Windows-Build:
+    runs-on: ${{ matrix.platform.runner }}
+    needs: CI
     strategy:
       matrix:
         platform:
@@ -84,9 +131,7 @@ jobs:
             target: x64
           - runner: windows-latest
             target: x86
-    
     name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -109,14 +154,6 @@ jobs:
       - name: Maturin build
         run: |
           maturin build --release --out dist
-          pip install dist/*.whl
-          
-      - name: Run test and formatting
-        run: |
-          shopt -s globstar
-          pytest
-          ruff check . && ruff format --diff
-          rustfmt --check src/**/*.rs
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4.6.2
@@ -124,8 +161,10 @@ jobs:
           name: wheels-${{ runner.os }}-${{ matrix.platform.target }}
           path: dist/*
 
-  MacOS-CI:
+  # MacOS Build, covers x86_64 (Intel) and arm64 (Apple Silicon)
+  MacOS-Build:
     runs-on: ${{ matrix.platform.runner }}
+    needs: CI
     strategy:
       matrix:
         platform:
@@ -134,7 +173,6 @@ jobs:
           - runner: macos-14
             target: arm64
     name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -157,14 +195,6 @@ jobs:
       - name: Maturin build
         run: |
           maturin build --release --out dist
-          pip install dist/*.whl
-          
-      - name: Run test and formatting
-        run: |
-          shopt -s globstar
-          pytest
-          ruff check . && ruff format --diff
-          rustfmt --check src/**/*.rs
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4.6.2
@@ -172,8 +202,10 @@ jobs:
           name: wheels-${{ runner.os }}-${{ matrix.platform.target }}
           path: dist/*
 
-  sdist-CI:
+  # sdist build for other
+  sdist-Build:
     runs-on: ubuntu-latest
+    needs: CI
     name: Python CI - sdist
     steps:
       - name: Checkout repository
@@ -197,14 +229,6 @@ jobs:
       - name: Maturin build
         run: |
           maturin build --release --sdist --out dist
-          pip install dist/*.tar.gz
-
-      - name: Run test and formatting
-        run: |
-          shopt -s globstar
-          pytest
-          ruff check . && ruff format --diff
-          rustfmt --check src/**/*.rs
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4.6.2
