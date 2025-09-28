@@ -3,7 +3,9 @@ name: Publish to PyPI
 on:
   release:
     types: [published]
-  workflow_dispatch:
+  push:
+    tags:
+      - "Release-Test"
 
 env:
   GH_REPO: syan212/cryptopyx
