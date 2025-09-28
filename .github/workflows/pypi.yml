@@ -9,6 +9,7 @@ on:
 
 env:
   GH_REPO: syan212/cryptopyx
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   publish-to-pypi:
