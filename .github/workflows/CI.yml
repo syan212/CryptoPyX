@@ -23,17 +23,17 @@ jobs:
     strategy:
       matrix:
         platform:
-          - runner: ubuntu-22.04
+          - runner: ubuntu-latest
             target: x86_64
-          - runner: ubuntu-22.04
+          - runner: ubuntu-latest
             target: x86
-          - runner: ubuntu-22.04
-            target: aarch64
-          - runner: ubuntu-22.04
+          - runner: ubuntu-latest
+            target: arm64
+          - runner: ubuntu-latest
             target: armv7
-          - runner: ubuntu-22.04
+          - runner: ubuntu-latest
             target: s390x
-          - runner: ubuntu-22.04
+          - runner: ubuntu-latest
             target: ppc64le
     
     name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
@@ -79,6 +79,48 @@ jobs:
           - runner: windows-latest
             target: x86
     
+    name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            python-version: ${{ env.PY_VERSION }}
+            cache: pip
+      
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+        
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+          
+      - name: Maturin build
+        run: |
+          maturin build --release --out dist
+          pip install dist/*.whl
+          
+      - name: Run test and formatting
+        run: |
+          shopt -s globstar
+          pytest
+          ruff check . && ruff format --diff
+          rustfmt --check src/**/*.rs
+
+  MacOS-CI:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        platform:
+          - runner: macos-15-intel
+            target: x86_64
+          - runner: macos-14
+            target: arm64
     name: Python CI - ${{ matrix.platform.runner }} - ${{ matrix.platform.target }}
 
     steps:
