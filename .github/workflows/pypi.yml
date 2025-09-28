@@ -5,7 +5,7 @@ on:
     types: [published]
   push:
     tags:
-      - "Release-Test"
+      - "Release-Test-*"
 
 env:
   GH_REPO: syan212/cryptopyx
