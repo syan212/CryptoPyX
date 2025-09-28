@@ -3,9 +3,6 @@ name: Publish to PyPI
 on:
   release:
     types: [published]
-  push:
-    tags:
-      - "Release-Test-*"
 
 env:
   GH_REPO: syan212/cryptopyx
@@ -37,6 +34,6 @@ jobs:
       - name: Install previous build artifacts
         run: |
           gh run download $(gh run list --workflow CI --limit 1 --json databaseId -q '.[0].databaseId') --dir dist
-          ls
-          cd dist
-          ls
+      
+      - name: Upload Wheels to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
