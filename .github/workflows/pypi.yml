@@ -7,8 +7,7 @@ on:
 env:
   GH_REPO: syan212/cryptopyx
   GH_TOKEN: ${{ github.token }}
-  # Uncomment the next line after moving to main branch
-  # GH_branch: main
+  GH_branch: main
 
 jobs:
   publish-to-pypi:
