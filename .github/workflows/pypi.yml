@@ -7,6 +7,8 @@ on:
 env:
   GH_REPO: syan212/cryptopyx
   GH_TOKEN: ${{ github.token }}
+  # Uncomment the next line after moving to main branch
+  # GH_branch: main
 
 jobs:
   publish-to-pypi:
@@ -33,7 +35,14 @@ jobs:
 
       - name: Install previous build artifacts
         run: |
-          gh run download $(gh run list --workflow CI --limit 1 --json databaseId -q '.[0].databaseId') --dir dist
+          gh run download $(gh run list --workflow CI --status success --limit 1 --json databaseId -q '.[0].databaseId') --dir dist
       
+      - name: Flatten wheel files
+        run: |
+          mkdir dist_flat
+          find dist -type f \( -name "*.whl" -o -name "*.tar.gz" \) -exec cp {} dist_flat/ \;
+          rm -rf dist
+          mv dist_flat dist 
+
       - name: Upload Wheels to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
