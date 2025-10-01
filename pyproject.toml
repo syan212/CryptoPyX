@@ -1,12 +1,13 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
 
 [project]
 name = "cryptopyx"
-requires-python = ">=3.11"
-version = "0.0.2"
-description = "A simple cryptography package"
+requires-python = ">=3.9"
+# Update cargo version too
+version = "0.1.0"
+description = "A simple cryptography package written in Rust"
 readme = "README.rst"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -21,22 +22,36 @@ classifiers = [
     # Topics
     "Topic :: Security :: Cryptography",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering",
+
     # Languages
     "Natural Language :: English",
+
     # Audience
     "Intended Audience :: Developers",
     "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
+
     # Development Status
     "Development Status :: 1 - Planning",
+
     # Python Versions
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    # Other
+
+    # Rust Implementation
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    
+    # OS
+    "Operating System :: POSIX :: Linux",
+
+    # Typing
     "Typing :: Typed",
-    "Operating System :: OS Independent",
 ]
 
 [project.urls]
@@ -44,13 +59,9 @@ Repository = "https://github.com/syan212/CryptoPyX"
 issues = "https://github.com/syan212/CryptoPyX/issues"
 Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
 
-[tool.setuptools]
-package-dir = {"" = "src"}
-
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.13.0"
-pytest = "^8.4.2"
-pytest-benchmark = "^5.1.0"
+[tool.maturin]
+python-source = "python"
+bindings = "pyo3"
+# "extension-module" tells pyo3 we want to build an extension module (skips linking against libpython.so)
+features = ["pyo3/extension-module"]
+module-name = "cryptopyx._cryptopyx"

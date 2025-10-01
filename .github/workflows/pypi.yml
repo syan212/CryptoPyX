@@ -4,37 +4,15 @@ on:
   release:
     types: [published]
 
+env:
+  GH_REPO: syan212/cryptopyx
+  GH_TOKEN: ${{ github.token }}
+  # Uncomment the next line after moving to main branch
+  # GH_branch: main
+
 jobs:
-  build:
-    name: Build distribution
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v5
-      with:
-        persist-credentials: false
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
-    - name: Install pypa/build
-      run: >-
-        python3 -m
-        pip install
-        build
-        --user
-    - name: Build a binary wheel and a source tarball
-      run: python3 -m build
-    - name: Store the distribution packages
-      uses: actions/upload-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-
   publish-to-pypi:
     name: Publish Python distribution to PyPI
-    needs:
-    - build
     runs-on: ubuntu-latest
 
     environment: pypi
@@ -43,10 +21,28 @@ jobs:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
 
     steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish distribution to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Install gh CLI
+        run: |
+          (type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)) \
+          && sudo mkdir -p -m 755 /etc/apt/keyrings \
+          && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+          && cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+          && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+          && sudo mkdir -p -m 755 /etc/apt/sources.list.d \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && sudo apt update \
+          && sudo apt install gh -y
+
+      - name: Install previous build artifacts
+        run: |
+          gh run download $(gh run list --workflow CI --status success --limit 1 --json databaseId -q '.[0].databaseId') --dir dist
+      
+      - name: Flatten wheel files
+        run: |
+          mkdir dist_flat
+          find dist -type f \( -name "*.whl" -o -name "*.tar.gz" \) -exec cp {} dist_flat/ \;
+          rm -rf dist
+          mv dist_flat dist 
+
+      - name: Upload Wheels to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

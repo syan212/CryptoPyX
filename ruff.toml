@@ -1,10 +1,8 @@
-target-version = "py311"
+target-version = "py39"
+exclude = [".venv", "tests"]
 
 [lint]
 select = ["E","F","B","I","UP","SIM","S","ANN"]
-
-[lint.per-file-ignores]
-"tests/*" = ["S", "ANN"]
 
 [format]
 line-ending = "lf"
