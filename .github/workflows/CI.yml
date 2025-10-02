@@ -131,6 +131,8 @@ jobs:
     strategy:
       matrix:
         target: [x86_64, i686]
+        # This is the name for the python setup action
+        arch: [x64, x86]
     name: Wheel Build - Windows - ${{ matrix.target }}
     steps:
       - name: Checkout repository
@@ -141,6 +143,9 @@ jobs:
         with:
             python-version: ${{ env.PY_VERSION }}
             cache: pip
+            # For windows the arch needs to be specified
+            # Specifically for x64
+            architecture: ${{ matrix.arch }}
       
       - name: Set up Rust
         uses: actions-rust-lang/setup-rust-toolchain@02be93da58aa71fb456aa9c43b301149248829d8 # v1
