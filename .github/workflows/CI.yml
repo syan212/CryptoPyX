@@ -2,8 +2,8 @@ name: CI
 
 on:
   push:
-    tags:
-      - "CI-*"
+    branches:
+      - main
     
   pull_request:
     branches:
@@ -153,6 +153,7 @@ jobs:
           
       - name: Maturin build
         run: |
+          rustup target add ${{ matrix.target }}-pc-windows-msvc
           maturin build --release --out dist --target ${{ matrix.target }}-pc-windows-msvc
 
       - name: Upload wheels
