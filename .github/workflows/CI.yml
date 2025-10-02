@@ -130,10 +130,13 @@ jobs:
     needs: CI
     strategy:
       matrix:
-        target: [x86_64, i686]
-        # This is the name for the python setup action
-        arch: [x64, x86]
-    name: Wheel Build - Windows - ${{ matrix.target }}
+        platform:
+          # For windows we need to specify the arch to cross compile
+          - target: x86_64
+            arch: x64
+          - target: i686
+            arch: x86
+    name: Wheel Build - Windows - ${{ matrix.platform.target }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -145,7 +148,7 @@ jobs:
             cache: pip
             # For windows the arch needs to be specified
             # Specifically for x64
-            architecture: ${{ matrix.arch }}
+            architecture: ${{ matrix.platform.arch }}
       
       - name: Set up Rust
         uses: actions-rust-lang/setup-rust-toolchain@02be93da58aa71fb456aa9c43b301149248829d8 # v1
@@ -158,13 +161,13 @@ jobs:
           
       - name: Maturin build
         run: |
-          rustup target add ${{ matrix.target }}-pc-windows-msvc
-          maturin build --release --out dist --target ${{ matrix.target }}-pc-windows-msvc
+          rustup target add ${{ matrix.platform.target }}-pc-windows-msvc
+          maturin build --release --out dist --target ${{ matrix.platform.target }}-pc-windows-msvc
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: wheels-windows-${{ matrix.target }}
+          name: wheels-windows-${{ matrix.platform.target }}
           path: dist/*.whl
 
   # MacOS Build, covers x86_64 (Intel) and aarch64 (Apple Silicon)
