@@ -20,7 +20,10 @@ defaults:
 jobs:
   # Quick CI on MacOS, Windows and Ubuntu
   CI:
-    runs-on: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      matrix:
+        platform: [windows-latest, macos-latest, ubuntu-latest]
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -61,12 +64,8 @@ jobs:
     needs: CI
     strategy:
       matrix:
-        platform:
-          - target: x86_64
-          - target: i686
-          - target: aarch64
-          - target: armv7 
-    name: Wheel Build - Manylinux - ${{ matrix.platform.target }}
+        target: [x86_64, i686, aarch64, armv7]
+    name: Wheel Build - Manylinux - ${{ matrix.target }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -91,19 +90,19 @@ jobs:
           sudo apt update
 
       - name: Install cross-compile tools for i686
-        if: matrix.platform.target == 'i686'
+        if: matrix.target == 'i686'
         run: |
           sudo dpkg --add-architecture i386
           sudo apt install -y gcc-multilib g++-multilib libc6-dev-i386
 
       - name: Install cross-compile tools for aarch64
-        if: matrix.platform.target == 'aarch64'
+        if: matrix.target == 'aarch64'
         run: |
           sudo dpkg --add-architecture aarch64 
           sudo apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
       - name: Install cross-compile tools for armv7
-        if: matrix.platform.target == 'armv7'
+        if: matrix.target == 'armv7'
         run: |
           sudo dpkg --add-architecture armhf
           sudo apt install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
@@ -111,18 +110,18 @@ jobs:
       - name: Maturin build
         # armv7 target is "armv7-unknown-linux-gnueabihf"
         run: |
-          if [ "${{ matrix.platform.target }}" == "armv7" ]; then
-            rustup target add ${{ matrix.platform.target }}-unknown-linux-gnueabihf
-            maturin build --release --out dist --target ${{ matrix.platform.target }}-unknown-linux-gnueabihf
+          if [ "${{ matrix.target }}" == "armv7" ]; then
+            rustup target add ${{ matrix.target }}-unknown-linux-gnueabihf
+            maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnueabihf
           else
-            rustup target add ${{ matrix.platform.target }}-unknown-linux-gnu
-            maturin build --release --out dist --target ${{ matrix.platform.target }}-unknown-linux-gnu
+            rustup target add ${{ matrix.target }}-unknown-linux-gnu
+            maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnu
           fi
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: wheels-manylinux-${{ matrix.platform.target }}
+          name: wheels-manylinux-${{ matrix.target }}
           path: dist/cryptopyx-*.whl
 
   # Windows Build, covers x86_64 and x64
@@ -131,10 +130,8 @@ jobs:
     needs: CI
     strategy:
       matrix:
-        platform:
-          - target: x86_64
-          - target: i686
-    name: Wheel Build - Windows - ${{ matrix.platform.target }}
+        target: [x86_64, i686]
+    name: Wheel Build - Windows - ${{ matrix.target }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -156,12 +153,12 @@ jobs:
           
       - name: Maturin build
         run: |
-          maturin build --release --out dist --target ${{ matrix.platform.target }}-pc-windows-msvc
+          maturin build --release --out dist --target ${{ matrix.target }}-pc-windows-msvc
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: wheels-windows-${{ matrix.platform.target }}
+          name: wheels-windows-${{ matrix.target }}
           path: dist/*.whl
 
   # MacOS Build, covers x86_64 (Intel) and aarch64 (Apple Silicon)
