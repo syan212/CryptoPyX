@@ -42,18 +42,18 @@ static CAESAR_TABLES: [[u8; 256]; 26] = build_all_tables();
 // The exposed python functions
 #[pyfunction]
 pub fn encrypt(input: &str, shift: i32) -> PyResult<String> {
-    let result: String = decrypt_or_encrypt(input, shift, Mode::Encrypt)?;
+    let result: String = encrypt_or_decrypt(input, shift, Mode::Encrypt)?;
     Ok(result)
 }
 
 #[pyfunction]
 pub fn decrypt(input: &str, shift: i32) -> PyResult<String> {
-    let result: String = decrypt_or_encrypt(input, shift, Mode::Decrypt)?;
+    let result: String = encrypt_or_decrypt(input, shift, Mode::Decrypt)?;
     Ok(result)
 }
 
 // Actual implementation
-fn decrypt_or_encrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
+fn encrypt_or_decrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
     // Validate shift range
     if (-25..=25).contains(&shift) == false {
         return Err(pyo3::exceptions::PyValueError::new_err(

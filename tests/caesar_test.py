@@ -2,24 +2,17 @@ import random
 
 import pytest
 from cryptopyx.ciphers import caesar
-
-
-# Random Strings
-def random_string(length: int, string_num: int = 100) -> list[str]:
-    random.seed(69420)
-    all_strings: list[str] = []
-    letters: str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,.'"
-    for _ in range(string_num):
-        all_strings.append(''.join(random.choice(letters) for _ in range(length)))
-    return all_strings
+from utils import random_string
 
 
 # Encryption tests
 def test_caesar_encrypt():
+    # Basic functionality
     assert caesar.encrypt('ABC', 3) == 'DEF'
     assert caesar.encrypt('哈哈', 3) == '哈哈'
     assert caesar.encrypt('ABC', -3) == 'XYZ'
     assert caesar.encrypt('哈哈', -3) == '哈哈'
+    # Test with punctuation and spaces
     assert (
         caesar.encrypt("Sentence with puctuation, they're really cool, right?", 25)
         == "Rdmsdmbd vhsg otbstzshnm, sgdx'qd qdzkkx bnnk, qhfgs?"
@@ -33,10 +26,12 @@ def test_caesar_encrypt():
 
 # Decryption tests
 def test_caesar_decrypt():
+    # Basic functionality
     assert caesar.decrypt('DEF', 3) == 'ABC'
     assert caesar.decrypt('哈哈', 3) == '哈哈'
     assert caesar.decrypt('DEF', -3) == 'GHI'
     assert caesar.decrypt('哈哈', -3) == '哈哈'
+    # Test with punctuation and spaces
     assert (
         caesar.decrypt("Rdmsdmbd vhsg otbstzshnm, sgdx'qd qdzkkx bnnk, qhfgs?", 25)
         == "Sentence with puctuation, they're really cool, right?"
