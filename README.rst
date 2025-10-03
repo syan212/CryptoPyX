@@ -18,8 +18,8 @@ CryptoPyX
     :alt: PyPI - Downloads
     :target: https://pypi.org/project/cryptopyx/
 
-.. image:: https://github.com/syan212/CryptoPyX/actions/workflows/ci.yml/badge.svg?branch=main
-    :target: https://github.com/syan212/CryptoPyX/actions/workflows/ci.yml
+.. image:: https://github.com/syan212/CryptoPyX/actions/workflows/CI.yml/badge.svg
+    :target: https://github.com/syan212/CryptoPyX/actions/workflows/CI.yml
     :alt: CI Status
 
 .. image:: https://github.com/syan212/CryptoPyX/actions/workflows/dependabot/dependabot-updates/badge.svg
@@ -32,7 +32,7 @@ CryptoPyX
 
 .. image:: https://img.shields.io/github/license/syan212/cryptopyx
     :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
-    :alt: GitHub License
+    :alt: License
 
 **Notice**:
 
@@ -49,7 +49,7 @@ Install from PyPI
 
     pip install cryptopyx
 
-Or install from github for the latest version
+Or get the source code from github for the latest version
 
 ::
 
@@ -70,4 +70,4 @@ Example Usage
 Documentation
 -------------
 
-It's nonexistent. Looking through the code should be the best method. :/
+Due to the fact that there is no documentation, please refer to the code itself for now.
