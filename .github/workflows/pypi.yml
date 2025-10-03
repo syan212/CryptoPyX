@@ -209,11 +209,7 @@ jobs:
       - name: Download All Wheels
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
-          name: |
-            wheels-manylinux-*
-            wheels-windows-*
-            wheels-macos-*
-            wheels-sdist
+          # Download all the wheels to the same folder
           path: dist
           merge-multiple: true
 
