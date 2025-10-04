@@ -73,6 +73,9 @@ Building From source
 --------------------
 
 To build from source, you need to have Python, Rust and Cargo installed.
+This package uses `maturin <https://www.maturin.rs/>`_ to build the package.
+It requires Python 3.9 or higher and Rust 1.85.0 or higher.
+
 If you don't have Python installed, please refer to <https://www.python.org/downloads/>.
 If you don't have Rust and Cargo installed, please refer to <https://www.rust-lang.org/tools/install>.
 
