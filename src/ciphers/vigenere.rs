@@ -1,5 +1,5 @@
 // Vigenere cipher is really just a series of Caesar ciphers
-// So we can comput the Caesar tables just like the caesar cipher implementation
+// So we can compute the Caesar tables just like the caesar cipher implementation
 use pyo3::prelude::*;
 
 // Build table for specific shift
@@ -55,6 +55,8 @@ pub fn decrypt(input: &str, key: &str, skip_non_alpha: bool) -> PyResult<String>
     let result: String = vigenere_rotate(input, key, Mode::Decrypt, skip_non_alpha)?;
     Ok(result)
 }
+
+// Main Vigenere function
 fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> PyResult<String> {
     // Validate key
     if !key.chars().all(|c| c.is_ascii_alphabetic()) || key.is_empty() {
