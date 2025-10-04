@@ -50,7 +50,7 @@ Install from PyPI
     pip install cryptopyx
 
 Or get the source code from github and build from source.
-See :ref:`build-from-source`.
+See `building from source <README.rst#building-from-source>` for more information.
 
 Example Usage
 -------------
@@ -73,8 +73,8 @@ Building From source
 --------------------
 
 To build from source, you need to have Python, Rust and Cargo installed.
-If you don't have Python installed, please refer to https://www.python.org/downloads/.
-If you don't have Rust and Cargo installed, please refer to https://www.rust-lang.org/tools/install.
+If you don't have Python installed, please refer to <https://www.python.org/downloads/>.
+If you don't have Rust and Cargo installed, please refer to <https://www.rust-lang.org/tools/install>.
 
 Then clone the repository
 :: 
