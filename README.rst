@@ -50,7 +50,7 @@ Install from PyPI
     pip install cryptopyx
 
 Or get the source code from github and build from source.
-See `building from source <README.rst#building-from-source>` for more information.
+See `building from source <README.rst#building-from-source>`_ for more information.
 
 Example Usage
 -------------
