@@ -107,5 +107,9 @@ fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> 
 fn single_rotate(input: u8, shift: u8) -> u8 {
     // No need for shift validation as no one outside this module can call this function
     // Compute forwards shift to find correct table
-    unsafe { *CAESAR_TABLES.get_unchecked(shift as usize).get_unchecked(input as usize) }
+    unsafe {
+        *CAESAR_TABLES
+            .get_unchecked(shift as usize)
+            .get_unchecked(input as usize)
+    }
 }
