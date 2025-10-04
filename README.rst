@@ -49,13 +49,8 @@ Install from PyPI
 
     pip install cryptopyx
 
-Or get the source code from github for the latest version
-
-::
-
-    git clone https://github.com/syan212/CryptoPyX.git
-    cd CryptoPyX
-    pip install .
+Or get the source code from github and build from source.
+See :ref:`build-from-source`.
 
 Example Usage
 -------------
@@ -71,3 +66,32 @@ Documentation
 -------------
 
 Due to the fact that there is no documentation, please refer to the code itself for now.
+
+.. _build-from-source:
+
+Building From source
+--------------------
+
+To build from source, you need to have Python, Rust and Cargo installed.
+If you don't have Python installed, please refer to https://www.python.org/downloads/.
+If you don't have Rust and Cargo installed, please refer to https://www.rust-lang.org/tools/install.
+
+Then clone the repository
+:: 
+    git clone https://github.com/syan212/CryptoPyX.git
+    cd CryptoPyX
+
+I recomend creating a virtul enciroment using venv or an alternative tool
+:: 
+    python -m venv .venv # You might have to use `python3` instead of `python`
+    source .venv/bin/activate # On Windows use `.\.venv\Scripts\activate`
+
+The install the build tools using pip
+::
+    pip install -r requirements-dev.txt
+
+Then build the package using maturin and install it
+::
+    maturin build --release --out dist
+    pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
+    
