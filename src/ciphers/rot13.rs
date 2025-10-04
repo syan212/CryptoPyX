@@ -35,6 +35,6 @@ fn rotate(input: &str) -> PyResult<String> {
     for &byte in input.as_bytes() {
         result.push(ROT13_TABLE[byte as usize]);
     }
-    let result_string: String = String::from_utf8(result)?;
+    let result_string: String = unsafe { String::from_utf8_unchecked(result) };
     Ok(result_string)
 }

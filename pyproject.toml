@@ -33,6 +33,7 @@ classifiers = [
     "Intended Audience :: Science/Research",
 
     # Development Status
+    # ! Remember to change soon
     "Development Status :: 1 - Planning",
 
     # Python Versions

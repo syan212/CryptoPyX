@@ -57,7 +57,7 @@ pub fn decrypt(input: &str, key: &str, skip_non_alpha: bool) -> PyResult<String>
 }
 fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> PyResult<String> {
     // Validate key
-    if !key.chars().all(|c| c.is_ascii_alphabetic()) {
+    if !key.chars().all(|c| c.is_ascii_alphabetic()) || key.is_empty() {
         return Err(pyo3::exceptions::PyValueError::new_err(
             "Key must be non-empty and contain only alphabetic characters",
         ));
@@ -67,30 +67,34 @@ fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> 
         .chars()
         .map(|c| {
             let lower_c = c.to_ascii_lowercase();
-            lower_c as u8 - b'a'
+            let shift = lower_c as u8 - b'a';
+            match mode {
+                Mode::Encrypt => shift,
+                Mode::Decrypt => (26 - shift) % 26,
+            }
         })
         .collect();
-    if key_shifts.is_empty() {
-        return Err(pyo3::exceptions::PyValueError::new_err(
-            "Key must be non-empty and contain only alphabetic characters",
-        ));
-    }
+    let key_length = key_shifts.len();
     // Main encryption/decryption logic
     let mut result: Vec<u8> = Vec::with_capacity(input.len());
     let mut key_index: usize = 0;
     for &byte in input.as_bytes() {
-        let shift = key_shifts[key_index % key_shifts.len()] as u8;
+        let shift: u8 = key_shifts[key_index];
         if (byte >= b'a' && byte <= b'z') || (byte >= b'A' && byte <= b'Z') {
-            result.push(single_rotate(&byte, shift, mode)?);
+            result.push(single_rotate(byte, shift));
             key_index += 1;
         } else {
             if skip_non_alpha {
-                result.push(byte as u8);
+                result.push(byte);
             } else {
                 // If not skipping, still advance the key index
-                result.push(byte as u8);
+                result.push(byte);
                 key_index += 1;
             }
+        }
+        // Wrap around key index to avoid modulo in main loop
+        if key_index == key_length {
+            key_index = 0;
         }
     }
     let result_string: String = unsafe { String::from_utf8_unchecked(result) };
@@ -99,16 +103,9 @@ fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> 
 
 // Implementation of single rotate on a single character
 // As the end user will not be able to use this, we can asume no errors
-fn single_rotate(input: &u8, shift: u8, mode: Mode) -> PyResult<u8> {
+#[inline(always)]
+fn single_rotate(input: u8, shift: u8) -> u8 {
     // No need for shift validation as no one outside this module can call this function
     // Compute forwards shift to find correct table
-    let forward_shift = match mode {
-        Mode::Encrypt => shift,
-        Mode::Decrypt => (26 - shift) % 26,
-    };
-    let table = &CAESAR_TABLES[forward_shift as usize];
-    // Main encryption/decryption logic
-    let result: u8 = table[*input as usize];
-    // Return result
-    Ok(result)
+    unsafe { *CAESAR_TABLES.get_unchecked(shift as usize).get_unchecked(input as usize) }
 }

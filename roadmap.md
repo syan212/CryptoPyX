@@ -8,6 +8,5 @@ Vigenere cipher, ascii85, base32, base 64 encodings
 Convert all main code to rust
 
 **Other future features**
-CLI: implement in python using something like click
-     or possibly in rust too
+CLI: implement in python or possibly in rust instead
 GUI: basically the CLI but more visually appealing
