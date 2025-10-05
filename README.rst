@@ -38,7 +38,7 @@ CryptoPyX
 
     **This is still under early development!**
 
-A simple python cryptography package.
+A simple python cryptography package written in Rust.
 
 Installation guide
 ------------------
@@ -84,7 +84,7 @@ Then clone the repository
     git clone https://github.com/syan212/CryptoPyX.git
     cd CryptoPyX
 
-I reccomend creating a virtul enciroment using venv or an alternative tool
+I recommend creating a virtul enviroment using venv or an alternative tool
 :: 
     python -m venv .venv # You might have to use `python3` instead of `python`
     source .venv/bin/activate # On Windows use `.\.venv\Scripts\activate`
@@ -97,4 +97,3 @@ Then build the package using maturin and install it
 ::
     maturin build --release --out dist
     pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
-    

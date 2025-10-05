@@ -53,7 +53,7 @@ fn register_rot13_submodule<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 // Register vigenere submodule under ciphers
 fn register_vigenere_submodule<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     let vigenere_module: Bound<'_, PyModule> = PyModule::new(m.py(), "vigenere")?;
-    // Add functions to rot13 submodule
+    // Add functions to vigenere submodule
     vigenere_module.add_function(wrap_pyfunction!(
         ciphers::vigenere::encrypt,
         &vigenere_module
@@ -62,7 +62,7 @@ fn register_vigenere_submodule<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
         ciphers::vigenere::decrypt,
         &vigenere_module
     )?)?;
-    // Add rot13 submodule to parent module
+    // Add vigenere submodule to parent module
     m.add_submodule(&vigenere_module)?;
     Ok(())
 }

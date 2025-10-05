@@ -107,11 +107,10 @@ fn expand_key_shifts(key: &[u8], input_len: usize) -> Vec<u8> {
 }
 
 // Implementation of single rotate on a single character
-// As the end user will not be able to use this, we can asume no errors
+// As the end user will not be able to use this, we can assume no errors
 #[inline(always)]
 fn single_rotate(input: u8, shift: u8) -> u8 {
     // No need for shift validation as no one outside this module can call this function
-    // Compute forwards shift to find correct table
     unsafe {
         *CAESAR_TABLES
             .get_unchecked(shift as usize)
