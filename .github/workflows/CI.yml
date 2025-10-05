@@ -51,6 +51,6 @@ jobs:
       - name: Run test and formatting
         run: |
           shopt -s globstar
-          pytest
+          pytest --benchmark-skip
           ruff check . && ruff format --diff
           rustfmt --check src/**/*.rs

@@ -24,7 +24,9 @@ def test_rot13_decrypt():
 
 # Benchmarks (cause why not?)
 def test_rot13_encrypt_benchmark(benchmark):
-    strings: list[str] = random_string(1000)
+    strings: list[str] = random_string(
+        1000000, string_num=100
+    )  # 1 million chars, 100 strings
 
     def multi_encrypt():
         for string in strings:
@@ -34,7 +36,9 @@ def test_rot13_encrypt_benchmark(benchmark):
 
 
 def test_rot13_decrypt_benchmark(benchmark):
-    strings: list[str] = random_string(1000)
+    strings: list[str] = random_string(
+        1000000, string_num=100
+    )  # 1 million chars, 100 strings
 
     def multi_decrypt():
         for string in strings:

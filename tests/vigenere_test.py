@@ -49,8 +49,10 @@ def test_vigenere_decrypt():
 
 # Benchmarks (cause why not?)
 def test_vigenere_encrypt_benchmark(benchmark):
-    strings: list[str] = random_string(1000, string_num=100)
-    keys: list[str] = random_key(100, string_num=100)
+    strings: list[str] = random_string(
+        1000000, string_num=100
+    )  # 1 million chars, 100 strings
+    keys: list[str] = random_key(101, string_num=100)
 
     def multi_encrypt():
         for string, key in zip(strings, keys):
@@ -60,8 +62,10 @@ def test_vigenere_encrypt_benchmark(benchmark):
 
 
 def test_vigenere_decrypt_benchmark(benchmark):
-    strings: list[str] = random_string(1000, string_num=100)
-    keys: list[str] = random_key(100, string_num=100)
+    strings: list[str] = random_string(
+        1000000, string_num=100
+    )  # 1 million chars, 100 strings
+    keys: list[str] = random_key(101, string_num=100)
 
     def multi_decrypt():
         for string, key in zip(strings, keys):

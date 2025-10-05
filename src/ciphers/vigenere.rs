@@ -76,31 +76,34 @@ fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> 
             }
         })
         .collect();
-    let key_length = key_shifts.len();
+    let expanded_key_shifts: Vec<u8> = expand_key_shifts(&key_shifts, input.len());
     // Main encryption/decryption logic
     let mut result: Vec<u8> = Vec::with_capacity(input.len());
     let mut key_index: usize = 0;
+    // Main loop
     for &byte in input.as_bytes() {
-        let shift: u8 = key_shifts[key_index];
-        if (byte >= b'a' && byte <= b'z') || (byte >= b'A' && byte <= b'Z') {
-            result.push(single_rotate(byte, shift));
-            key_index += 1;
+        let shift: u8 = unsafe { *expanded_key_shifts.get_unchecked(key_index) };
+        let rotated_char: u8 = single_rotate(byte, shift);
+        result.push(rotated_char);
+        key_index += if !skip_non_alpha || byte != rotated_char {
+            1
         } else {
-            if skip_non_alpha {
-                result.push(byte);
-            } else {
-                // If not skipping, still advance the key index
-                result.push(byte);
-                key_index += 1;
-            }
-        }
-        // Wrap around key index to avoid modulo in main loop
-        if key_index == key_length {
-            key_index = 0;
-        }
+            0
+        };
     }
     let result_string: String = unsafe { String::from_utf8_unchecked(result) };
     Ok(result_string)
+}
+
+// Expand key shifts to match input length
+fn expand_key_shifts(key: &[u8], input_len: usize) -> Vec<u8> {
+    let mut expanded_key: Vec<u8> = Vec::with_capacity(input_len);
+    let key_len: usize = key.len();
+    while expanded_key.len() + key_len <= input_len {
+        expanded_key.extend_from_slice(key);
+    }
+    expanded_key.extend_from_slice(&key[..(input_len - expanded_key.len())]);
+    expanded_key
 }
 
 // Implementation of single rotate on a single character
