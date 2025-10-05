@@ -84,7 +84,7 @@ Then clone the repository
     git clone https://github.com/syan212/CryptoPyX.git
     cd CryptoPyX
 
-I recomend creating a virtul enciroment using venv or an alternative tool
+I reccomend creating a virtul enciroment using venv or an alternative tool
 :: 
     python -m venv .venv # You might have to use `python3` instead of `python`
     source .venv/bin/activate # On Windows use `.\.venv\Scripts\activate`
