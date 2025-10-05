@@ -1,17 +1,19 @@
+// This ROT13 implementation uses a single precomputed lookup table for speed
+// The 2 exposed python functions both call the same internal function, as ROT13 is symmetric
 use pyo3::prelude::*;
 
 // Precomputed ROT13 lookup table
 static ROT13_TABLE: [u8; 256] = {
-    let mut table = [0u8; 256];
-    let mut i = 0;
+    let mut table: [u8; 256] = [0u8; 256];
+    let mut i: usize = 0;
     while i < 256 {
-        let u8_i = i as u8;
-        table[i] = if u8_i >= b'a' && u8_i <= b'z' {
-            (((i as u8 - b'a') + 13) % 26) + b'a'
-        } else if u8_i >= b'A' && u8_i <= b'Z' {
-            (((i as u8 - b'A') + 13) % 26) + b'A'
+        let char: u8 = i as u8;
+        table[i] = if char >= b'a' && char <= b'z' {
+            (char - b'a' + 13 as u8) % 26 + b'a'
+        } else if char >= b'A' && char <= b'Z' {
+            (char - b'A' + 13 as u8) % 26 + b'A'
         } else {
-            i as u8
+            char
         };
         i += 1;
     }

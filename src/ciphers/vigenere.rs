@@ -3,19 +3,19 @@
 use pyo3::prelude::*;
 
 // Build table for specific shift
-const fn build_table(shift: i8) -> [u8; 256] {
-    let mut table = [0u8; 256];
-    let mut byte = 0;
-    while byte < 256 {
-        let char = byte as i8;
-        table[byte] = if byte as u8 >= b'a' && byte as u8 <= b'z' {
-            ((char - b'a' as i8 + shift).rem_euclid(26) + b'a' as i8) as u8
-        } else if byte as u8 >= b'A' && byte as u8 <= b'Z' {
-            ((char - b'A' as i8 + shift).rem_euclid(26) + b'A' as i8) as u8
+const fn build_table(shift: u8) -> [u8; 256] {
+    let mut table: [u8; 256] = [0u8; 256];
+    let mut i: usize = 0;
+    while i < 256 {
+        let char = i as u8;
+        table[i] = if char >= b'a' && char <= b'z' {
+            (char - b'a' + shift) % 26 + b'a'
+        } else if char >= b'A' && char <= b'Z' {
+            (char - b'A' + shift) % 26 + b'A'
         } else {
-            byte as u8
+            char
         };
-        byte += 1;
+        i += 1;
     }
     table
 }
@@ -25,7 +25,7 @@ const fn build_all_tables() -> [[u8; 256]; 26] {
     let mut tables = [[0u8; 256]; 26];
     let mut shift = 0;
     while shift < 26 {
-        tables[shift] = build_table(shift as i8);
+        tables[shift] = build_table(shift as u8);
         shift += 1;
     }
     tables
