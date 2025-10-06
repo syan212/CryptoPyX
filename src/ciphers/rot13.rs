@@ -9,9 +9,9 @@ static ROT13_TABLE: [u8; 256] = {
     while i < 256 {
         let char: u8 = i as u8;
         table[i] = if char >= b'a' && char <= b'z' {
-            (char - b'a' + 13 as u8) % 26 + b'a'
+            (char - b'a' + 13_u8) % 26 + b'a'
         } else if char >= b'A' && char <= b'Z' {
-            (char - b'A' + 13 as u8) % 26 + b'A'
+            (char - b'A' + 13_u8) % 26 + b'A'
         } else {
             char
         };

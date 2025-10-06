@@ -24,6 +24,7 @@ jobs:
     strategy:
       matrix:
         platform: [windows-latest, macos-latest, ubuntu-latest]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -37,7 +38,7 @@ jobs:
       - name: Set up Rust
         uses: actions-rust-lang/setup-rust-toolchain@02be93da58aa71fb456aa9c43b301149248829d8 # v1
         with:
-          components: rustfmt
+          components: rustfmt, clippy
         
       - name: Install dependencies
         run: |
@@ -48,9 +49,15 @@ jobs:
           maturin build --release --out dist
           pip install dist/*
           
-      - name: Run test and formatting
+      # Enbles globstar for recursive checks
+      # Runs tests but skips benchmarks
+      # Ruff checks and shows diff if any formatting is needed
+      # Rustfmt checks all Rust files in src/ciphers
+      # Clippy checks all targets and features, denies warnings
+      - name: Run tests, linting and formatting
         run: |
           shopt -s globstar
           pytest --benchmark-skip
           ruff check . && ruff format --diff
           rustfmt --check src/**/*.rs
+          cargo clippy --all-targets --all-features -- -D warnings

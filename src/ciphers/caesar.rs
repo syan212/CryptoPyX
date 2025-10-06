@@ -57,7 +57,7 @@ pub fn decrypt(input: &str, shift: i32) -> PyResult<String> {
 // Actual implementation
 fn encrypt_or_decrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
     // Validate shift range
-    if (-25..=25).contains(&shift) == false {
+    if !(-25..=25).contains(&shift) {
         return Err(pyo3::exceptions::PyValueError::new_err(
             "Shift must be in the range -25 to 25",
         ));
@@ -69,7 +69,7 @@ fn encrypt_or_decrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
         return Ok(String::from(input));
     }
     // Compute forwards shift to find correct table
-    let forward_shift = match mode {
+    let forward_shift: usize = match mode {
         Mode::Encrypt => shift,
         Mode::Decrypt => (26 - shift) % 26,
     };
