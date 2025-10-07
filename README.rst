@@ -34,14 +34,10 @@ CryptoPyX
     :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
     :alt: License
 
-**Notice**:
-
-    **This is still under early development!**
-
 A simple python cryptography package written in Rust.
 
 Installation guide
-------------------
+==================
 
 Install from PyPI
 
@@ -53,7 +49,7 @@ Or get the source code from github and build from source.
 See `building from source <#building-from-source>`_ for more information.
 
 Example Usage
--------------
+=============
 
 ::
 
@@ -63,14 +59,29 @@ Example Usage
 
 
 Documentation
--------------
+=============
 
 Due to the fact that there is no documentation, please refer to the code itself for now.
 
 .. _build-from-source:
 
 Building From source
---------------------
+====================
+
+Notice
+------
+
+It is possible to install the package without Rust, as maturin can install a temporary Rust toolchain.
+However, it is recommended to have Rust installed to avoid any issues.
+
+To build from source without Rust after cloning the repository, run:
+:: 
+    pip install maturin
+    maturin build --release --out dist
+    pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
+
+Advanced full build instructions
+---------------------------------
 
 To build from source, you need to have Python, Rust and Cargo installed.
 This package uses `maturin <https://www.maturin.rs/>`_ to build the package.
@@ -84,13 +95,7 @@ Then clone the repository
     git clone https://github.com/syan212/CryptoPyX.git
     cd CryptoPyX
 
-I recommend creating a virtul enviroment using venv or an alternative tool
-:: 
-    python -m venv .venv # You might have to use `python3` instead of `python`
-    source .venv/bin/activate # On Windows use `.\.venv\Scripts\activate`
-
-The install the build tools using pip
-::
+The install the build tools using pip (I recommended using a virtual enviroment for this)::
     pip install -r requirements-dev.txt
 
 Then build the package using maturin and install it
