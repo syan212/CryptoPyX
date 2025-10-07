@@ -1,5 +1,10 @@
 # Changelog
 
+**v0.1.1: One more feature**
+Features:
+
+Added the vigenere ciphers as planned
+
 **v0.1.0: First full release**
 Features:
 

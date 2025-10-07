@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         target: [x86_64, i686, aarch64, armv7]
-    name: Wheel Build - Manylinux - ${{ matrix.target }}
+    name: Wheel build - manylinux - ${{ matrix.target }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -89,7 +89,7 @@ jobs:
             arch: x64
           - target: i686
             arch: x86
-    name: Wheel Build - Windows - ${{ matrix.platform.target }}
+    name: Wheel build - windows - ${{ matrix.platform.target }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -134,7 +134,7 @@ jobs:
             target: x86_64
           - runner: macos-14
             target: arm64
-    name: Wheel Build - MacOS - ${{ matrix.platform.target }}
+    name: Wheel build - macos - ${{ matrix.platform.target }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -197,6 +197,7 @@ jobs:
           name: wheels-sdist
           path: dist/*.tar.gz
 
+  # Publish to PyPI via the pypa/gh-action-pypi-publish action
   publish-to-pypi:
     name: Publish Python distribution to PyPI
     runs-on: ubuntu-latest

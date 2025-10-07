@@ -6,7 +6,7 @@ build-backend = "maturin"
 name = "cryptopyx"
 requires-python = ">=3.9"
 # Update cargo version too
-version = "0.1.0"
+version = "0.1.1"
 description = "A simple cryptography package written in Rust"
 readme = "README.rst"
 license = "MIT"
@@ -34,7 +34,7 @@ classifiers = [
 
     # Development Status
     # ! Remember to change soon
-    "Development Status :: 1 - Planning",
+    "Development Status :: 5 - Production/Stable",
 
     # Python Versions
     "Programming Language :: Python :: 3 :: Only",
