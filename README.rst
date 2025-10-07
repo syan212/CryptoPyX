@@ -42,8 +42,8 @@ Installation guide
 Install from PyPI
 
 ::
-
-    pip install cryptopyx
+    
+   pip install cryptopyx
 
 Or get the source code from github and build from source.
 See `building from source <#building-from-source>`_ for more information.
@@ -53,9 +53,9 @@ Example Usage
 
 ::
 
-    from cryptopyx.ciphers import caesar
-    caesar.encrypt('ABC', 3) # DEF
-    caesar.decrypt('DEF', 3) # ABC
+   from cryptopyx.ciphers import caesar
+   caesar.encrypt('ABC', 3) # DEF
+   caesar.decrypt('DEF', 3) # ABC
 
 
 Documentation
@@ -74,11 +74,11 @@ Notice
 It is possible to install the package without Rust, as maturin can install a temporary Rust toolchain.
 However, it is recommended to have Rust installed to avoid any issues.
 
-To build from source without Rust after cloning the repository, run:
-:: 
-    pip install maturin
-    maturin build --release --out dist
-    pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
+To build from source without Rust after cloning the repository, run:: 
+
+   pip install maturin
+   maturin build --release --out dist
+   pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
 
 Advanced full build instructions
 ---------------------------------
@@ -92,13 +92,17 @@ If you don't have Rust and Cargo installed, please refer to <https://www.rust-la
 
 Then clone the repository
 :: 
-    git clone https://github.com/syan212/CryptoPyX.git
-    cd CryptoPyX
 
-The install the build tools using pip (I recommended using a virtual enviroment for this)::
-    pip install -r requirements-dev.txt
+   git clone https://github.com/syan212/CryptoPyX.git
+   cd CryptoPyX
+
+The install the build tools using pip (I recommended using a virtual enviroment for this)
+::
+
+   pip install -r requirements-dev.txt
 
 Then build the package using maturin and install it
 ::
-    maturin build --release --out dist
-    pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
+
+   maturin build --release --out dist
+   pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
