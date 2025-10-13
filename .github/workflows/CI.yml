@@ -11,7 +11,7 @@ on:
 
 env:
   # Change the pyproject and cargo too if changing this
-  PY_VERSION: "3.9"
+  PY_VERSION: "3.10"
 
 defaults:
   run:

@@ -39,6 +39,19 @@ A simple python cryptography package written in Rust.
 Installation guide
 ==================
 
+Install from PyPI
+-----------------
+
+This package suports Python 3.10 and above
+
+::
+    
+   pip install cryptopyx
+
+See below for platform compability and more information
+Or get the source code from github and build from source.
+See Building From Source below for more information.
+
 Wheel Compability
 -----------------
 
@@ -60,15 +73,6 @@ See below  for download information if your platform is supported.
 However, if your platform is not supported, you will have to download the sdist and build from source.
 It should work, however it's recommended to have Rust installed to avoid any issues.
 
-Install from PyPI
------------------
-
-::
-    
-   pip install cryptopyx
-
-Or get the source code from github and build from source.
-See Building From Source below for more information.
 
 Example Usage
 =============
@@ -88,41 +92,13 @@ Due to the fact that there is no documentation, please refer to the code itself 
 Building From source
 ====================
 
-Notice
+Simple
 ------
 
 It is possible to install the package without Rust, as maturin can install a temporary Rust toolchain.
-However, it is recommended to have Rust installed to avoid any issues.
 
 To build from source without Rust after cloning the repository, run:: 
 
    pip install maturin
-   maturin build --release --out dist
-   pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
-
-Advanced full build instructions
----------------------------------
-
-To build from source, you need to have Python, Rust and Cargo installed.
-This package uses `maturin <https://www.maturin.rs/>`_ to build the package.
-It requires Python 3.9 or higher and Rust 1.85.0 or higher.
-
-If you don't have Python installed, please refer to <https://www.python.org/downloads/>.
-If you don't have Rust and Cargo installed, please refer to <https://www.rust-lang.org/tools/install>.
-
-Then clone the repository
-:: 
-
-   git clone https://github.com/syan212/CryptoPyX.git
-   cd CryptoPyX
-
-The install the build tools using pip (I recommended using a virtual enviroment for this)
-::
-
-   pip install -r requirements-dev.txt
-
-Then build the package using maturin and install it
-::
-
    maturin build --release --out dist
    pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
