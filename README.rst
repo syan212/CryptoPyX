@@ -32,7 +32,7 @@ CryptoPyX
 
 .. image:: https://img.shields.io/github/license/syan212/cryptopyx
     :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
-    :alt: License
+    :alt: Licence
 
 A simple python cryptography package written in Rust.
 
@@ -102,3 +102,8 @@ To build from source without Rust after cloning the repository, run::
    pip install maturin
    maturin build --release --out dist
    pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
+
+Licence
+-------
+
+This is licensed under MIT.
