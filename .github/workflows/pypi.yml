@@ -5,8 +5,6 @@ on:
     types: [published]
 
 env:
-  # Change the pyproject and cargo too if changing this
-  PY_VERSION: "3.10"
   GH_REPO: syan212/cryptopyx
   GH_TOKEN: ${{ github.token }}
   GH_branch: main
@@ -18,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        python-versions: ['3.10','3.13t','3.14t']
         target: [x86_64, i686, aarch64, armv7]
     name: Wheel build - manylinux - ${{ matrix.target }}
     steps:
@@ -27,7 +26,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
         with:
-            python-version: ${{ env.PY_VERSION }}
+            python-version: ${{ matrix.python-versions }}
             cache: pip
       
       - name: Set up Rust
@@ -61,15 +60,15 @@ jobs:
           sudo dpkg --add-architecture armhf
           sudo apt install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
 
-      - name: Maturin build
+      - name: Maturin build wheels
         # armv7 target is "armv7-unknown-linux-gnueabihf"
         run: |
           if [ "${{ matrix.target }}" == "armv7" ]; then
             rustup target add ${{ matrix.target }}-unknown-linux-gnueabihf
-            maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnueabihf
+            maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnueabihf --interpreter python${{ matrix.python-versions }}
           else
             rustup target add ${{ matrix.target }}-unknown-linux-gnu
-            maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnu
+            maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnu --interpreter python${{ matrix.python-versions }}
           fi
 
       - name: Upload wheels
@@ -83,6 +82,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
+        python-versions: ['3.10','3.13t','3.14t']
         platform:
           # For windows we need to specify the arch to cross compile
           - target: x86_64
@@ -97,7 +97,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
         with:
-            python-version: ${{ env.PY_VERSION }}
+            python-version: ${{ matrix.python-versions }}
             cache: pip
             # For windows the arch needs to be specified
             # Specifically for x64
@@ -128,6 +128,7 @@ jobs:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
       matrix:
+        python-versions: ['3.10','3.13t','3.14t']
         platform:
           # No need for cross-compilation here as GitHub provides both x86_64 and aarch64 runners
           - runner: macos-15-intel
@@ -142,7 +143,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
         with:
-            python-version: ${{ env.PY_VERSION }}
+            python-version: ${{ matrix.python-versions }}
             cache: pip
       
       - name: Set up Rust
@@ -175,7 +176,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
         with:
-            python-version: ${{ env.PY_VERSION }}
+            python-version: 3.10
             cache: pip
       
       - name: Set up Rust

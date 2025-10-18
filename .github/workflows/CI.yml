@@ -10,7 +10,6 @@ on:
       - main
 
 env:
-  # Change the pyproject and cargo too if changing this
   PY_VERSION: "3.10"
 
 defaults:
