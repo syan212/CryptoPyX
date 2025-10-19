@@ -10,8 +10,10 @@ pub fn encode(data: &str) -> PyResult<String> {
         return Ok(String::new());
     }
 
-    // Use buffer and bits left to track bits and convert
+    // Preallocate out vector
     let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8 + 4) / 5);
+
+    // Use buffer and bits left to track bits and convert
     let mut buffer: u32 = 0;
     let mut bits_left: u8 = 0;
 
@@ -20,20 +22,23 @@ pub fn encode(data: &str) -> PyResult<String> {
         bits_left += 8;
         while bits_left >= 5 {
             bits_left -= 5;
-            let index = ((buffer >> bits_left) & 0x1F) as usize;
-            out.push(STANDARD_BASE_32_ALPHABET[index]);
+            unsafe {
+                out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((buffer >> bits_left) & 0x1F) as usize));
+            }
         }
     }
 
     if bits_left > 0 {
-        let index = ((buffer << (5 - bits_left)) & 0x1F) as usize;
-        out.push(STANDARD_BASE_32_ALPHABET[index]);
+        unsafe {
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((buffer << (5 - bits_left)) & 0x1F) as usize));
+        }
     }
 
     // Padding
-    while out.len() % 8 != 0 {
-        out.push(b'=');
+    let pad_len = (8 - (out.len() % 8)) % 8;
+    if pad_len != 0 {
+        out.extend(std::iter::repeat(b'=').take(pad_len));
     }
 
-    Ok(String::from_utf8(out).unwrap())
+    unsafe { Ok(String::from_utf8_unchecked(out)) }
 }
