@@ -3,16 +3,35 @@ use pyo3::types::PyModule;
 
 // List of all submodules
 mod ciphers {
-    // ciphers submodules
+    // Ciphers submodules
     pub mod caesar;
     pub mod rot13;
     pub mod vigenere;
+}
+
+// Encodings
+mod encodings {
+    // Submodules
+    pub mod base32;
+}
+
+macro_rules! reg_submodule {
+    ($parent:expr, $name:expr, [$( $func:path ),* $(,)?]) => {{
+        let py = $parent.py();
+        let submodule = PyModule::new(py, $name)?;
+        $(
+            submodule.add_function(wrap_pyfunction!($func, &submodule)?)?;
+        )*
+        $parent.add_submodule(&submodule)?;
+        Ok::<(), PyErr>(())
+    }};
 }
 
 // Main module
 #[pymodule]
 fn _cryptopyx<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     register_ciphers(m)?;
+    register_encodings(m)?;
     Ok(())
 }
 
@@ -20,49 +39,20 @@ fn _cryptopyx<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     let ciphers_module: Bound<'_, PyModule> = PyModule::new(m.py(), "ciphers")?;
     // Register submodules under ciphers
-    register_caesar_submodule(&ciphers_module)?;
-    register_rot13_submodule(&ciphers_module)?;
-    register_vigenere_submodule(&ciphers_module)?;
+    reg_submodule!(ciphers_module, "caesar", [ciphers::caesar::encrypt, ciphers::caesar::decrypt])?;
+    reg_submodule!(ciphers_module, "vigenere", [ciphers::vigenere::encrypt, ciphers::vigenere::decrypt])?;
+    reg_submodule!(ciphers_module, "rot13", [ciphers::rot13::encrypt, ciphers::rot13::decrypt])?;
     // Add ciphers submodule to parent module
     m.add_submodule(&ciphers_module)?;
     Ok(())
 }
 
-// Register caesar submodule under ciphers
-fn register_caesar_submodule<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
-    let caesar_module: Bound<'_, PyModule> = PyModule::new(m.py(), "caesar")?;
-    // Add functions to caesar submodule
-    caesar_module.add_function(wrap_pyfunction!(ciphers::caesar::encrypt, &caesar_module)?)?;
-    caesar_module.add_function(wrap_pyfunction!(ciphers::caesar::decrypt, &caesar_module)?)?;
-    // Add caesar submodule to parent module
-    m.add_submodule(&caesar_module)?;
-    Ok(())
-}
-
-// Register rot13 submodule under ciphers
-fn register_rot13_submodule<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
-    let rot13_module: Bound<'_, PyModule> = PyModule::new(m.py(), "rot13")?;
-    // Add functions to rot13 submodule
-    rot13_module.add_function(wrap_pyfunction!(ciphers::rot13::encrypt, &rot13_module)?)?;
-    rot13_module.add_function(wrap_pyfunction!(ciphers::rot13::decrypt, &rot13_module)?)?;
-    // Add rot13 submodule to parent module
-    m.add_submodule(&rot13_module)?;
-    Ok(())
-}
-
-// Register vigenere submodule under ciphers
-fn register_vigenere_submodule<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
-    let vigenere_module: Bound<'_, PyModule> = PyModule::new(m.py(), "vigenere")?;
-    // Add functions to vigenere submodule
-    vigenere_module.add_function(wrap_pyfunction!(
-        ciphers::vigenere::encrypt,
-        &vigenere_module
-    )?)?;
-    vigenere_module.add_function(wrap_pyfunction!(
-        ciphers::vigenere::decrypt,
-        &vigenere_module
-    )?)?;
-    // Add vigenere submodule to parent module
-    m.add_submodule(&vigenere_module)?;
+// Register encodings submodule
+fn register_encodings<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
+    let encodings_module: Bound<'_, PyModule> = PyModule::new(m.py(), "encodings")?;
+    // Register submodules under ciphers
+    reg_submodule!(encodings_module, "base32", [encodings::base32::encode])?;
+    // Add ciphers submodule to parent module
+    m.add_submodule(&encodings_module)?;
     Ok(())
 }

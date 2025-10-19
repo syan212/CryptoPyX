@@ -55,7 +55,7 @@ def test_vigenere_encrypt_benchmark(benchmark):
     keys: list[str] = random_key(101, string_num=100)
 
     def multi_encrypt():
-        for string, key in zip(strings, keys):
+        for string, key in zip(strings, keys, strict=False):
             vigenere.encrypt(string, key)
 
     benchmark(multi_encrypt)
@@ -68,7 +68,7 @@ def test_vigenere_decrypt_benchmark(benchmark):
     keys: list[str] = random_key(101, string_num=100)
 
     def multi_decrypt():
-        for string, key in zip(strings, keys):
+        for string, key in zip(strings, keys, strict=False):
             vigenere.decrypt(string, key)
 
     benchmark(multi_decrypt)
