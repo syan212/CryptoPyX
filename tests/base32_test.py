@@ -1,5 +1,3 @@
-
-
 from cryptopyx.encodings import base32
 from utils import random_string
 
