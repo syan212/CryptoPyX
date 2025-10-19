@@ -1,3 +1,5 @@
+
+
 from cryptopyx.encodings import base32
 from utils import random_string
 
@@ -13,7 +15,7 @@ def test_base32_encode():
 
 
 # Benchmarks (cause why not?)
-def test_vigenere_encrypt_benchmark(benchmark):
+def test_base32_encode_benchmark(benchmark):
     strings: list[str] = random_string(
         1000000, string_num=100
     )  # 1 million chars, 100 strings
