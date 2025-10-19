@@ -11,7 +11,7 @@ pub fn encode(data: &str) -> PyResult<String> {
     }
 
     // Preallocate out vector
-    let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8 + 4) / 5);
+    let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8).div_ceil(5));
 
     // Use buffer and bits left to track bits and convert
     let mut buffer: u32 = 0;
@@ -43,7 +43,7 @@ pub fn encode(data: &str) -> PyResult<String> {
     // Padding
     let pad_len = (8 - (out.len() % 8)) % 8;
     if pad_len != 0 {
-        out.extend(std::iter::repeat(b'=').take(pad_len));
+        out.extend(std::iter::repeat_n(b'=', pad_len));
     }
 
     unsafe { Ok(String::from_utf8_unchecked(out)) }
