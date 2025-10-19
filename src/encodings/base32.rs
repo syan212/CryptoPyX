@@ -23,14 +23,20 @@ pub fn encode(data: &str) -> PyResult<String> {
         while bits_left >= 5 {
             bits_left -= 5;
             unsafe {
-                out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((buffer >> bits_left) & 0x1F) as usize));
+                out.push(
+                    *STANDARD_BASE_32_ALPHABET
+                        .get_unchecked(((buffer >> bits_left) & 0x1F) as usize),
+                );
             }
         }
     }
 
     if bits_left > 0 {
         unsafe {
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((buffer << (5 - bits_left)) & 0x1F) as usize));
+            out.push(
+                *STANDARD_BASE_32_ALPHABET
+                    .get_unchecked(((buffer << (5 - bits_left)) & 0x1F) as usize),
+            );
         }
     }
 

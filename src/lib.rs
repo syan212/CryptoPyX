@@ -15,6 +15,7 @@ mod encodings {
     pub mod base32;
 }
 
+// Macro to register submodules
 macro_rules! reg_submodule {
     ($parent:expr, $name:expr, [$( $func:path ),* $(,)?]) => {{
         let py = $parent.py();
@@ -39,9 +40,21 @@ fn _cryptopyx<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     let ciphers_module: Bound<'_, PyModule> = PyModule::new(m.py(), "ciphers")?;
     // Register submodules under ciphers
-    reg_submodule!(ciphers_module, "caesar", [ciphers::caesar::encrypt, ciphers::caesar::decrypt])?;
-    reg_submodule!(ciphers_module, "vigenere", [ciphers::vigenere::encrypt, ciphers::vigenere::decrypt])?;
-    reg_submodule!(ciphers_module, "rot13", [ciphers::rot13::encrypt, ciphers::rot13::decrypt])?;
+    reg_submodule!(
+        ciphers_module,
+        "caesar",
+        [ciphers::caesar::encrypt, ciphers::caesar::decrypt]
+    )?;
+    reg_submodule!(
+        ciphers_module,
+        "vigenere",
+        [ciphers::vigenere::encrypt, ciphers::vigenere::decrypt]
+    )?;
+    reg_submodule!(
+        ciphers_module,
+        "rot13",
+        [ciphers::rot13::encrypt, ciphers::rot13::decrypt]
+    )?;
     // Add ciphers submodule to parent module
     m.add_submodule(&ciphers_module)?;
     Ok(())
