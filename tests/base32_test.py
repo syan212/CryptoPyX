@@ -31,3 +31,14 @@ def test_base32_encode_benchmark(benchmark):
             base32.encode(string)
 
     benchmark(multi_encode)
+
+def test_base32_decode_benchmark(benchmark):
+    strings: list[str] = random_string(
+        1000000, string_num=100
+    )  # 1 million chars, 100 strings
+
+    def multi_decode():
+        for string in strings:
+            base32.decode(string)
+
+    benchmark(multi_decode)
