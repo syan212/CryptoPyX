@@ -79,6 +79,11 @@ pub fn decode(data: &str) -> PyResult<String> {
     for &b in bytes {
         // Get value or throw error
         let val: u8 = unsafe { *DECODE_MAP.get_unchecked(b as usize) };
+        if val == 0xFF {
+            return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
+                format!("Invalid Base32 character: '{}'", b as char)
+            ));
+        }
 
         buffer = (buffer << 5) | val as u64;
         bits_left += 5;
