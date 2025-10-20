@@ -48,3 +48,40 @@ pub fn encode(data: &str) -> PyResult<String> {
 
     unsafe { Ok(String::from_utf8_unchecked(out)) }
 }
+
+#[pyfunction]
+pub fn decode(data: &str) -> PyResult<String> {
+    // Trim any whitespace and remove padding
+    let input = data.trim().trim_end_matches('=');
+    if input.is_empty() {
+        return Ok(String::new());
+    }
+
+    // Convert to bytes
+    let bytes = input.as_bytes();
+    let mut buffer: u64 = 0;
+    let mut bits_left: u8 = 0;
+    let mut out = Vec::with_capacity((bytes.len() * 5) / 8);
+
+    for &b in bytes {
+        // Get value or throw error
+        let val: u64 = STANDARD_BASE_32_ALPHABET
+            .iter()
+            .position(|&ch| ch == b)
+            .ok_or_else(|| PyErr::new::<pyo3::exceptions::PyValueError, _>(
+                format!("Invalid Base32 character: '{}'", b as char)
+            ))? as u64;
+
+        buffer = (buffer << 5) | val;
+        bits_left += 5;
+
+        // Extract bytes when we have 8 or more bits
+        while bits_left >= 8 {
+            bits_left -= 8;
+            out.push(((buffer >> bits_left) & 0xFF) as u8);
+        }
+    }
+
+    // Return decoded string (UTF-8 assumed)
+    unsafe { Ok(String::from_utf8_unchecked(out)) }
+}

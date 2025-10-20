@@ -11,6 +11,14 @@ def test_base32_encode():
         == 'KRUGKIDROVUWG2ZAMJZG653OEBTG66BANJ2W24DTEBXXMZLSEB2GQZJANRQXU6JAMRXWOLQ='
     )
 
+def test_base32_decode():
+    # Basic functionality
+    assert base32.decode('NBSWY3DP') == 'hello'
+    assert base32.decode('NBSWY3DPEB2GQZLSMU======') == 'hello there'
+    assert (
+        base32.decode('KRUGKIDROVUWG2ZAMJZG653OEBTG66BANJ2W24DTEBXXMZLSEB2GQZJANRQXU6JAMRXWOLQ=')
+        == 'The quick brown fox jumps over the lazy dog.'
+    )
 
 # Benchmarks (cause why not?)
 def test_base32_encode_benchmark(benchmark):
