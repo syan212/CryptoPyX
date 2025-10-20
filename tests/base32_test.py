@@ -1,3 +1,5 @@
+import pytest
+
 from cryptopyx.encodings import base32
 from utils import random_string
 
@@ -22,6 +24,9 @@ def test_base32_decode():
         )
         == 'The quick brown fox jumps over the lazy dog.'
     )
+    # Decode errors
+    with pytest.raises(ValueError):
+        base32.decode('Sphinx of black quartz, judge my vow')
 
 
 # Benchmarks (cause why not?)
