@@ -14,11 +14,11 @@ pub fn encode(data: &str) -> PyResult<String> {
     let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8).div_ceil(5));
 
     // Use buffer and bits left to track bits and convert
-    let mut buffer: u32 = 0;
+    let mut buffer: u64 = 0;
     let mut bits_left: u8 = 0;
 
     for &b in bytes {
-        buffer = (buffer << 8) | b as u32;
+        buffer = (buffer << 8) | b as u64;
         bits_left += 8;
         while bits_left >= 5 {
             bits_left -= 5;
