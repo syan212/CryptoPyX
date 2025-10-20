@@ -49,7 +49,9 @@ This package suports Python 3.10 and above
    pip install cryptopyx
 
 See below for platform compability and more information
+
 Or get the source code from github and build from source.
+
 See Building From Source below for more information.
 
 Wheel Compability
