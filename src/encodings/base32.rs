@@ -1,6 +1,19 @@
 use pyo3::prelude::*;
 
+// Standard base 32 alphabet (RFC 3548, RFC 4648)
 const STANDARD_BASE_32_ALPHABET: &[u8; 32] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+// Precomputed decode map (256 entries)
+static DECODE_MAP: [u8; 256] = {
+    const INVALID: u8 = 0xFF;
+    let mut table = [INVALID; 256];
+    let mut i = 0;
+    while i < 32 {
+        table[STANDARD_BASE_32_ALPHABET[i] as usize] = i as u8;
+        i += 1;
+    }
+    table
+};
 
 #[pyfunction]
 pub fn encode(data: &str) -> PyResult<String> {
@@ -65,17 +78,9 @@ pub fn decode(data: &str) -> PyResult<String> {
 
     for &b in bytes {
         // Get value or throw error
-        let val: u64 = STANDARD_BASE_32_ALPHABET
-            .iter()
-            .position(|&ch| ch == b)
-            .ok_or_else(|| {
-                PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
-                    "Invalid Base32 character: '{}'",
-                    b as char
-                ))
-            })? as u64;
+        let val: u8 = unsafe { *DECODE_MAP.get_unchecked(b as usize) };
 
-        buffer = (buffer << 5) | val;
+        buffer = (buffer << 5) | val as u64;
         bits_left += 5;
 
         // Extract bytes when we have 8 or more bits
