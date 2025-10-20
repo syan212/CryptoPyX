@@ -64,7 +64,11 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 fn register_encodings<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     let encodings_module: Bound<'_, PyModule> = PyModule::new(m.py(), "encodings")?;
     // Register submodules under ciphers
-    reg_submodule!(encodings_module, "base32", [encodings::base32::encode, encodings::base32::decode])?;
+    reg_submodule!(
+        encodings_module,
+        "base32",
+        [encodings::base32::encode, encodings::base32::decode]
+    )?;
     // Add ciphers submodule to parent module
     m.add_submodule(&encodings_module)?;
     Ok(())

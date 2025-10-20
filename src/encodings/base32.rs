@@ -68,9 +68,12 @@ pub fn decode(data: &str) -> PyResult<String> {
         let val: u64 = STANDARD_BASE_32_ALPHABET
             .iter()
             .position(|&ch| ch == b)
-            .ok_or_else(|| PyErr::new::<pyo3::exceptions::PyValueError, _>(
-                format!("Invalid Base32 character: '{}'", b as char)
-            ))? as u64;
+            .ok_or_else(|| {
+                PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
+                    "Invalid Base32 character: '{}'",
+                    b as char
+                ))
+            })? as u64;
 
         buffer = (buffer << 5) | val;
         bits_left += 5;
