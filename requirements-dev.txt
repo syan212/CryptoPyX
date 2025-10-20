@@ -6,4 +6,4 @@ py-cpuinfo==9.0.0
 Pygments==2.19.2
 pytest==8.4.2
 pytest-benchmark==5.1.0
-ruff==0.14.0
+ruff==0.14.1
