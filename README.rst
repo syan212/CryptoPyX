@@ -59,13 +59,13 @@ Wheel Compability
 
 The package provides pre-compiled wheels for the following platforms tags:
 
-* Windows 
+- Windows 
     - win_amd64
     - win32
-* macOS 
+- macOS 
     - 10_12_x86_64 
     - 11_0_arm64
-* Linux 
+- Linux 
     - manylinux_2_34_x86_64
     - manylinux_2_34_armv7l
     - manylinux_2_34_aarch64
