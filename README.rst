@@ -48,11 +48,9 @@ This package suports Python 3.10 and above
     
    pip install cryptopyx
 
-See below for platform compability and more information
-
-Or get the source code from github and build from source.
-
-See Building From Source below for more information.
+| See below for platform compability and more information
+| Or get the source code from github and build from source.
+| See Building From Source below for more information.
 
 Wheel Compability
 -----------------
@@ -71,10 +69,10 @@ The package provides pre-compiled wheels for the following platforms tags:
     - manylinux_2_34_aarch64
     - manylinux_2_34_i686
 
-And supports python 3.10 above and free-threaded versions
-See above for download information if your platform is supported.
-However, if your platform is not supported, you will have to download the sdist and build from source.
-It should work, however it's recommended to have Rust installed to avoid any issues.
+| And supports python 3.10 above and free-threaded versions
+| See above for download information if your platform is supported.
+| However, if your platform is not supported, you will have to download the sdist and build from source.
+| It should work, however it's recommended to have Rust installed to avoid any issues.
 
 
 Example Usage
