@@ -60,16 +60,16 @@ Wheel Compability
 The package provides pre-compiled wheels for the following platforms tags:
 
 * Windows 
-    * win_amd64
-    * win32
+    - win_amd64
+    - win32
 * macOS 
-    * 10_12_x86_64 
-    * 11_0_arm64
+    - 10_12_x86_64 
+    - 11_0_arm64
 * Linux 
-    * manylinux_2_34_x86_64
-    * manylinux_2_34_armv7l
-    * manylinux_2_34_aarch64
-    * manylinux_2_34_i686
+    - manylinux_2_34_x86_64
+    - manylinux_2_34_armv7l
+    - manylinux_2_34_aarch64
+    - manylinux_2_34_i686
 
 And supports python 3.10 above and free-threaded versions
 See above for download information if your platform is supported.
