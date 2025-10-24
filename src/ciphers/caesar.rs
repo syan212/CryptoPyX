@@ -43,19 +43,19 @@ static CAESAR_TABLES: [[u8; 256]; 26] = build_all_tables();
 
 // The exposed python functions
 #[pyfunction]
-pub fn encrypt(input: &str, shift: i32) -> PyResult<String> {
-    let result: String = encrypt_or_decrypt(input, shift, Mode::Encrypt)?;
+pub fn encrypt(data: &str, shift: i32) -> PyResult<String> {
+    let result: String = encrypt_or_decrypt(data, shift, Mode::Encrypt)?;
     Ok(result)
 }
 
 #[pyfunction]
-pub fn decrypt(input: &str, shift: i32) -> PyResult<String> {
-    let result: String = encrypt_or_decrypt(input, shift, Mode::Decrypt)?;
+pub fn decrypt(data: &str, shift: i32) -> PyResult<String> {
+    let result: String = encrypt_or_decrypt(data, shift, Mode::Decrypt)?;
     Ok(result)
 }
 
 // Actual implementation
-fn encrypt_or_decrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
+fn encrypt_or_decrypt(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
     // Validate shift range
     if !(-25..=25).contains(&shift) {
         return Err(pyo3::exceptions::PyValueError::new_err(
@@ -66,7 +66,7 @@ fn encrypt_or_decrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
     let shift: usize = shift.rem_euclid(26) as usize;
     // If the shift is 0, just return the string
     if shift == 0 {
-        return Ok(String::from(input));
+        return Ok(String::from(data));
     }
     // Compute forwards shift to find correct table
     let forward_shift: usize = match mode {
@@ -75,8 +75,8 @@ fn encrypt_or_decrypt(input: &str, shift: i32, mode: Mode) -> PyResult<String> {
     };
     let table: [u8; 256] = unsafe { *CAESAR_TABLES.get_unchecked(forward_shift) };
     // Main encryption/decryption logic
-    let mut result: Vec<u8> = Vec::with_capacity(input.len());
-    for &byte in input.as_bytes() {
+    let mut result: Vec<u8> = Vec::with_capacity(data.len());
+    for &byte in data.as_bytes() {
         result.push(table[byte as usize]);
     }
     let result_string: String = unsafe { String::from_utf8_unchecked(result) };

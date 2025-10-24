@@ -53,12 +53,12 @@ classifiers = [
     "Operating System :: OS Independent",
 
     # Typing
-    "Typing :: Typed",
+    "Typing :: Stubs Only",
 ]
 
 [project.urls]
 Repository = "https://github.com/syan212/CryptoPyX"
-issues = "https://github.com/syan212/CryptoPyX/issues"
+Issues = "https://github.com/syan212/CryptoPyX/issues"
 Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
 
 [tool.maturin]

@@ -2,6 +2,7 @@ use pyo3::prelude::*;
 use pyo3::types::PyModule;
 
 // List of all submodules
+// Ciphers
 mod ciphers {
     // Ciphers submodules
     pub mod caesar;
@@ -11,7 +12,7 @@ mod ciphers {
 
 // Encodings
 mod encodings {
-    // Submodules
+    // Encodings submodules
     pub mod base32;
 }
 

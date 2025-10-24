@@ -43,21 +43,21 @@ static CAESAR_TABLES: [[u8; 256]; 26] = build_all_tables();
 
 // The exposed python functions
 #[pyfunction]
-#[pyo3(signature = (input, key, skip_non_alpha=true))]
-pub fn encrypt(input: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> {
-    let result: String = vigenere_rotate(input, key, Mode::Encrypt, skip_non_alpha)?;
+#[pyo3(signature = (data, key, skip_non_alpha=true))]
+pub fn encrypt(data: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> {
+    let result: String = vigenere_rotate(data, key, Mode::Encrypt, skip_non_alpha)?;
     Ok(result)
 }
 
 #[pyfunction]
-#[pyo3(signature = (input, key, skip_non_alpha=true))]
-pub fn decrypt(input: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> {
-    let result: String = vigenere_rotate(input, key, Mode::Decrypt, skip_non_alpha)?;
+#[pyo3(signature = (data, key, skip_non_alpha=true))]
+pub fn decrypt(data: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> {
+    let result: String = vigenere_rotate(data, key, Mode::Decrypt, skip_non_alpha)?;
     Ok(result)
 }
 
 // Main Vigenere function
-fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> PyResult<String> {
+fn vigenere_rotate(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> PyResult<String> {
     // Validate key
     if !key.chars().all(|c| c.is_ascii_alphabetic()) || key.is_empty() {
         return Err(pyo3::exceptions::PyValueError::new_err(
@@ -76,12 +76,12 @@ fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> 
             }
         })
         .collect();
-    let expanded_key_shifts: Vec<u8> = expand_key_shifts(&key_shifts, input.len());
+    let expanded_key_shifts: Vec<u8> = expand_key_shifts(&key_shifts, data.len());
     // Main encryption/decryption logic
-    let mut result: Vec<u8> = Vec::with_capacity(input.len());
+    let mut result: Vec<u8> = Vec::with_capacity(data.len());
     let mut key_index: usize = 0;
     // Main loop
-    for &byte in input.as_bytes() {
+    for &byte in data.as_bytes() {
         let shift: u8 = unsafe { *expanded_key_shifts.get_unchecked(key_index) };
         let rotated_char: u8 = single_rotate(byte, shift);
         result.push(rotated_char);
@@ -96,24 +96,24 @@ fn vigenere_rotate(input: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> 
 }
 
 // Expand key shifts to match input length
-fn expand_key_shifts(key: &[u8], input_len: usize) -> Vec<u8> {
-    let mut expanded_key: Vec<u8> = Vec::with_capacity(input_len);
+fn expand_key_shifts(key: &[u8], data_len: usize) -> Vec<u8> {
+    let mut expanded_key: Vec<u8> = Vec::with_capacity(data_len);
     let key_len: usize = key.len();
-    while expanded_key.len() + key_len <= input_len {
+    while expanded_key.len() + key_len <= data_len {
         expanded_key.extend_from_slice(key);
     }
-    expanded_key.extend_from_slice(&key[..(input_len - expanded_key.len())]);
+    expanded_key.extend_from_slice(&key[..(data_len - expanded_key.len())]);
     expanded_key
 }
 
 // Implementation of single rotate on a single character
 // As the end user will not be able to use this, we can assume no errors
 #[inline(always)]
-fn single_rotate(input: u8, shift: u8) -> u8 {
+fn single_rotate(data: u8, shift: u8) -> u8 {
     // No need for shift validation as no one outside this module can call this function
     unsafe {
         *CAESAR_TABLES
             .get_unchecked(shift as usize)
-            .get_unchecked(input as usize)
+            .get_unchecked(data as usize)
     }
 }

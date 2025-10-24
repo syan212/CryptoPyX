@@ -22,19 +22,19 @@ static ROT13_TABLE: [u8; 256] = {
 
 // The exposed python functions
 #[pyfunction]
-pub fn encrypt(input: &str) -> PyResult<String> {
-    rotate(input)
+pub fn encrypt(data: &str) -> PyResult<String> {
+    rotate(data)
 }
 
 #[pyfunction]
-pub fn decrypt(input: &str) -> PyResult<String> {
-    rotate(input)
+pub fn decrypt(data: &str) -> PyResult<String> {
+    rotate(data)
 }
 
 // Main ROT13 logic
-fn rotate(input: &str) -> PyResult<String> {
-    let mut result: Vec<u8> = Vec::with_capacity(input.len());
-    for &byte in input.as_bytes() {
+fn rotate(data: &str) -> PyResult<String> {
+    let mut result: Vec<u8> = Vec::with_capacity(data.len());
+    for &byte in data.as_bytes() {
         result.push(ROT13_TABLE[byte as usize]);
     }
     let result_string: String = unsafe { String::from_utf8_unchecked(result) };
