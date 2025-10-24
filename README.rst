@@ -3,36 +3,36 @@ CryptoPyX
 #########
 
 .. image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
-    :target: https://github.com/astral-sh/ruff
-    :alt: Ruff
+   :target: https://github.com/astral-sh/ruff
+   :alt: Ruff
 
 .. image:: https://img.shields.io/pypi/pyversions/cryptopyx
-    :target: https://pypi.org/project/cryptopyx/
-    :alt: PyPI - Python Version
+   :target: https://pypi.org/project/cryptopyx/
+   :alt: PyPI - Python Version
 
 .. image:: https://img.shields.io/pypi/v/cryptopyx?label=PyPI%20Version&color=blue
-    :alt: PyPI - Version
-    :target: https://pypi.org/project/cryptopyx/#history
+   :alt: PyPI - Version
+   :target: https://pypi.org/project/cryptopyx/#history
 
 .. image:: https://img.shields.io/pypi/dm/cryptopyx?label=PyPI%20Downloads&color=blue
-    :alt: PyPI - Downloads
-    :target: https://pypi.org/project/cryptopyx/
+   :alt: PyPI - Downloads
+   :target: https://pypi.org/project/cryptopyx/
 
 .. image:: https://github.com/syan212/CryptoPyX/actions/workflows/CI.yml/badge.svg
-    :target: https://github.com/syan212/CryptoPyX/actions/workflows/CI.yml
-    :alt: CI Status
+   :target: https://github.com/syan212/CryptoPyX/actions/workflows/CI.yml
+   :alt: CI Status
 
 .. image:: https://github.com/syan212/CryptoPyX/actions/workflows/dependabot/dependabot-updates/badge.svg
-    :target: https://github.com/syan212/CryptoPyX/actions/workflows/dependabot/dependabot-updates
-    :alt: Dependabot Status
+   :target: https://github.com/syan212/CryptoPyX/actions/workflows/dependabot/dependabot-updates
+   :alt: Dependabot Status
 
 .. image:: https://github.com/syan212/CryptoPyX/actions/workflows/pypi.yml/badge.svg?event=release
-    :target: https://github.com/syan212/CryptoPyX/actions/workflows/pypi.yml
-    :alt: Publish to PyPI Status
+   :target: https://github.com/syan212/CryptoPyX/actions/workflows/pypi.yml
+   :alt: Publish to PyPI Status
 
 .. image:: https://img.shields.io/github/license/syan212/cryptopyx
-    :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
-    :alt: Licence
+   :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
+   :alt: Licence
 
 A simple python cryptography package written in Rust.
 
@@ -58,16 +58,16 @@ Wheel Compability
 The package provides pre-compiled wheels for the following platforms tags:
 
 - Windows 
-    - win_amd64
-    - win32
+   - win_amd64
+   - win32
 - macOS 
-    - 10_12_x86_64 
-    - 11_0_arm64
+   - 10_12_x86_64 
+   - 11_0_arm64
 - Linux 
-    - manylinux_2_34_x86_64
-    - manylinux_2_34_armv7l
-    - manylinux_2_34_aarch64
-    - manylinux_2_34_i686
+   - manylinux_2_34_x86_64
+   - manylinux_2_34_armv7l
+   - manylinux_2_34_aarch64
+   - manylinux_2_34_i686
 
 | And supports python 3.10 above and free-threaded versions
 | See above for download information if your platform is supported.

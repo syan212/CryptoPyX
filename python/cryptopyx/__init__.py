@@ -2,14 +2,17 @@ import sys
 
 from . import _cryptopyx
 
-# Modules
+# Modules definition and rewrite sys.modules
+# Encodings submodule
 encodings = _cryptopyx.encodings
-ciphers = _cryptopyx.ciphers
+sys.modules['cryptopyx.encodings'] = _cryptopyx.encodings
+sys.modules['cryptopyx.encodings.base32'] = _cryptopyx.encodings.base32
 
-# Rewrite sys.modules
+# Ciphers submodule
+ciphers = _cryptopyx.ciphers
 sys.modules['cryptopyx.ciphers'] = _cryptopyx.ciphers
 sys.modules['cryptopyx.ciphers.rot13'] = _cryptopyx.ciphers.rot13
 sys.modules['cryptopyx.ciphers.caesar'] = _cryptopyx.ciphers.caesar
-sys.modules['cryptopyx.encodings'] = _cryptopyx.encodings
 
+# All imports
 __all__ = ['encodings', 'ciphers']
