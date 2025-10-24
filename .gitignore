@@ -215,14 +215,5 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Vscode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
-!*.code-workspace
-
-# Built Visual Studio Code Extensions
-*.vsix
+# Rust target directory
+target/
