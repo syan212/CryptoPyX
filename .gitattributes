@@ -2,5 +2,6 @@
 # Also use different diff driver for specific file types
 
 *.py text eol=lf diff=python
+*.pyi text eol=lf diff=python
 *.rs text eol=lf diff=rust
 *.md text eol=lf diff=markdown
