@@ -4,6 +4,9 @@
 Add the following tools:
 Vigenere cipher (done!), ascii85, base32, base 64 encodings
 
+**v0.1.2: Coming soon**
+Adding base32
+
 **v0.1.1**
 Added vigenere cipher
 
