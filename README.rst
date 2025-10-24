@@ -34,7 +34,7 @@ CryptoPyX
    :target: https://github.com/syan212/CryptoPyX/blob/main/LICENSE
    :alt: Licence
 
-A simple python cryptography package written in Rust.
+A python cryptography package written in Rust made for speed.
 
 Installation guide
 ==================
