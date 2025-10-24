@@ -1,8 +1,6 @@
 # Enforce LF line endings
 # Also use different diff driver for specific file types
 
-[attr]lf text eol=lf
-
-*.py lf diff=python
-*.rs lf diff=rust
-*.md lf diff=markdown
+*.py text eol=lf diff=python
+*.rs text eol=lf diff=rust
+*.md text eol=lf diff=markdown
