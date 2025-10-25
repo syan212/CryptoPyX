@@ -40,7 +40,7 @@ def test_base32_encode_benchmark(benchmark):
         1000000, string_num=100
     )  # 1 million chars, 100 strings
     bytes = [string.encode() for string in strings]
-    
+
     def multi_encode():
         for byte in bytes:
             base32.encode_bytes(byte)
