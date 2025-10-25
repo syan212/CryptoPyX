@@ -23,10 +23,23 @@ pub fn encode(data: &str) -> PyResult<String> {
     if bytes.is_empty() {
         return Ok(String::new());
     }
-
     // Decode
     let out = encode_bytes_rust(bytes);
+    // Return decoded string (UTF-8 assumed)
+    unsafe { Ok(String::from_utf8_unchecked(out)) }
+}
 
+// Exposed python decode function for strings
+#[pyfunction]
+pub fn decode(data: &str) -> PyResult<String> {
+    // Trim any whitespace and remove padding
+    let input = data.trim().trim_end_matches('=');
+    if input.is_empty() {
+        return Ok(String::new());
+    }
+    // Convert to bytes and decode
+    let bytes = input.as_bytes();
+    let out = decode_bytes_rust(bytes)?;
     // Return decoded string (UTF-8 assumed)
     unsafe { Ok(String::from_utf8_unchecked(out)) }
 }
@@ -43,37 +56,18 @@ pub fn decode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
     Ok(decode_bytes_rust(data)?)
 }
 
-// Exposed python decode function for strings
-#[pyfunction]
-pub fn decode(data: &str) -> PyResult<String> {
-    // Trim any whitespace and remove padding
-    let input = data.trim().trim_end_matches('=');
-    if input.is_empty() {
-        return Ok(String::new());
-    }
-
-    // Convert to bytes and decode
-    let bytes = input.as_bytes();
-    let out = decode_bytes_rust(bytes)?;
-
-    // Return decoded string (UTF-8 assumed)
-    unsafe { Ok(String::from_utf8_unchecked(out)) }
-}
-
 // Bytes encoding fully rust
 fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
     // Assume no error can be thrown
     // Preallocate out vector
     let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8).div_ceil(5));
-
     // Use buffer and bits left to track bits and convert
     let mut buffer: u64 = 0;
     let mut bits_left: u8 = 0;
-
+    // Loop to encode bytes
     for &b in bytes {
         buffer = (buffer << 8) | b as u64;
         bits_left += 8;
-
         // Extract bytes when we have 5 or more bits
         while bits_left >= 5 {
             bits_left -= 5;
@@ -85,7 +79,6 @@ fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
             }
         }
     }
-
     // Ensure all bits are converted
     if bits_left > 0 {
         unsafe {
@@ -95,13 +88,12 @@ fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
             );
         }
     }
-
     // Padding
     let pad_len = (8 - (out.len() % 8)) % 8;
     if pad_len != 0 {
         out.extend(std::iter::repeat_n(b'=', pad_len));
     }
-
+    // Return bytes
     out
 }
 
@@ -109,11 +101,10 @@ fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
 fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
     // Preallocate out vector
     let mut out = Vec::with_capacity((bytes.len() * 5) / 8);
-
     // Use buffer to track bits
     let mut buffer: u64 = 0;
     let mut bits_left: u8 = 0;
-
+    // Loop to encode bytes
     for &b in bytes {
         // Get value or throw error
         let val: u8 = unsafe { *DECODE_MAP.get_unchecked(b as usize) };
@@ -123,16 +114,15 @@ fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
                 b as char
             )));
         }
-
+        // Update buffer and bit count
         buffer = (buffer << 5) | val as u64;
         bits_left += 5;
-
         // Extract bytes when we have 8 or more bits
         while bits_left >= 8 {
             bits_left -= 8;
             out.push(((buffer >> bits_left) & 0xFF) as u8);
         }
     }
-
+    // Return bytes
     Ok(out)
 }
