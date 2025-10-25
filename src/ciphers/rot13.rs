@@ -35,7 +35,9 @@ pub fn decrypt(data: &str) -> PyResult<String> {
 fn rotate(data: &str) -> PyResult<String> {
     let mut result: Vec<u8> = Vec::with_capacity(data.len());
     for &byte in data.as_bytes() {
-        result.push(ROT13_TABLE[byte as usize]);
+        result.push(unsafe {
+            *ROT13_TABLE.get_unchecked(byte as usize)
+        });
     }
     let result_string: String = unsafe { String::from_utf8_unchecked(result) };
     Ok(result_string)
