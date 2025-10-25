@@ -1,6 +1,6 @@
 import pytest
 from cryptopyx.encodings import base32
-from utils import random_string
+from utils import random_base32
 
 
 def test_base32_encode():
@@ -30,7 +30,7 @@ def test_base32_decode():
 
 # Benchmarks (cause why not?)
 def test_base32_encode_benchmark(benchmark):
-    strings: list[str] = random_string(
+    strings: list[str] = random_base32(
         1000000, string_num=100
     )  # 1 million chars, 100 strings
 
@@ -42,7 +42,7 @@ def test_base32_encode_benchmark(benchmark):
 
 
 def test_base32_decode_benchmark(benchmark):
-    strings: list[str] = random_string(
+    strings: list[str] = random_base32(
         1000000, string_num=100
     )  # 1 million chars, 100 strings
 
