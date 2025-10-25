@@ -52,7 +52,6 @@ pub fn decode(data: &str) -> PyResult<String> {
     // Convert to bytes and decode
     let bytes = input.as_bytes();
     let out = decode_bytes_rust(bytes)?;
-    println!("Output bytes: {:?}", out);
     // Check for valid UTF-8
     match str::from_utf8(&out) {
         Ok(s) => Ok(s.to_string()),
