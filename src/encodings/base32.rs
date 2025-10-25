@@ -1,5 +1,5 @@
-use pyo3::prelude::*;
 use pyo3::exceptions::*;
+use pyo3::prelude::*;
 use std::str;
 
 // Standard base 32 alphabet (RFC 3548, RFC 4648)
@@ -56,9 +56,7 @@ pub fn decode(data: &str) -> PyResult<String> {
     // Check for valid UTF-8
     match str::from_utf8(&out) {
         Ok(s) => Ok(s.to_string()),
-        Err(_) => {
-            Err(PyErr::new::<PyValueError, _>("Invalid utf8. Use decode_bytes() instead."))
-        },
+        Err(_) => Err(PyErr::new::<PyValueError, _>("Invalid utf8. Use decode_bytes() instead.")),
     }
 }
 
