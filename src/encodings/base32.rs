@@ -15,14 +15,54 @@ static DECODE_MAP: [u8; 256] = {
     table
 };
 
+// Exposed python encode function for strings
 #[pyfunction]
 pub fn encode(data: &str) -> PyResult<String> {
-    // Get bytes
+    // Get bytes and check if empty
     let bytes = data.as_bytes();
     if bytes.is_empty() {
         return Ok(String::new());
     }
 
+    // Decode
+    let out = encode_bytes_rust(bytes);
+
+    // Return decoded string (UTF-8 assumed)
+    unsafe { Ok(String::from_utf8_unchecked(out)) }
+}
+
+// Python encode bytes function
+#[pyfunction]
+pub fn encode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
+    // Assume no errors
+    Ok(encode_bytes_rust(data))
+}
+
+#[pyfunction]
+pub fn decode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
+    Ok(decode_bytes_rust(data)?)
+}
+
+// Exposed python decode function for strings
+#[pyfunction]
+pub fn decode(data: &str) -> PyResult<String> {
+    // Trim any whitespace and remove padding
+    let input = data.trim().trim_end_matches('=');
+    if input.is_empty() {
+        return Ok(String::new());
+    }
+
+    // Convert to bytes and decode
+    let bytes = input.as_bytes();
+    let out = decode_bytes_rust(bytes)?;
+
+    // Return decoded string (UTF-8 assumed)
+    unsafe { Ok(String::from_utf8_unchecked(out)) }
+}
+
+// Bytes encoding fully rust
+fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
+    // Assume no error can be thrown
     // Preallocate out vector
     let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8).div_ceil(5));
 
@@ -33,6 +73,8 @@ pub fn encode(data: &str) -> PyResult<String> {
     for &b in bytes {
         buffer = (buffer << 8) | b as u64;
         bits_left += 8;
+
+        // Extract bytes when we have 5 or more bits
         while bits_left >= 5 {
             bits_left -= 5;
             unsafe {
@@ -44,6 +86,7 @@ pub fn encode(data: &str) -> PyResult<String> {
         }
     }
 
+    // Ensure all bits are converted
     if bits_left > 0 {
         unsafe {
             out.push(
@@ -59,22 +102,17 @@ pub fn encode(data: &str) -> PyResult<String> {
         out.extend(std::iter::repeat_n(b'=', pad_len));
     }
 
-    unsafe { Ok(String::from_utf8_unchecked(out)) }
+    out
 }
 
-#[pyfunction]
-pub fn decode(data: &str) -> PyResult<String> {
-    // Trim any whitespace and remove padding
-    let input = data.trim().trim_end_matches('=');
-    if input.is_empty() {
-        return Ok(String::new());
-    }
+// Bytes decoding fully rust
+fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
+    // Preallocate out vector
+    let mut out = Vec::with_capacity((bytes.len() * 5) / 8);
 
-    // Convert to bytes
-    let bytes = input.as_bytes();
+    // Use buffer to track bits
     let mut buffer: u64 = 0;
     let mut bits_left: u8 = 0;
-    let mut out = Vec::with_capacity((bytes.len() * 5) / 8);
 
     for &b in bytes {
         // Get value or throw error
@@ -96,6 +134,5 @@ pub fn decode(data: &str) -> PyResult<String> {
         }
     }
 
-    // Return decoded string (UTF-8 assumed)
-    unsafe { Ok(String::from_utf8_unchecked(out)) }
+    Ok(out)
 }

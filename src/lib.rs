@@ -39,23 +39,14 @@ fn _cryptopyx<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 
 // Register ciphers submodule
 fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
+    // For shorter functions name
+    use ciphers::{caesar, rot13, vigenere};
+    // Submodule
     let ciphers_module: Bound<'_, PyModule> = PyModule::new(m.py(), "ciphers")?;
     // Register submodules under ciphers
-    reg_submodule!(
-        ciphers_module,
-        "caesar",
-        [ciphers::caesar::encrypt, ciphers::caesar::decrypt]
-    )?;
-    reg_submodule!(
-        ciphers_module,
-        "vigenere",
-        [ciphers::vigenere::encrypt, ciphers::vigenere::decrypt]
-    )?;
-    reg_submodule!(
-        ciphers_module,
-        "rot13",
-        [ciphers::rot13::encrypt, ciphers::rot13::decrypt]
-    )?;
+    reg_submodule!(ciphers_module, "caesar", [caesar::encrypt, caesar::decrypt])?;
+    reg_submodule!(ciphers_module, "vigenere", [vigenere::encrypt, vigenere::decrypt])?;
+    reg_submodule!(ciphers_module, "rot13", [rot13::encrypt, rot13::decrypt])?;
     // Add ciphers submodule to parent module
     m.add_submodule(&ciphers_module)?;
     Ok(())
@@ -63,13 +54,12 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 
 // Register encodings submodule
 fn register_encodings<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
+    // For shorter functions name
+    use encodings::base32::{decode, decode_bytes, encode, encode_bytes};
+    // Submodule
     let encodings_module: Bound<'_, PyModule> = PyModule::new(m.py(), "encodings")?;
     // Register submodules under ciphers
-    reg_submodule!(
-        encodings_module,
-        "base32",
-        [encodings::base32::encode, encodings::base32::decode]
-    )?;
+    reg_submodule!(encodings_module, "base32", [encode, decode, encode_bytes, decode_bytes])?;
     // Add ciphers submodule to parent module
     m.add_submodule(&encodings_module)?;
     Ok(())
