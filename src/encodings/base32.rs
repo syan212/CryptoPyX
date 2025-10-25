@@ -53,7 +53,7 @@ pub fn encode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
 
 #[pyfunction]
 pub fn decode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
-    Ok(decode_bytes_rust(data)?)
+    decode_bytes_rust(data)
 }
 
 // Bytes encoding fully rust
