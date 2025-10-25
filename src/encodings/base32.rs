@@ -1,4 +1,6 @@
 use pyo3::prelude::*;
+use pyo3::exceptions::*;
+use std::str;
 
 // Standard base 32 alphabet (RFC 3548, RFC 4648)
 const STANDARD_BASE_32_ALPHABET: &[u8; 32] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -8,9 +10,19 @@ static DECODE_MAP: [u8; 256] = {
     const INVALID: u8 = 0xFF;
     let mut table = [INVALID; 256];
     let mut i = 0;
-    while i < 32 {
-        table[STANDARD_BASE_32_ALPHABET[i] as usize] = i as u8;
+    // Uppercase A–Z
+    while i < 26 {
+        let ch = b'A' + i as u8;
+        table[ch as usize] = i as u8;
+        // Lowercase a–z
+        table[(ch + 32) as usize] = i as u8; // 'a' = 'A' + 32 in ASCII
         i += 1;
+    }
+    // Digits 2–7 (values 26–31)
+    let mut j = 0;
+    while j < 6 {
+        table[(b'2' + j as u8) as usize] = (26 + j) as u8;
+        j += 1;
     }
     table
 };
@@ -40,8 +52,14 @@ pub fn decode(data: &str) -> PyResult<String> {
     // Convert to bytes and decode
     let bytes = input.as_bytes();
     let out = decode_bytes_rust(bytes)?;
-    // Return decoded string (UTF-8 assumed)
-    unsafe { Ok(String::from_utf8_unchecked(out)) }
+    println!("Output bytes: {:?}", out);
+    // Check for valid UTF-8
+    match str::from_utf8(&out) {
+        Ok(s) => Ok(s.to_string()),
+        Err(_) => {
+            Err(PyErr::new::<PyValueError, _>("Invalid utf8. Use decode_bytes() instead."))
+        },
+    }
 }
 
 // Python encode bytes function
@@ -58,7 +76,10 @@ pub fn decode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
 
 // Bytes encoding fully rust
 fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
-    // Assume no error can be thrown
+    // Empty vector
+    if bytes.is_empty() {
+        return Vec::new();
+    }
     // Preallocate out vector
     let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8).div_ceil(5));
     // Use buffer and bits left to track bits and convert
@@ -104,12 +125,16 @@ fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
     // Use buffer to track bits
     let mut buffer: u64 = 0;
     let mut bits_left: u8 = 0;
-    // Loop to encode bytes
+    // Loop to decode bytes
     for &b in bytes {
-        // Get value or throw error
+        // Check for padding
+        if b == b'=' {
+            break;
+        }
+        // Validate character
         let val: u8 = unsafe { *DECODE_MAP.get_unchecked(b as usize) };
         if val == 0xFF {
-            return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
+            return Err(PyErr::new::<PyValueError, _>(format!(
                 "Invalid Base32 character: '{}'",
                 b as char
             )));
