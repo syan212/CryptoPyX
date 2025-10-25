@@ -11,6 +11,7 @@ def random_string(length: int, string_num: int = 100) -> list[str]:
         all_strings.append(''.join(random.choice(letters) for _ in range(length)))
     return all_strings
 
+
 # Random key for vigenere
 def random_key(length: int, string_num: int = 100) -> list[str]:
     """Generate random key for vigenere"""
@@ -20,6 +21,7 @@ def random_key(length: int, string_num: int = 100) -> list[str]:
     for _ in range(string_num):
         all_keys.append(''.join(random.choice(letters) for _ in range(length)))
     return all_keys
+
 
 # Random base32
 def random_base32(length: int, string_num: int = 100) -> list[str]:
