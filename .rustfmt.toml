@@ -1,0 +1,7 @@
+# Edition
+edition = "2024"
+style_edition = "2024"
+
+# Other stuff
+fn_call_width = 100
+newline_style = "Unix"
