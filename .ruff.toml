@@ -10,6 +10,7 @@ select = ["E","F","B","I","UP","SIM","S","ANN"]
 line-ending = "lf"
 quote-style = "single"
 indent-style = "space"
+docstring-code-format = false
 
 [lint.flake8-quotes]
 docstring-quotes = "double"

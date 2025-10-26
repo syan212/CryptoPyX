@@ -4,10 +4,10 @@ root = true
 end_of_line = lf
 charset = utf-8
 
-[*.{py, rs, rst, yml}]
+[*.{py, rs, rst, yml, pyi}]
 indent_style = space
 
-[*.{py, rs}]
+[*.{py, rs, pyi}]
 indent_size = 4
 
 [*.rst]
