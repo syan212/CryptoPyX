@@ -32,10 +32,8 @@ static DECODE_MAP: [u8; 256] = {
 pub fn encode(data: &str) -> PyResult<String> {
     // Get bytes
     let bytes = data.as_bytes();
-    // Decode
-    let out = encode_bytes_rust(bytes);
-    // Return decoded string (UTF-8 assumed)
-    unsafe { Ok(String::from_utf8_unchecked(out)) }
+    // Decode and return string (UTF-8 assumed)
+    unsafe { Ok(String::from_utf8_unchecked(encode_bytes_rust(bytes))) }
 }
 
 // Exposed python decode function for strings
@@ -43,11 +41,10 @@ pub fn encode(data: &str) -> PyResult<String> {
 pub fn decode(data: &str) -> PyResult<String> {
     // Trim any whitespace and remove padding
     let input = data.trim().trim_end_matches('=');
-    // Convert to bytes and decode
+    // Convert to bytes
     let bytes = input.as_bytes();
-    let out = decode_bytes_rust(bytes)?;
-    // Check for valid UTF-8
-    match str::from_utf8(&out) {
+    // Decode and check for valid UTF-8
+    match str::from_utf8(&decode_bytes_rust(bytes)?) {
         Ok(s) => Ok(s.to_string()),
         Err(_) => Err(PyErr::new::<PyValueError, _>("Invalid utf8. Use decode_bytes() instead.")),
     }
