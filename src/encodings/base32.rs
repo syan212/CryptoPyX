@@ -30,11 +30,8 @@ static DECODE_MAP: [u8; 256] = {
 // Exposed python encode function for strings
 #[pyfunction]
 pub fn encode(data: &str) -> PyResult<String> {
-    // Get bytes and check if empty
+    // Get bytes
     let bytes = data.as_bytes();
-    if bytes.is_empty() {
-        return Ok(String::new());
-    }
     // Decode
     let out = encode_bytes_rust(bytes);
     // Return decoded string (UTF-8 assumed)
@@ -46,9 +43,6 @@ pub fn encode(data: &str) -> PyResult<String> {
 pub fn decode(data: &str) -> PyResult<String> {
     // Trim any whitespace and remove padding
     let input = data.trim().trim_end_matches('=');
-    if input.is_empty() {
-        return Ok(String::new());
-    }
     // Convert to bytes and decode
     let bytes = input.as_bytes();
     let out = decode_bytes_rust(bytes)?;
@@ -62,7 +56,6 @@ pub fn decode(data: &str) -> PyResult<String> {
 // Python encode bytes function
 #[pyfunction]
 pub fn encode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
-    // Assume no errors
     Ok(encode_bytes_rust(data))
 }
 
