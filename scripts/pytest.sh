@@ -2,4 +2,4 @@
 pytest --benchmark-only --benchmark-save=$1
 pytest --benchmark-only --benchmark-save=$1
 pytest --benchmark-only --benchmark-save=$1
-pytest-benchmark compare 'Linux-CPython-3.14-64bit/*'
+pytest-benchmark compare '*-*-3.*-*bit/*'
