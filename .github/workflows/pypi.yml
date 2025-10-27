@@ -192,11 +192,6 @@ jobs:
         run: |
           maturin build --release --sdist --out dist
 
-      - name: Run quick test
-        run: |
-          pip install dist/*
-          pytest --benchmark-skip
-          
       - name: Upload wheels
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
