@@ -41,7 +41,7 @@ pub fn encode(data: &str) -> PyResult<String> {
 #[pyo3(signature = (data, strict=false))]
 pub fn decode(data: &str, strict: bool) -> PyResult<String> {
     // If strict, check for length
-    if data.len() % 8 != 0 && strict == true {
+    if data.len() % 8 != 0 && strict {
         return Err(PyErr::new::<PyValueError, _>(
             "Length of input is not valid. Use strict=False to disable length checking.",
         ));
