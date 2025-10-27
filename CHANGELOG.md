@@ -1,6 +1,6 @@
 # Changelog
 
-**v0.1.1: Base32**
+**v0.1.2: Base32**
 Features:
 
 Added the base32 decoding and encoding, for both strings and bytes
