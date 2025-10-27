@@ -8,3 +8,5 @@ wheel.sh - Uninstalls cryptopyx, builds the new wheel for your system, and then 
 
 CI.sh - runs CI locally. Note that this will not be the same as the github CI, 
         as it only runs it on your specific computer
+
+reset.sh - Deletes caches and venv, and creates venv again
