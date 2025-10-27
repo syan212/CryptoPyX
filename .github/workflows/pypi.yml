@@ -2,7 +2,7 @@ name: Publish to PyPI
 
 on:
   release:
-    types: [published]
+    types: [created]
 
 env:
   GH_REPO: syan212/cryptopyx
@@ -71,6 +71,11 @@ jobs:
             maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnu --interpreter python${{ matrix.python-versions }}
           fi
 
+      - name: Run quick test
+        run: |
+          pip install dist/*
+          pytest --benchmark-skip
+
       - name: Upload wheels
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -117,6 +122,11 @@ jobs:
           rustup target add ${{ matrix.platform.target }}-pc-windows-msvc
           maturin build --release --out dist --target ${{ matrix.platform.target }}-pc-windows-msvc --interpreter python${{ matrix.python-versions }}
 
+      - name: Run quick test
+        run: |
+          pip install dist/*
+          pytest --benchmark-skip
+          
       - name: Upload wheels
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -159,6 +169,11 @@ jobs:
         run: |
           maturin build --release --out dist --interpreter python${{ matrix.python-versions }}
 
+      - name: Run quick test
+        run: |
+          pip install dist/*
+          pytest --benchmark-skip
+          
       - name: Upload wheels
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -192,6 +207,11 @@ jobs:
         run: |
           maturin build --release --sdist --out dist
 
+      - name: Run quick test
+        run: |
+          pip install dist/*
+          pytest --benchmark-skip
+          
       - name: Upload wheels
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:

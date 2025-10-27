@@ -6,7 +6,7 @@ build-backend = "maturin"
 name = "cryptopyx"
 requires-python = ">=3.10"
 # Update cargo version too
-version = "0.1.1"
+version = "0.1.2"
 description = "A python cryptography package written in Rust made for speed."
 readme = "README.rst"
 license = "MIT"
