@@ -38,7 +38,14 @@ pub fn encode(data: &str) -> PyResult<String> {
 
 // Exposed python decode function for strings
 #[pyfunction]
-pub fn decode(data: &str) -> PyResult<String> {
+#[pyo3(signature = (data, strict=false))]
+pub fn decode(data: &str, strict: bool) -> PyResult<String> {
+    // If strict, check for length
+    if data.len() % 8 != 0 && strict == true {
+        return Err(PyErr::new::<PyValueError, _>(
+            "Length of input is not valid. Use strict=False to disable length checking.",
+        ));
+    }
     // Trim any whitespace and remove padding
     let input = data.trim().trim_end_matches('=');
     // Convert to bytes

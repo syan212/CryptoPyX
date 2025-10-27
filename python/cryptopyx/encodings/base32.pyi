@@ -15,12 +15,14 @@ def encode(data: str) -> str:
     """
     ...
 
-def decode(data: str) -> str:
+def decode(data: str, strict: bool = False) -> str:
     """
     Decodes string using base32.
 
     :param data: The data to be decoded.
     :type data: str
+    :param strict: Ensure string is correct length. Defaults to False. (optional)
+    :type strict: bool
     :return: Decoded string.
     :rtype: str
 
