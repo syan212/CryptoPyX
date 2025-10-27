@@ -11,5 +11,5 @@ Adding base32
 Added vigenere cipher
 
 **Other future features**
-CLI: implement in python or possibly in rust instead
-GUI: basically the CLI but more visually appealing
+CLI: write a python wrapper, can process files and do other stuff
+Docs: generate from stub files
