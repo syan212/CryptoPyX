@@ -18,7 +18,7 @@ jobs:
       matrix:
         python-versions: ['3.10','3.13t','3.14t']
         target: [x86_64, i686, aarch64, armv7]
-    name: Wheel build - manylinux - ${{ matrix.target }}
+    name: Wheel build - manylinux - ${{ matrix.target }} - ${{ matrix.python-versions }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -94,7 +94,7 @@ jobs:
             arch: x64
           - target: i686
             arch: x86
-    name: Wheel build - windows - ${{ matrix.platform.target }}
+    name: Wheel build - windows - ${{ matrix.platform.target }} - ${{ matrix.python-versions }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -145,7 +145,7 @@ jobs:
             target: x86_64
           - runner: macos-14
             target: arm64
-    name: Wheel build - macos - ${{ matrix.platform.target }}
+    name: Wheel build - macos - ${{ matrix.platform.target }} - ${{ matrix.python-versions }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -191,7 +191,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
         with:
-            python-version: 3.10
+            python-version: '3.10'
             cache: pip
       
       - name: Set up Rust
