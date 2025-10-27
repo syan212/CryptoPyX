@@ -63,43 +63,67 @@ pub fn decode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
 
 // Bytes encoding fully rust
 fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
-    // Empty vector
-    if bytes.is_empty() {
-        return Vec::new();
-    }
     // Preallocate out vector
     let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8).div_ceil(5));
-    // Use buffer and bits left to track bits and convert
-    let mut buffer: u64 = 0;
-    let mut bits_left: u8 = 0;
-    // Loop to encode bytes
-    for &b in bytes {
-        buffer = (buffer << 8) | b as u64;
-        bits_left += 8;
-        // Extract bytes when we have 5 or more bits
-        while bits_left >= 5 {
-            bits_left -= 5;
-            unsafe {
-                out.push(
-                    *STANDARD_BASE_32_ALPHABET
-                        .get_unchecked(((buffer >> bits_left) & 0x1F) as usize),
-                );
+    // Unroll input into 40 bits chunk
+    let mut i = 0;
+    while i + 5 <= bytes.len() {
+        // Read 5 bytes as 40 bits
+        let chunk = ((bytes[i] as u64) << 32)
+            | ((bytes[i + 1] as u64) << 24)
+            | ((bytes[i + 2] as u64) << 16)
+            | ((bytes[i + 3] as u64) << 8)
+            | (bytes[i + 4] as u64);
+        // Extract 8 groups of 5 bits
+        unsafe {
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 35) & 0x1F) as usize));
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 30) & 0x1F) as usize));
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 25) & 0x1F) as usize));
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 20) & 0x1F) as usize));
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 15) & 0x1F) as usize));
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 10) & 0x1F) as usize));
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 5) & 0x1F) as usize));
+            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked((chunk & 0x1F) as usize));
+        }
+        i += 5;
+    }
+    // Handle remainder (less than 5 bytes left)
+    let rem = &bytes[i..];
+    if !rem.is_empty() {
+        // Buffer
+        let mut buffer = 0u32;
+        let mut bits_left: u8 = 0;
+        // Loop, change buffer, push to vector
+        for &b in rem {
+            buffer = (buffer << 8) | b as u32;
+            bits_left += 8;
+            while bits_left >= 5 {
+                bits_left -= 5;
+                let index = ((buffer >> bits_left) & 0x1F) as usize;
+                unsafe {
+                    out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(index));
+                }
             }
         }
-    }
-    // Ensure all bits are converted
-    if bits_left > 0 {
-        unsafe {
-            out.push(
-                *STANDARD_BASE_32_ALPHABET
-                    .get_unchecked(((buffer << (5 - bits_left)) & 0x1F) as usize),
-            );
+        // If leftover bits remain, emit one more 5-bit group (padded on the right)
+        if bits_left > 0 {
+            let index = ((buffer << (5 - bits_left)) & 0x1F) as usize;
+            unsafe {
+                out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(index));
+            }
         }
-    }
-    // Padding
-    let pad_len = (8 - (out.len() % 8)) % 8;
-    if pad_len != 0 {
-        out.extend(std::iter::repeat_n(b'=', pad_len));
+        // Compute padding (8 chars per full 5-byte group)
+        let pad_chars: u8 = match rem.len() {
+            1 => 6,
+            2 => 4,
+            3 => 3,
+            4 => 1,
+            _ => 0,
+        };
+        // Padding
+        if pad_chars > 0 {
+            out.extend(std::iter::repeat_n(b'=', pad_chars as usize));
+        }
     }
     // Return bytes
     out
