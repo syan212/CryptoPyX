@@ -1,3 +1,6 @@
+// Skip
+#![cfg_attr(rustfmt, rustfmt::skip)]
+
 use pyo3::prelude::*;
 use pyo3::types::PyModule;
 

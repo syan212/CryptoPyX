@@ -53,7 +53,9 @@ pub fn decode(data: &str, strict: bool) -> PyResult<String> {
     // Decode and check for valid UTF-8
     match str::from_utf8(&decode_bytes_rust(bytes)?) {
         Ok(s) => Ok(s.to_string()),
-        Err(_) => Err(PyErr::new::<PyValueError, _>("Invalid utf8. Use decode_bytes() instead.")),
+        Err(_) => Err(PyErr::new::<PyValueError, _>(
+            "Invalid utf8. Use decode_bytes() instead.",
+        )),
     }
 }
 

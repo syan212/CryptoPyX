@@ -4,6 +4,4 @@ style_edition = "2024"
 
 # Other stuff
 max_width = 100
-fn_call_width = 100
 newline_style = "Unix"
-array_width = 80

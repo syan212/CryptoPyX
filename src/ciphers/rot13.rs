@@ -36,9 +36,11 @@ fn rotate(data: &str) -> PyResult<String> {
     let mut out: Vec<u8> = Vec::with_capacity(data.len());
     let input = data.as_bytes();
     unsafe {
+        #![deny(clippy::uninit_vec)]
         out.set_len(input.len());
         for i in 0..input.len() {
-            *out.get_unchecked_mut(i) = *ROT13_TABLE.get_unchecked(*input.get_unchecked(i) as usize);
+            *out.get_unchecked_mut(i) =
+                *ROT13_TABLE.get_unchecked(*input.get_unchecked(i) as usize);
         }
     }
     let result_string: String = unsafe { String::from_utf8_unchecked(out) };
