@@ -33,9 +33,10 @@ pub fn decrypt(data: &str) -> PyResult<String> {
 
 // Main ROT13 logic
 fn rotate(data: &str) -> PyResult<String> {
-    let mut out: Vec<u8> = Vec::with_capacity(data.len());
     let input = data.as_bytes();
+    let mut out: Vec<u8> = vec![0; input.len()];
     unsafe {
+        out.set_len(input.len());
         for i in 0..input.len() {
             *out.get_unchecked_mut(i) =
                 *ROT13_TABLE.get_unchecked(*input.get_unchecked(i) as usize);

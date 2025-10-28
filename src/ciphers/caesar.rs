@@ -67,9 +67,10 @@ fn encrypt_or_decrypt(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
         Mode::Decrypt => (26 - shift) % 26,
     };
     let input = data.as_bytes();
-    let mut out: Vec<u8> = Vec::with_capacity(input.len());
+    let mut out: Vec<u8> = vec![0; input.len()];
     // Main encryption/decryption logic inside unsafe block
     unsafe {
+        out.set_len(input.len());
         let table: &[u8; 256] = CAESAR_TABLES.get_unchecked(forward_shift);
         for i in 0..input.len() {
             *out.get_unchecked_mut(i) = *table.get_unchecked(*input.get_unchecked(i) as usize);
