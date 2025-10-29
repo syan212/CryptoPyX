@@ -1,6 +1,7 @@
 // Vigenere cipher is really just a series of Caesar ciphers
 // So we can compute the Caesar tables just like the caesar cipher implementation
 use pyo3::prelude::*;
+use pyo3::exceptions::*;
 
 // Build table for specific shift
 const fn build_table(shift: u8) -> [u8; 256] {
@@ -45,22 +46,23 @@ static CAESAR_TABLES: [[u8; 256]; 26] = build_all_tables();
 #[pyfunction]
 #[pyo3(signature = (data, key, skip_non_alpha=true))]
 pub fn encrypt(data: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> {
-    let result: String = vigenere_rotate(data, key, Mode::Encrypt, skip_non_alpha)?;
-    Ok(result)
+    vigenere_rotate(data, key, Mode::Encrypt, skip_non_alpha)
 }
 
 #[pyfunction]
 #[pyo3(signature = (data, key, skip_non_alpha=true))]
 pub fn decrypt(data: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> {
-    let result: String = vigenere_rotate(data, key, Mode::Decrypt, skip_non_alpha)?;
-    Ok(result)
+    vigenere_rotate(data, key, Mode::Decrypt, skip_non_alpha)
 }
 
 // Main Vigenere function
 fn vigenere_rotate(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> PyResult<String> {
     // Validate key
+    if !data.is_ascii() || !key.is_ascii() {
+        return Err(PyValueError::new_err("Only ASCII input is supported"));
+    }
     if !key.chars().all(|c| c.is_ascii_alphabetic()) || key.is_empty() {
-        return Err(pyo3::exceptions::PyValueError::new_err(
+        return Err(PyValueError::new_err(
             "Key must be non-empty and contain only alphabetic characters",
         ));
     }
@@ -76,34 +78,26 @@ fn vigenere_rotate(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> P
             }
         })
         .collect();
-    let expanded_key_shifts: Vec<u8> = expand_key_shifts(&key_shifts, data.len());
-    // Main encryption/decryption logic
-    let mut result: Vec<u8> = Vec::with_capacity(data.len());
-    let mut key_index: usize = 0;
-    // Main loop
-    for &byte in data.as_bytes() {
-        let shift: u8 = unsafe { *expanded_key_shifts.get_unchecked(key_index) };
-        let rotated_char: u8 = single_rotate(byte, shift);
-        result.push(rotated_char);
-        key_index += if !skip_non_alpha || byte != rotated_char {
-            1
-        } else {
-            0
-        };
-    }
-    let result_string: String = unsafe { String::from_utf8_unchecked(result) };
-    Ok(result_string)
-}
 
-// Expand key shifts to match input length
-fn expand_key_shifts(key: &[u8], data_len: usize) -> Vec<u8> {
-    let mut expanded_key: Vec<u8> = Vec::with_capacity(data_len);
-    let key_len: usize = key.len();
-    while expanded_key.len() + key_len <= data_len {
-        expanded_key.extend_from_slice(key);
+    let key_len = key_shifts.len();
+    let input = data.as_bytes();
+    let mut out = vec![0; input.len()];
+    let mut key_i = 0usize;
+    unsafe {
+        out.set_len(input.len());
+        // Main loop
+        for i in 0..input.len() {
+            let b = *input.get_unchecked(i);
+            let shift = *key_shifts.get_unchecked(key_i % key_len);
+            let rotated = single_rotate(b, shift);
+            *out.get_unchecked_mut(i) = rotated;
+            if !skip_non_alpha || rotated != b {
+                key_i += 1;
+            }
+        }
+        // Return result
+        Ok(String::from_utf8_unchecked(out))
     }
-    expanded_key.extend_from_slice(&key[..(data_len - expanded_key.len())]);
-    expanded_key
 }
 
 // Implementation of single rotate on a single character
