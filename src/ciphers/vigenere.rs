@@ -1,7 +1,7 @@
 // Vigenere cipher is really just a series of Caesar ciphers
 // So we can compute the Caesar tables just like the caesar cipher implementation
-use pyo3::prelude::*;
 use pyo3::exceptions::*;
+use pyo3::prelude::*;
 
 // Build table for specific shift
 const fn build_table(shift: u8) -> [u8; 256] {
