@@ -10,6 +10,9 @@ def encrypt(data: str, key: str, skip_non_alpha: bool = True) -> str:
     :type data: str
     :param key: The key to encrypt the data.
     :type key: str
+    :param skip_non_alpha: Whether to skip non-alphabetic characters (optional,
+                          default is True).
+    :type skip_non_alpha: bool
     :return: The encrypted string.
     :rtype: str
 
@@ -28,6 +31,9 @@ def decrypt(data: str, key: str, skip_non_alpha: bool = True) -> str:
     :type data: str
     :param key: The key to decrypt the data.
     :type key: str
+    :param skip_non_alpha: Whether to skip non-alphabetic characters (optional,
+                          default is True).
+    :type skip_non_alpha: bool
     :return: The decrypted string.
     :rtype: str
 
