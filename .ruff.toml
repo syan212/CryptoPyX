@@ -5,6 +5,8 @@ select = ["E","F","B","I","UP","SIM","S","ANN"]
 
 [lint.per-file-ignores]
 "tests/*" = ["ANN", "S"]
+"benchmarks/*" = ["ANN", "S"]
+"utils/*" = ["ANN", "S"]
 
 [format]
 line-ending = "lf"

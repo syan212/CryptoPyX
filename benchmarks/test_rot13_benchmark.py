@@ -1,5 +1,7 @@
 from cryptopyx.ciphers import rot13
+
 from utils.strings import random_string
+
 
 # Benchmarks (cause why not?)
 def test_rot13_encrypt_benchmark(benchmark):
