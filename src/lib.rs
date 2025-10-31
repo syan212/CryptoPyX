@@ -1,12 +1,17 @@
 // Skip
 #![cfg_attr(rustfmt, rustfmt::skip)]
 
+// For shorter functions name
+use ciphers::{caesar, rot13, vigenere};
+use encodings::base32 as b32;
+
+// pyo3
 use pyo3::prelude::*;
 use pyo3::types::PyModule;
 
 // List of all submodules
 // Ciphers
-mod ciphers {
+pub mod ciphers {
     // Ciphers submodules
     pub mod caesar;
     pub mod rot13;
@@ -14,7 +19,7 @@ mod ciphers {
 }
 
 // Encodings
-mod encodings {
+pub mod encodings {
     // Encodings submodules
     pub mod base32;
 }
@@ -42,8 +47,6 @@ fn _cryptopyx<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 
 // Register ciphers submodule
 fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
-    // For shorter functions name
-    use ciphers::{caesar, rot13, vigenere};
     // Submodule
     let ciphers_module: Bound<'_, PyModule> = PyModule::new(m.py(), "ciphers")?;
     // Register submodules under ciphers
@@ -57,8 +60,6 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 
 // Register encodings submodule
 fn register_encodings<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
-    // For shorter functions name
-    use encodings::base32 as b32;
     // Submodule
     let encodings_module: Bound<'_, PyModule> = PyModule::new(m.py(), "encodings")?;
     // Register submodules under ciphers
