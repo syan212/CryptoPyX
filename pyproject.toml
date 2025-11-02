@@ -33,7 +33,6 @@ classifiers = [
     "Intended Audience :: Science/Research",
 
     # Development Status
-    # ! Remember to change soon
     "Development Status :: 5 - Production/Stable",
 
     # Python Versions
@@ -43,6 +42,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Free Threading",
 
     # Rust Implementation
     "Programming Language :: Rust",
