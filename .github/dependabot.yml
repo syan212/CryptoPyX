@@ -7,13 +7,19 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "[pip]"
   
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "[gha]"
   
   - package-ecosystem: "cargo"
     directory: "/"
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "[cargo]"
