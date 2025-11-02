@@ -64,6 +64,18 @@ Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
 [tool.maturin]
 python-source = "python"
 bindings = "pyo3"
+exclude = [
+  # Git and GitHub
+  '.git*', '.github/**', 
+  
+  # Dev files and directories
+  'benchmarks/**', 'tests/**', 'scripts/**', 'utils/**', 
+  
+  # Miscellaneous
+  '.editorconfig', 'requirements-dev.txt', '.ruff.toml', 
+  '.rustfmt.toml', 'roadmap.md', 'Cargo.lock', 'CHANGELOG.md',
+]
+strip = true
 features = ["pyo3/extension-module"]
 module-name = "cryptopyx._cryptopyx"
 
