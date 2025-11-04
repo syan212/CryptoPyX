@@ -8,10 +8,12 @@ def cli() -> None:
     """CryptoPyX: A Python library for cryptographic operations."""
     pass
 
+
 @cli.group()
 def base32() -> None:
     """Base32 encoding and decoding commands."""
     pass
+
 
 @base32.command()
 @click.argument('data', type=click.STRING)
@@ -19,7 +21,8 @@ def encode(data: str) -> None:
     """Encode data to Base32."""
     click.echo('Encoded data:')
     click.secho(encodings.base32.encode(data), fg='green')
-    
+
+
 @base32.command()
 @click.argument('data', type=click.STRING)
 def decode(data: str) -> None:
