@@ -16,7 +16,9 @@ authors = [
   { name="Siqi Yan", email="syan235711@gmail.com" }
 ]
 # Dependencies
-dependencies = [] 
+dependencies = [
+  "click >=8.0",
+] 
 # Classifiers
 classifiers = [
     # Topics
@@ -60,6 +62,9 @@ classifiers = [
 Repository = "https://github.com/syan212/CryptoPyX"
 Issues = "https://github.com/syan212/CryptoPyX/issues"
 Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
+
+[project.scripts]
+cryptopyx = "cryptopyx.cli:cli"
 
 [tool.maturin]
 python-source = "python"
