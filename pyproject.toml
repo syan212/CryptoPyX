@@ -64,7 +64,7 @@ Issues = "https://github.com/syan212/CryptoPyX/issues"
 Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
 
 [project.scripts]
-cryptopyx = "cryptopyx.cli:cli"
+cryptopyx = "cryptopyx.cli.main:cli"
 
 [tool.maturin]
 python-source = "python"
