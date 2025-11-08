@@ -21,7 +21,7 @@ def encrypt(data: str, key: str, skip_non_alpha: bool = True) -> str:
                                  though lowercase and uppercase characters are
                                  both supported.
                         *or*, if data is non-ascii.
-                        
+
     """
     ...
 

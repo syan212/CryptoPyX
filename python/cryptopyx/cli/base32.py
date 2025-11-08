@@ -1,4 +1,5 @@
 import click
+
 import cryptopyx.encodings as encodings
 
 from . import utils
@@ -13,15 +14,24 @@ def base32() -> None:
 
 @base32.command()
 @click.argument('file', type=click.STRING)
-@click.option('--string', is_flag=True, help='Indicates that the input is a string rather than a file path.')
-@click.option('--output', '-o', type=click.Path(writable=True), help='Output file to save the encoded data.')
+@click.option(
+    '--string',
+    is_flag=True,
+    help='Indicates that the input is a string rather than a file path.',
+)
+@click.option(
+    '--output',
+    '-o',
+    type=click.Path(writable=True),
+    help='Output file to save the encoded data.',
+)
 def encode(file: str, string: bool, output: str | None) -> None:
     """Encode string data to Base32."""
     # Read input data, either from a string or a file
     if string:
         data = file
     else:
-        with open(file, 'r', encoding='utf-8') as f:
+        with open(file, encoding='utf-8') as f:
             data = f.read()
     # For type checking purposes
     result: str = str(utils.calc_loading(encodings.base32.encode, data))
@@ -37,15 +47,24 @@ def encode(file: str, string: bool, output: str | None) -> None:
 
 @base32.command()
 @click.argument('file', type=click.STRING)
-@click.option('--string', is_flag=True, help='Indicates that the input is a string rather than a file path.')
-@click.option('--output', '-o', type=click.Path(writable=True), help='Output file to save the decoded data.')
+@click.option(
+    '--string',
+    is_flag=True,
+    help='Indicates that the input is a string rather than a file path.',
+)
+@click.option(
+    '--output',
+    '-o',
+    type=click.Path(writable=True),
+    help='Output file to save the decoded data.',
+)
 def decode(file: str, string: bool, output: str | None) -> None:
     """Decode string data to Base32."""
     # Read input data, either from a string or a file
     if string:
         data = file
     else:
-        with open(file, 'r', encoding='utf-8') as f:
+        with open(file, encoding='utf-8') as f:
             data = f.read()
     # For type checking purposes
     result: str = str(utils.calc_loading(encodings.base32.decode, data))
