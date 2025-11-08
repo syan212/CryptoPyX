@@ -27,12 +27,14 @@ def loading_animation(message: str, done: threading.Event) -> None:
     """Display a loading animation while `done` is not set."""
     frames: list[str] = ['⣷', '⣯', '⣟', '⡿', '⢿', '⣻', '⣽', '⣾']
     while True:
-        if done.is_set():
-            break
         for frame in frames:
+            if done.is_set():
+                break
             sys.stdout.write(f'\r{frame} {message}')
             sys.stdout.flush()
             time.sleep(0.025)
+        if done.is_set():
+            break
     sys.stdout.write('\rDone!')
     sys.stdout.flush()
     time.sleep(0.05)
