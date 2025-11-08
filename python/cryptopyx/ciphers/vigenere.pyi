@@ -20,6 +20,8 @@ def encrypt(data: str, key: str, skip_non_alpha: bool = True) -> str:
                         **i.e**. it's empty or contains non-alphabetic characters,
                                  though lowercase and uppercase characters are
                                  both supported.
+                        *or*, if data is non-ascii.
+                        
     """
     ...
 
@@ -41,5 +43,6 @@ def decrypt(data: str, key: str, skip_non_alpha: bool = True) -> str:
                         **i.e**. it's empty or contains non-alphabetic characters,
                                  though lowercase and uppercase characters are
                                  both supported.
+                        *or*, if data is non-ascii.
     """
     ...
