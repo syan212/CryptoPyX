@@ -32,7 +32,7 @@ def loading_animation(message: str, done: threading.Event) -> None:
                 break
             sys.stdout.write(f'\r{frame} {message}')
             sys.stdout.flush()
-            time.sleep(0.025)
+            time.sleep(0.05)
         if done.is_set():
             break
     sys.stdout.write('\rDone!')
