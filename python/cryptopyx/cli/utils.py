@@ -4,7 +4,7 @@ import time
 from collections.abc import Callable
 
 
-def calc_loading(func: Callable, *args: object, **kwargs: dict[str, object]) -> object:
+def calc_loading(func: Callable, *args: object, **kwargs: object) -> object:
     """Perform calculation with loading animation."""
     completed = threading.Event()
     loading_thread = threading.Thread(
