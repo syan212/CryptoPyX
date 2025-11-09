@@ -1,5 +1,4 @@
 import click
-
 import cryptopyx.encodings as encodings
 
 from . import utils
@@ -16,7 +15,7 @@ def base32() -> None:
 @click.argument('file', type=click.STRING)
 @click.option(
     '--string',
-    's',
+    '-s',
     is_flag=True,
     help='Indicates that the input is a string rather than a file path.',
 )
