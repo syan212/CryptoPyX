@@ -78,17 +78,17 @@ The package provides pre-compiled wheels for the following platforms tags:
 Example Usage
 =============
 
-::
+.. code-block:: python
 
-   from cryptopyx.ciphers import caesar
-   caesar.encrypt('ABC', 3) # DEF
-   caesar.decrypt('DEF', 3) # ABC
-
+   from cryptopyx.encodings import base32
+   base32.encode_bytes(b'Hello World')  # b'JBSWY3DPEBLW64TMMQ======'
+   base32.decode_bytes(b'JBSWY3DPEBLW64TMMQ======')  # b'Hello World'
 
 Documentation
 =============
 
-Due to the fact that there is no documentation, please refer to the code itself for now.
+There is currently no documentation website for this package, however, you can view the docstrings in the source code.
+Most text editors/IDEs will show these docstrings as you type.
 
 Building From source
 ====================
@@ -98,7 +98,9 @@ Simple
 
 It is possible to install the package without Rust, as maturin can install a temporary Rust toolchain.
 
-To build from source without Rust after cloning the repository, run:: 
+To build from source without Rust after cloning the repository, run
+
+.. code-block:: shell
 
    pip install maturin
    maturin build --release --out dist
