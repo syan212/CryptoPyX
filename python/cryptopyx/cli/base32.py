@@ -16,6 +16,7 @@ def base32() -> None:
 @click.argument('file', type=click.STRING)
 @click.option(
     '--string',
+    's',
     is_flag=True,
     help='Indicates that the input is a string rather than a file path.',
 )
@@ -49,6 +50,7 @@ def encode(file: str, string: bool, output: str | None) -> None:
 @click.argument('file', type=click.STRING)
 @click.option(
     '--string',
+    '-s',
     is_flag=True,
     help='Indicates that the input is a string rather than a file path.',
 )
