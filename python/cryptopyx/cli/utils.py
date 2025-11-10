@@ -33,10 +33,8 @@ def loading_animation(message: str, done: threading.Event) -> None:
     while True:
         # Cycle through frames
         for frame in frames:
-            if done.is_set():
-                break
             print(f'\r{frame} {message}', end='', flush=True)
-            time.sleep(0.05)
+            time.sleep(0.025)
         if done.is_set():
             break
     # Clear the loading message and indicate completion
