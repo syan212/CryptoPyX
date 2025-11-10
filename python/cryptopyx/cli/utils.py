@@ -1,4 +1,3 @@
-import sys
 import threading
 import time
 from collections.abc import Callable
@@ -6,18 +5,21 @@ from collections.abc import Callable
 
 def calc_loading(func: Callable, *args: object, **kwargs: object) -> object:
     """Perform calculation with loading animation."""
+    # Create thread and event to manage loading animation
     completed = threading.Event()
     loading_thread = threading.Thread(
         target=loading_animation, args=('Calculating...', completed)
     )
+    # Start loading animation thread
     loading_thread.start()
+    # Perform the calculation
     try:
         result = func(*args, **kwargs)
     except Exception as e:
         completed.set()
         loading_thread.join()
         raise e
-
+    # Signal completion and wait for loading thread to finish
     completed.set()
     loading_thread.join()
     return result
@@ -25,18 +27,19 @@ def calc_loading(func: Callable, *args: object, **kwargs: object) -> object:
 
 def loading_animation(message: str, done: threading.Event) -> None:
     """Display a loading animation while `done` is not set."""
+    # Frames for the loading animation
     frames: list[str] = ['⣷', '⣯', '⣟', '⡿', '⢿', '⣻', '⣽', '⣾']
+    # Infinite loop until done is set
     while True:
+        # Cycle through frames
         for frame in frames:
             if done.is_set():
                 break
-            sys.stdout.write(f'\r{frame} {message}')
-            sys.stdout.flush()
+            print(f'\r{frame} {message}', end='', flush=True)
             time.sleep(0.05)
         if done.is_set():
             break
-    sys.stdout.write('\rDone!')
-    sys.stdout.flush()
+    # Clear the loading message and indicate completion
+    print('\rDone!', end='', flush=True)
     time.sleep(0.05)
-    sys.stdout.write(f'\r{" " * (3 + len(message))}\r')
-    sys.stdout.flush()
+    print(f'\r{" " * (3 + len(message))}\r', end='', flush=True)
