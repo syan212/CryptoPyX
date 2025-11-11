@@ -23,7 +23,7 @@ def base32() -> None:
     '--output',
     '-o',
     type=click.Path(writable=True),
-    help='Output file to save the encoded data.',
+    help='Output file to save the encoded data. Defaults to stdout if not provided.',
 )
 def encode(file: str, string: bool, output: str | None) -> None:
     """Encode string data to Base32."""
@@ -57,7 +57,7 @@ def encode(file: str, string: bool, output: str | None) -> None:
     '--output',
     '-o',
     type=click.Path(writable=True),
-    help='Output file to save the decoded data.',
+    help='Output file to save the decoded data. Defaults to stdout if not provided.',
 )
 def decode(file: str, string: bool, output: str | None) -> None:
     """Decode string data to Base32."""
