@@ -5,5 +5,5 @@ pluggy==1.6.0
 py-cpuinfo==9.0.0
 Pygments==2.19.2
 pytest==9.0.0
-pytest-benchmark==5.2.1
+pytest-benchmark==5.2.3
 ruff==0.14.3
