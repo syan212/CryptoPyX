@@ -83,6 +83,3 @@ exclude = [
 strip = true
 features = ["pyo3/extension-module"]
 module-name = "cryptopyx._cryptopyx"
-
-[tool.pytest.ini_options]
-testpaths = ["benchmarks", "tests"]
