@@ -2,7 +2,7 @@ import click
 
 
 # This is the main CLI group, for importing in subcommand modules.
-@click.group()
+@click.group
 @click.version_option(
     prog_name='CryptoPyX', 
     package_name='cryptopyx',

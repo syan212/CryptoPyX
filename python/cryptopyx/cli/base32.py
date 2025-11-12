@@ -5,13 +5,13 @@ from . import utils
 from .cli import cli
 
 
-@cli.group()
+@cli.group
 def base32() -> None:
     """Base32 encoding and decoding commands."""
     pass
 
 
-@base32.command()
+@base32.command
 @click.argument('file', type=click.STRING)
 @click.option(
     '--string',
@@ -45,7 +45,7 @@ def encode(file: str, string: bool, output: str | None) -> None:
         click.secho(result, fg='green')
 
 
-@base32.command()
+@base32.command
 @click.argument('file', type=click.STRING)
 @click.option(
     '--string',
