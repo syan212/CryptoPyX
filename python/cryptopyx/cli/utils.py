@@ -1,9 +1,15 @@
 import threading
 import time
 from collections.abc import Callable
+from typing import TypeVar
+
+# Type variables for generic function
+# T is the return type, U is the argument type (str for now)
+T = TypeVar('T')
+U = TypeVar('U', bound=str)
 
 
-def calc_loading(func: Callable, *args: object, **kwargs: object) -> object:
+def calc_loading(func: Callable[[U], T], *args: U, **kwargs: U) -> T:
     """Perform calculation with loading animation."""
     # Create thread and event to manage loading animation
     completed = threading.Event()
