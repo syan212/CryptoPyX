@@ -44,7 +44,7 @@ Install from PyPI
 
 This package suports Python 3.10 and above
 
-::
+.. code-block:: shell
     
    pip install cryptopyx
 
