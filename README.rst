@@ -93,9 +93,6 @@ Most text editors/IDEs will show these docstrings as you type.
 Building From source
 ====================
 
-Simple
-------
-
 It is possible to install the package without Rust, as maturin can install a temporary Rust toolchain.
 
 To build from source without Rust after cloning the repository, run
