@@ -7,6 +7,8 @@ select = ["E","F","B","I","UP","SIM","S","ANN"]
 "tests/*" = ["ANN", "S101"]
 "benchmarks/*" = ["ANN", "S"]
 "utils/*" = ["S"]
+"*.pyi" = ["E501"]
+"python/cryptopyx/stubs.py" = ["B023"]
 
 [format]
 line-ending = "lf"
