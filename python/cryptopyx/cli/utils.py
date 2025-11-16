@@ -21,10 +21,10 @@ def calc_loading(func: Callable[[U], T], *args: U, **kwargs: U) -> T:
     # Perform the calculation
     try:
         result = func(*args, **kwargs)
-    except Exception as e:
+    except Exception:
         completed.set()
         loading_thread.join()
-        raise e
+        raise
     # Signal completion and wait for loading thread to finish
     completed.set()
     loading_thread.join()
