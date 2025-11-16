@@ -31,4 +31,4 @@ for module_name, pyi_path in find_pyi_files('cryptopyx'):
     apply_docs_and_signatures(module, docs, signatures)
 
 # All imports
-__all__ = ['encodings', 'ciphers']
+__all__ = ['ciphers', 'encodings']
