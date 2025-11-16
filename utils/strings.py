@@ -8,7 +8,7 @@ def random_string(length: int, string_num: int = 100) -> list[str]:
     random.seed(69420)
     letters: str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,.'"
     return [
-        ''.join(random.choice(letters) for _ in range(length))
+        ''.join(random.choice(letters) for _ in range(length))  # noqa: S311
         for _ in range(string_num)
     ]
 
@@ -19,7 +19,7 @@ def random_key(length: int, string_num: int = 100) -> list[str]:
     random.seed(42069)
     letters: str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     return [
-        ''.join(random.choice(letters) for _ in range(length))
+        ''.join(random.choice(letters) for _ in range(length))  # noqa: S311
         for _ in range(string_num)
     ]
 

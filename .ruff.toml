@@ -5,10 +5,7 @@ select = ["E","F","B","I","UP","SIM","S","ANN"]
 
 [lint.per-file-ignores]
 "tests/*" = ["ANN", "S101"]
-"benchmarks/*" = ["ANN", "S"]
-"utils/*" = ["S"]
-"*.pyi" = ["E501"]
-"python/cryptopyx/stubs.py" = ["B023"]
+"benchmarks/*" = ["ANN"]
 
 [format]
 line-ending = "lf"
