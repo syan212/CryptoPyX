@@ -1,5 +1,5 @@
 import click
-import cryptopyx.encodings as encodings
+from cryptopyx import encodings
 
 from . import utils
 from .cli import cli
