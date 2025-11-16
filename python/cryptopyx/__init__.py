@@ -3,7 +3,7 @@ import sys
 from types import ModuleType
 
 from . import _cryptopyx
-from .pyi import (
+from .stubs_processing import (
     apply_docs_and_signatures,
     find_pyi_files,
     parse_docstrings,
