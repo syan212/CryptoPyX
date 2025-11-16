@@ -87,8 +87,7 @@ Example Usage
 Documentation
 =============
 
-There is currently no documentation website for this package, however, you can view the docstrings in the source code.
-Most text editors/IDEs will show these docstrings as you type.
+The documentation is currently work in progress, however this package does have docstrings.
 
 Building From source
 ====================
