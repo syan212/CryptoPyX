@@ -199,14 +199,16 @@ def parse_signatures(pyi_path: Path) -> dict[str, Signature]:
                     signatures[fullname] = build_signature(sub)
     return signatures
 
+
 # Apply docs and strings to single object
 def apply_docs_and_sigs_to_obj(obj: Callable, docs: str, sig: Signature | None) -> None:
+    """Apply docs and signatures to single object(writeable)."""
     obj.__doc__ = docs
     if sig:
         obj.__signature__ = sig
         obj.__annotations__ = sig_to_ann(sig)
-        
-        
+
+
 # Wrap function and add docstrings and signature
 def wrapper(input_func: Callable, docs: str, input_sig: Signature | None) -> Callable:
     def inner(*args: object, **kwargs: object) -> object:
