@@ -1,6 +1,4 @@
-"""
-Ciphers submodule.
-"""
+"""Ciphers submodule."""
 
 from . import caesar, rot13, vigenere
 

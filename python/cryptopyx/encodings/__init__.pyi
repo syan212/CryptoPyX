@@ -1,6 +1,4 @@
-"""
-Encodings submodule.
-"""
+"""Encodings submodule."""
 
 from . import base32
 

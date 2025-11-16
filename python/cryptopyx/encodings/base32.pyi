@@ -1,12 +1,10 @@
-"""
-Base32 encoding and decoding.
+"""Base32 encoding and decoding.
 
 Currently only supports the standard base 32 alphabet (RFC 4648).
 """
 
 def encode(data: str) -> str:
-    """
-    Encodes string using base32.
+    """Encodes string using base32.
 
     :param data: The data to be encoded.
     :type data: str
@@ -16,8 +14,7 @@ def encode(data: str) -> str:
     ...
 
 def decode(data: str, strict: bool = False) -> str:
-    """
-    Decodes string using base32.
+    """Decodes string using base32.
 
     :param data: The data to be decoded.
     :type data: str
@@ -31,8 +28,7 @@ def decode(data: str, strict: bool = False) -> str:
     ...
 
 def encode_bytes(data: bytes) -> bytes:
-    """
-    Encode bytes using base32.
+    """Encode bytes using base32.
 
     :param data: The data to be encoded.
     :type data: bytes
@@ -42,8 +38,7 @@ def encode_bytes(data: bytes) -> bytes:
     ...
 
 def decode_bytes(data: bytes) -> bytes:
-    """
-    Decode bytes using base32.
+    """Decode bytes using base32.
 
     :param data: The data to be decoded.
     :type data: bytes

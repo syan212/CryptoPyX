@@ -1,10 +1,7 @@
-"""
-Rot13 shift encryption and decryption. Ignores all non alphabetical characters.
-"""
+"""Rot13 shift encryption and decryption. Ignores all non alphabetical characters."""
 
 def encrypt(data: str) -> str:
-    """
-    "Encrypt" a string using rot13.
+    """ "Encrypt" a string using rot13.
 
     Not really encryption as rot13 encryption is the exact same as rot13 decryption
 
@@ -16,8 +13,7 @@ def encrypt(data: str) -> str:
     ...
 
 def decrypt(data: str) -> str:
-    """
-    "Decrypt" a string using rot13.
+    """ "Decrypt" a string using rot13.
 
     Not really encryption as rot13 decryption is the exact same as rot13 encryption
 
