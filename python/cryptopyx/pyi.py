@@ -16,8 +16,7 @@ SAFE_GLOBALS = {
 
 
 def resolve_annotations(annotation: str, other_globals: dict | None = None) -> object:
-    """
-    Convert and annotation string(e.g. `'str'`)
+    """Convert and annotation string(e.g. `'str'`)
     to a python object(e.g. the actual python class `str`).
     Can also specify extra safe annotations via `other_globals`.
     """
@@ -37,9 +36,7 @@ def resolve_annotations(annotation: str, other_globals: dict | None = None) -> o
 
 
 def sig_to_ann(sig: Signature) -> dict[str, object]:
-    """
-    Converts a `Signature` object into a dict suitable for `__annotations__`
-    """
+    """Converts a `Signature` object into a dict suitable for `__annotations__`"""
     ann = {}
     for name, param in sig.parameters.items():
         if param.annotation is not inspect._empty:
@@ -99,27 +96,27 @@ def build_signature(node: ast.FunctionDef) -> Signature:
     """Build `Signature` object from `ast.FunctionDef`"""
     params: list[Parameter] = []
     # Handle positional-only
-    for a in node.args.posonlyargs:
-        params.append(
-            Parameter(
-                a.arg,
-                Parameter.POSITIONAL_ONLY,
-                annotation=resolve_annotations(ast.unparse(a.annotation))
-                if a.annotation
-                else Parameter.empty,
-            )
+    params.extend(
+        Parameter(
+            a.arg,
+            Parameter.POSITIONAL_ONLY,
+            annotation=resolve_annotations(ast.unparse(a.annotation))
+            if a.annotation
+            else Parameter.empty,
         )
+        for a in node.args.posonlyargs
+    )
     # Handle positional or keyword
-    for a in node.args.args:
-        params.append(
-            Parameter(
-                a.arg,
-                Parameter.POSITIONAL_OR_KEYWORD,
-                annotation=resolve_annotations(ast.unparse(a.annotation))
-                if a.annotation
-                else Parameter.empty,
-            )
+    params.extend(
+        Parameter(
+            a.arg,
+            Parameter.POSITIONAL_OR_KEYWORD,
+            annotation=resolve_annotations(ast.unparse(a.annotation))
+            if a.annotation
+            else Parameter.empty,
         )
+        for a in node.args.args
+    )
     # Handle defaults for positional or keywords parameters
     total_pos_params = len(node.args.posonlyargs) + len(node.args.args)
     num_defaults = len(node.args.defaults)
@@ -202,6 +199,29 @@ def parse_signatures(pyi_path: Path) -> dict[str, Signature]:
                     signatures[fullname] = build_signature(sub)
     return signatures
 
+# Apply docs and strings to single object
+def apply_docs_and_sigs_to_obj(obj: Callable, docs: str, sig: Signature | None) -> None:
+    obj.__doc__ = docs
+    if sig:
+        obj.__signature__ = sig
+        obj.__annotations__ = sig_to_ann(sig)
+        
+        
+# Wrap function and add docstrings and signature
+def wrapper(input_func: Callable, docs: str, input_sig: Signature | None) -> Callable:
+    def inner(*args: object, **kwargs: object) -> object:
+        return input_func(*args, **kwargs)
+
+    inner.__name__ = input_func.__name__
+    inner.__module__ = input_func.__module__
+    inner.__qualname__ = input_func.__qualname__
+    inner.__wrapped__ = input_func
+    if hasattr(input_func, '__dict__'):
+        inner.__dict__.update(input_func.__dict__)
+    # Apply signature if available
+    apply_docs_and_sigs_to_obj(inner, docs, input_sig)
+    return inner
+
 
 def apply_docs_and_signatures(
     module: ModuleType,
@@ -215,50 +235,21 @@ def apply_docs_and_signatures(
             module.__doc__ = docs['__module__']
         except Exception as e:
             print(f'Warning: cannot set module docstring for {module.__name__}: {e}')
-    name_has_signature: dict[str, bool] = {}
-    for name in docs:
-        name_has_signature[name] = name in signatures
     # Non-module objects
-    for (name, doc), has_signature in zip(
-        docs.items(), name_has_signature.values(), strict=True
-    ):
+    for name, doc in docs.items():
         if name == '__module__' or not doc:
             continue
         # Class or function at module level
+        sig = signatures.get(name)
         if hasattr(module, name):
             obj = getattr(module, name)
-            if has_signature:
-                sig = signatures[name]
             # Apply docstring
             try:
-                obj.__doc__ = doc
                 # Apply signature if available
-                if has_signature:
-                    obj.__signature__ = sig
-                    obj.__annotations__ = sig_to_ann(sig)
+                apply_docs_and_sigs_to_obj(obj, doc, sig)
             # Unwritable builtin types (e.g., built-in functions)
             except (AttributeError, TypeError):
-
-                def wrapper(
-                    input_func: Callable, docs: str, input_sig: Signature | None
-                ) -> Callable:
-                    def inner(*args: object, **kwargs: object) -> object:
-                        return input_func(*args, **kwargs)
-
-                    inner.__doc__ = docs
-                    inner.__name__ = input_func.__name__
-                    inner.__module__ = input_func.__module__
-                    inner.__qualname__ = input_func.__qualname__
-                    inner.__wrapped__ = input_func
-                    if hasattr(input_func, '__dict__'):
-                        inner.__dict__.update(input_func.__dict__)
-                    # Apply signature if available
-                    if input_sig:
-                        inner.__signature__ = input_sig
-                        inner.__annotations__ = sig_to_ann(input_sig)
-                    return inner
-
-                wrapped = wrapper(obj, doc, sig if has_signature else None)
+                wrapped = wrapper(obj, doc, sig)
                 setattr(module, name, wrapped)
         # Class method
         # ! Still not tested
