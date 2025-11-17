@@ -1,3 +1,5 @@
+from sphinxawesome_theme.postprocess import Icons
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -25,5 +27,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'furo'
+html_theme = 'sphinxawesome_theme'
+html_permalinks_icon = Icons.permalinks_icon
 html_static_path = ['_static']
