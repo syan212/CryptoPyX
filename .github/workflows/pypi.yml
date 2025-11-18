@@ -36,7 +36,7 @@ jobs:
         
       - name: Install dependencies
         run: |
-          pip install -r requirements-dev.txt
+          pip install maturin
       
       - name: Update apt
         run: | 
@@ -110,7 +110,7 @@ jobs:
         
       - name: Install dependencies
         run: |
-          pip install -r requirements-dev.txt
+          pip install maturin
           
       - name: Maturin build
         run: |
@@ -153,7 +153,7 @@ jobs:
         
       - name: Install dependencies
         run: |
-          pip install -r requirements-dev.txt
+          pip install maturin
           
       - name: Maturin build
         run: |
@@ -186,7 +186,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements-dev.txt
+          pip install maturin
           
       - name: Maturin build
         run: |
