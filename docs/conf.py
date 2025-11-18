@@ -16,7 +16,7 @@ release = 'v0.1.2'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc']
+extensions = ['sphinx.ext.autodoc', 'sphinx_design']
 
 autodoc_typehints = 'both'
 

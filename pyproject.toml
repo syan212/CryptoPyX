@@ -67,7 +67,8 @@ dev = [
 ]
 dev-docs = [
   "sphinxawesome-theme==5.3.2",
-  "sphinx==8.2.3"
+  "sphinx_design==0.6.1",
+  "sphinx==8.2.3",
 ]
 [project.urls]
 Repository = "https://github.com/syan212/CryptoPyX"
