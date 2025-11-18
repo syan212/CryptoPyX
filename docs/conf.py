@@ -9,9 +9,10 @@ from sphinxawesome_theme.postprocess import Icons
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'CryptoPyX'
-copyright = '2025, Siqi Yan'
+copyright = '2025 Siqi Yan'
 author = 'Siqi Yan'
-release = 'v0.1.2'
+version = '0.1'
+release = '0.1.2'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
