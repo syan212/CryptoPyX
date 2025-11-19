@@ -103,6 +103,6 @@ To build from source without Rust after cloning the repository, run
    pip install dist/cryptopyx-*.whl # You might have to use `pip3` instead of `pip`
 
 Licence
--------
+=======
 
 This is licensed under MIT.
