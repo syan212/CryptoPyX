@@ -43,7 +43,7 @@ jobs:
       - name: Maturin build
         run: |
           chmod +x scripts/*
-          scripts/install.sh
+          scripts/install.sh --no-docs
           
       # Runs scripts/CI.sh
       - name: Run tests, linting and formatting
