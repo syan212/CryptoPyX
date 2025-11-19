@@ -1,7 +1,6 @@
 import random
 
 from cryptopyx.ciphers import caesar
-
 from utils.strings import random_string
 
 

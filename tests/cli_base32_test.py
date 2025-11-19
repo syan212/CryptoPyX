@@ -1,4 +1,7 @@
+from pathlib import Path
+
 from click.testing import CliRunner
+
 from cryptopyx.cli.main import cli
 
 
@@ -14,7 +17,7 @@ def test_base32_encode_cli():
 
     # Test encoding from a file
     with runner.isolated_filesystem():
-        with open('input.txt', 'w', encoding='utf-8') as f:
+        with Path('input.txt').open('w', encoding='utf-8') as f:
             f.write('hello world')
         result = runner.invoke(
             cli,
@@ -36,7 +39,7 @@ def test_base32_decode_cli():
 
     # Test decoding from a file
     with runner.isolated_filesystem():
-        with open('input.txt', 'w', encoding='utf-8') as f:
+        with Path('input.txt').open('w', encoding='utf-8') as f:
             f.write('NBSWY3DPEB3W64TMMQ======')
         result = runner.invoke(
             cli,

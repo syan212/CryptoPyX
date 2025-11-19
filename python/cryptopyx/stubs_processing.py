@@ -30,7 +30,7 @@ def resolve_annotations(annotation: str, other_globals: dict | None = None) -> o
     # Evaluate
     try:
         return eval(annotation, safe_globals, {})  # noqa: S307
-    except Exception:
+    except NameError:
         # Fallback
         return annotation
 
@@ -235,7 +235,7 @@ def apply_docs_and_signatures(
     if docs.get('__module__'):
         try:
             module.__doc__ = docs['__module__']
-        except Exception as e:
+        except (AttributeError, TypeError) as e:
             print(f'Warning: cannot set module docstring for {module.__name__}: {e}')
     # Non-module objects
     for name, doc in docs.items():
@@ -262,5 +262,5 @@ def apply_docs_and_signatures(
                 meth = getattr(cls, meth_name)
                 try:
                     meth.__doc__ = doc
-                except Exception as e:
+                except (AttributeError, TypeError) as e:
                     print(f'Warning: cannot set module docstring for {name}: {e}')

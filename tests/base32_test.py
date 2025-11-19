@@ -1,4 +1,5 @@
 import pytest
+
 from cryptopyx.encodings import base32
 
 

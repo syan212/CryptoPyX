@@ -1,16 +1,58 @@
 target-version = "py310"
 
 [lint]
-select = ["E","F","B","I","S","UP","SIM","ANN", "C90", "PL", "RUF", "PERF"]
+select = [
+    "E",      # pycodestyle errors
+    "F",      # pyflakes
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "BLE",    # flake8-blind-except (no bare except:)
+    "C4",     # flake8-comprehensions
+    "C90",    # mccabe complexity
+    "SIM",    # flake8-simplify
+    "N",      # pep8-naming
+    "Q",      # flake8-quotes
+    "RUF",    # Ruff-specific rules
+    "ASYNC",  # flake8-async
+    "S",      # flake8-bandit (security)
+    "PTH",    # flake8-use-pathlib
+    "ERA",    # eradicate (commented-out code)
+    "PL",     # pylint (includes PLR1702: too-many-nested-blocks)
+    "PERF",   # perflint (performance)
+    "ANN",    # flake8-annotations
+    "ARG",    # flake8-unused-arguments
+    "FBT",    # flake8-boolean-trap (no boolean positional args)
+    "RET",    # flake8-return
+    "TCH",    # flake8-type-checking
+]
+
+ignore = [
+    "E501" # Delegate to formatter
+]
 
 [lint.per-file-ignores]
-"tests/*" = ["ANN", "S101"]
-"benchmarks/*" = ["ANN"]
+"tests/**/*.py" = [
+    "ANN", # No annotations
+    "S101" # Allow asssertations
+]
+"benchmarks/*" = ["ANN"] # No annotations
 
+[lint.mccabe]
+max-complexity = 10  # Maximum cyclomatic complexity
+
+[lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
+
+[lint.isort]
+known-first-party = ["cryptopyx"]
+
+[lint.flake8-type-checking]
+strict = true
+
+# Formatter
 [format]
 line-ending = "lf"
 quote-style = "single"
 indent-style = "space"
-
-[lint.flake8-quotes]
-docstring-quotes = "double"

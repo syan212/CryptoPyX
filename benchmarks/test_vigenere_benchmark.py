@@ -1,5 +1,4 @@
 from cryptopyx.ciphers import vigenere
-
 from utils.strings import random_key, random_string
 
 

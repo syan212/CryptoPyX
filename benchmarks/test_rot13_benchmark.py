@@ -1,5 +1,4 @@
 from cryptopyx.ciphers import rot13
-
 from utils.strings import random_string
 
 
