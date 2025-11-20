@@ -70,7 +70,7 @@ def find_pyi_files(package: str) -> Generator[tuple[str, Path], None, None]:
 
 def parse_docstrings(pyi_path: Path) -> dict[str, str]:
     """Return a dict of docstrings parsed from a .pyi file."""
-    tree = ast.parse(pyi_path.read_text(), filename=str(pyi_path))
+    tree = ast.parse(pyi_path.read_text(encoding='utf-8'), filename=str(pyi_path))
     # Collect docstrings
     docs = {}
     module_doc = ast.get_docstring(tree)
@@ -187,7 +187,7 @@ def build_signature(node: ast.FunctionDef) -> Signature:
 
 def parse_signatures(pyi_path: Path) -> dict[str, Signature]:
     """Return a dict of function/method signatures parsed from a .pyi file."""
-    tree = ast.parse(pyi_path.read_text(), filename=str(pyi_path))
+    tree = ast.parse(pyi_path.read_text(encoding='utf-8'), filename=str(pyi_path))
     signatures: dict[str, Signature] = {}
     for node in tree.body:
         if isinstance(node, ast.FunctionDef):

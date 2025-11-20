@@ -51,6 +51,9 @@ known-first-party = ["cryptopyx"]
 [lint.flake8-type-checking]
 strict = true
 
+[lint.pylint]
+max-nested-blocks = 3  # Maximum nested block depth (PLR1702)
+
 # Formatter
 [format]
 line-ending = "lf"
