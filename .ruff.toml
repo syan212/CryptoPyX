@@ -36,7 +36,7 @@ ignore = [
     "ANN", # No annotations
     "S101" # Allow asssertations
 ]
-"benchmarks/*" = ["ANN"] # No annotations
+"benches/*" = ["ANN"] # No annotations
 
 [lint.mccabe]
 max-complexity = 10  # Maximum cyclomatic complexity

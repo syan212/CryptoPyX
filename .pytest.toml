@@ -1,3 +1,9 @@
 [pytest]
 minversion = "9.0"
-testpaths = ["benchmarks", "tests"]
+testpaths = ["benches", "tests"]
+python_files = ["*_test.py", "benches_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-W error",
+]
