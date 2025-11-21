@@ -42,17 +42,17 @@ Installation guide
 Install from PyPI
 -----------------
 
-This package suports Python 3.10 and above
+This package supports Python 3.10 and above
 
 .. code-block:: shell
     
    pip install cryptopyx
 
-| See below for platform compability and more information
+| See below for platform compatibility and more information
 | Or get the source code from github and build from source.
 | See Building From Source below for more information.
 
-Wheel Compability
+Wheel Compatibility
 -----------------
 
 The package provides pre-compiled wheels for the following platforms tags:

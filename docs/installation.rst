@@ -7,7 +7,7 @@ Installation
 Install from PyPI
 =================
 
-This package suports Python 3.10 and above
+This package supports Python 3.10 and above
 
 .. code-block:: console
     
@@ -17,7 +17,7 @@ This package suports Python 3.10 and above
 | Or get the source code from github and build from source.
 | See :ref:`building-from-source` below for more information.
 
-Wheel Compability
+Wheel Compatibility
 =================
 
 The package provides pre-compiled wheels for the following platforms tags:

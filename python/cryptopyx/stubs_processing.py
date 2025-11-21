@@ -16,7 +16,7 @@ SAFE_GLOBALS = {
 
 
 def resolve_annotations(annotation: str, other_globals: dict | None = None) -> object:
-    """Convert and annotation string(e.g. `'str'`)
+    """Convert an annotation string(e.g. `'str'`)
     to a python object(e.g. the actual python class `str`).
     Can also specify extra safe annotations via `other_globals`.
     """
@@ -66,30 +66,6 @@ def find_pyi_files(package: str) -> Generator[tuple[str, Path], None, None]:
             else:
                 module_name = package + '.' + '.'.join(rel.with_suffix('').parts)
             yield module_name, path
-
-
-def parse_docstrings(pyi_path: Path) -> dict[str, str]:
-    """Return a dict of docstrings parsed from a .pyi file."""
-    tree = ast.parse(pyi_path.read_text(encoding='utf-8'), filename=str(pyi_path))
-    # Collect docstrings
-    docs = {}
-    module_doc = ast.get_docstring(tree)
-    docs['__module__'] = module_doc
-    # Walk through the AST nodes
-    for node in tree.body:
-        # Plain functions
-        if isinstance(node, ast.FunctionDef):
-            docs[node.name] = ast.get_docstring(node)
-        # Classes and methods
-        # ! Still not testesd
-        elif isinstance(node, ast.ClassDef):
-            class_doc = ast.get_docstring(node)
-            docs[node.name] = class_doc
-            for sub in node.body:
-                if isinstance(sub, ast.FunctionDef):
-                    fullname = f'{node.name}.{sub.name}'
-                    docs[fullname] = ast.get_docstring(sub)
-    return docs
 
 
 def build_signature(node: ast.FunctionDef) -> Signature:
@@ -200,6 +176,30 @@ def parse_signatures(pyi_path: Path) -> dict[str, Signature]:
     return signatures
 
 
+def parse_docstrings(pyi_path: Path) -> dict[str, str]:
+    """Return a dict of docstrings parsed from a .pyi file."""
+    tree = ast.parse(pyi_path.read_text(encoding='utf-8'), filename=str(pyi_path))
+    # Collect docstrings
+    docs = {}
+    module_doc = ast.get_docstring(tree)
+    docs['__module__'] = module_doc
+    # Walk through the AST nodes
+    for node in tree.body:
+        # Plain functions
+        if isinstance(node, ast.FunctionDef):
+            docs[node.name] = ast.get_docstring(node)
+        # Classes and methods
+        # ! Still not testesd
+        elif isinstance(node, ast.ClassDef):
+            class_doc = ast.get_docstring(node)
+            docs[node.name] = class_doc
+            for sub in node.body:
+                if isinstance(sub, ast.FunctionDef):
+                    fullname = f'{node.name}.{sub.name}'
+                    docs[fullname] = ast.get_docstring(sub)
+    return docs
+
+
 # Apply docs and strings to single object
 def apply_docs_and_sigs_to_obj(obj: Callable, docs: str, sig: Signature | None) -> None:
     """Apply docs and signatures to single object(writeable)."""
@@ -230,7 +230,7 @@ def apply_docs_and_signatures(
     docs: dict[str, str],
     signatures: dict[str, Signature],
 ) -> None:
-    """Inject parsed docstrings into the module and its attributes."""
+    """Inject parsed docstrings and signature into the module and its attributes."""
     # Module-level docstring
     if docs.get('__module__'):
         try:
@@ -245,9 +245,8 @@ def apply_docs_and_signatures(
         sig = signatures.get(name)
         if hasattr(module, name):
             obj = getattr(module, name)
-            # Apply docstring
             try:
-                # Apply signature if available
+                # Apply docs and signature if available
                 apply_docs_and_sigs_to_obj(obj, doc, sig)
             # Unwritable builtin types (e.g., built-in functions)
             except (AttributeError, TypeError):
