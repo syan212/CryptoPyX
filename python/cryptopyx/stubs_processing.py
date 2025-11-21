@@ -166,13 +166,16 @@ def parse_signatures(pyi_path: Path) -> dict[str, Signature]:
     tree = ast.parse(pyi_path.read_text(encoding='utf-8'), filename=str(pyi_path))
     signatures: dict[str, Signature] = {}
     for node in tree.body:
+        # Functions
         if isinstance(node, ast.FunctionDef):
             signatures[node.name] = build_signature(node)
-        elif isinstance(node, ast.ClassDef):
-            for sub in node.body:
-                if isinstance(sub, ast.FunctionDef):
-                    fullname = f'{node.name}.{sub.name}'
-                    signatures[fullname] = build_signature(sub)
+            continue
+        # Classes & methods
+        if not isinstance(node, ast.ClassDef):
+            continue
+        for sub in node.body:
+            if isinstance(sub, ast.FunctionDef):
+                signatures[f'{node.name}.{sub.name}'] = build_signature(sub)
     return signatures
 
 
@@ -188,29 +191,35 @@ def parse_docstrings(pyi_path: Path) -> dict[str, str]:
         # Plain functions
         if isinstance(node, ast.FunctionDef):
             docs[node.name] = ast.get_docstring(node)
+            continue
         # Classes and methods
-        # ! Still not testesd
-        elif isinstance(node, ast.ClassDef):
-            class_doc = ast.get_docstring(node)
-            docs[node.name] = class_doc
-            for sub in node.body:
-                if isinstance(sub, ast.FunctionDef):
-                    fullname = f'{node.name}.{sub.name}'
-                    docs[fullname] = ast.get_docstring(sub)
+        if not isinstance(node, ast.ClassDef):
+            continue
+        class_doc = ast.get_docstring(node)
+        docs[node.name] = class_doc
+        for sub in node.body:
+            if isinstance(sub, ast.FunctionDef):
+                fullname = f'{node.name}.{sub.name}'
+                docs[fullname] = ast.get_docstring(sub)
     return docs
 
 
 # Apply docs and strings to single object
-def apply_docs_and_sigs_to_obj(obj: Callable, docs: str, sig: Signature | None) -> None:
+def apply_docs_and_sigs_to_obj(
+    obj: Callable, docs: str | None, sig: Signature | None
+) -> None:
     """Apply docs and signatures to single object(writeable)."""
-    obj.__doc__ = docs
+    if docs:
+        obj.__doc__ = docs
     if sig:
         obj.__signature__ = sig
         obj.__annotations__ = sig_to_ann(sig)
 
 
 # Wrap function and add docstrings and signature
-def wrapper(input_func: Callable, docs: str, input_sig: Signature | None) -> Callable:
+def wrapper(
+    input_func: Callable, docs: str | None, input_sig: Signature | None
+) -> Callable:
     def inner(*args: object, **kwargs: object) -> object:
         return input_func(*args, **kwargs)
 
@@ -238,11 +247,12 @@ def apply_docs_and_signatures(
         except (AttributeError, TypeError) as e:
             print(f'Warning: cannot set module docstring for {module.__name__}: {e}')
     # Non-module objects
-    for name, doc in docs.items():
-        if name == '__module__' or not doc:
+    for name in set(docs).union(set(signatures)):
+        if name == '__module__':
             continue
-        # Class or function at module level
         sig = signatures.get(name)
+        doc = docs.get(name)
+        # Class or function at module level
         if hasattr(module, name):
             obj = getattr(module, name)
             try:
@@ -257,9 +267,10 @@ def apply_docs_and_signatures(
         if '.' in name:
             cls_name, meth_name = name.split('.', 1)
             cls = getattr(module, cls_name, None)
-            if cls and hasattr(cls, meth_name):
-                meth = getattr(cls, meth_name)
-                try:
-                    meth.__doc__ = doc
-                except (AttributeError, TypeError) as e:
-                    print(f'Warning: cannot set module docstring for {name}: {e}')
+            if not (cls and hasattr(cls, meth_name)):
+                continue
+            meth = getattr(cls, meth_name)
+            try:
+                apply_docs_and_sigs_to_obj(meth, doc, sig)
+            except (AttributeError, TypeError) as e:
+                print(f'Warning: cannot set module docstring for {name}: {e}')
