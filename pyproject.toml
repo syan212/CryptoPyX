@@ -16,10 +16,12 @@ keywords = ["cryptography", "cipher", "encryption", "decryption", "security"]
 authors = [
   { name="Siqi Yan", email="syan235711@gmail.com" }
 ]
+
 # Dependencies
 dependencies = [
   "click >=8.0",
 ]
+
 # Classifiers
 classifiers = [
     # Topics
@@ -58,6 +60,7 @@ classifiers = [
     # Typing
     "Typing :: Stubs Only",
 ]
+
 [dependency-groups]
 # Dev dependencies
 dev = [
@@ -67,12 +70,14 @@ dev = [
   "pytest-benchmark==5.2.3",
   "codespell==2.4.1"
 ]
+
 # Doc dependencies, requires python 3.11
 docs = [
   "sphinxawesome-theme==5.3.2",
   "sphinx_design==0.6.1",
   "sphinx==8.2.3",
 ]
+
 [project.urls]
 # Urls
 # TODO: add docs link
