@@ -1,12 +1,12 @@
 import ast
 import builtins
+from collections.abc import Callable, Generator
 import importlib.util
 import inspect
-import typing
-from collections.abc import Callable, Generator
 from inspect import Parameter, Signature
 from pathlib import Path
 from types import ModuleType
+import typing
 
 # For `resolve_annotations` function
 SAFE_GLOBALS = {

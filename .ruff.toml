@@ -47,6 +47,8 @@ inline-quotes = "single"
 
 [lint.isort]
 known-first-party = ["cryptopyx"]
+combine-as-imports = true
+force-sort-within-sections = true
 
 [lint.flake8-type-checking]
 strict = true

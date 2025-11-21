@@ -1,6 +1,6 @@
+from collections.abc import Callable
 import threading
 import time
-from collections.abc import Callable
 from typing import TypeVar
 
 # Type variables for generic function
