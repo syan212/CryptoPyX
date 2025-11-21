@@ -62,9 +62,9 @@ classifiers = [
 # Dev dependencies
 dev = [
   "maturin==1.10.1",
-  "ruff==0.14.5",
+  "ruff==0.14.6",
   "pytest==9.0.1",
-  "pytest-benchmark==5.2.3"
+  "pytest-benchmark==5.2.3",
 ]
 # Doc dependencies, requires python 3.11
 docs = [
