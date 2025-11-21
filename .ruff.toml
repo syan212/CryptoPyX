@@ -18,11 +18,11 @@ select = [
     "S",      # flake8-bandit (security)
     "PTH",    # flake8-use-pathlib
     "ERA",    # eradicate (commented-out code)
-    "PL",     # pylint (includes PLR1702: too-many-nested-blocks)
+    "PL",     # pylint
     "PERF",   # perflint (performance)
     "ANN",    # flake8-annotations
     "ARG",    # flake8-unused-arguments
-    "FBT",    # flake8-boolean-trap (no boolean positional args)
+    "FBT",    # flake8-boolean-trap
     "RET",    # flake8-return
     "TCH",    # flake8-type-checking
 ]
@@ -42,7 +42,6 @@ ignore = [
 max-complexity = 10  # Maximum cyclomatic complexity
 
 [lint.flake8-quotes]
-docstring-quotes = "double"
 inline-quotes = "single"
 
 [lint.isort]

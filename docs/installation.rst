@@ -13,7 +13,7 @@ This package supports Python 3.10 and above
     
    pip install cryptopyx
 
-| See below for platform compability and more information
+| See below for platform compatibility and more information
 | Or get the source code from github and build from source.
 | See :ref:`building-from-source` below for more information.
 
