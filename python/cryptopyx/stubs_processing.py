@@ -249,7 +249,7 @@ def apply_docs_and_signatures(
         except (AttributeError, TypeError) as e:
             print(f'Warning: cannot set module docstring for {module.__name__}: {e}')
     # Non-module objects
-    for name in set(docs) | set(signatures):
+    for name in frozenset(docs) | frozenset(signatures):
         if name == '__module__':
             continue
         sig = signatures.get(name)
