@@ -124,7 +124,7 @@ def build_signature(node: ast.FunctionDef) -> Signature:
         else:
             print(
                 f"""Warning: non-literal default ignored in {node.name}: 
-                {default if default else 'None'}"""
+                {default}"""
             )
             default_value = Parameter.empty
 
@@ -212,7 +212,7 @@ def apply_docs_and_sigs_to_obj(
     if docs:
         obj.__doc__ = docs
     if sig:
-        obj.__signature__ = sig
+        obj.__signature__ = sig  # type: ignore
         obj.__annotations__ = sig_to_ann(sig)
 
 
@@ -223,13 +223,15 @@ def wrapper(
     def inner(*args: object, **kwargs: object) -> object:
         return input_func(*args, **kwargs)
 
-    inner.__name__ = input_func.__name__
-    inner.__module__ = input_func.__module__
-    inner.__qualname__ = input_func.__qualname__
-    inner.__wrapped__ = input_func
+    inner.__name__, inner.__module__, inner.__qualname__ = (
+        input_func.__name__,
+        input_func.__module__,
+        input_func.__qualname__,
+    )
+    inner.__wrapped__ = input_func  # type: ignore
     if hasattr(input_func, '__dict__'):
         inner.__dict__.update(input_func.__dict__)
-    # Apply signature if available
+    # Apply signature and docs if available
     apply_docs_and_sigs_to_obj(inner, docs, input_sig)
     return inner
 
@@ -247,7 +249,7 @@ def apply_docs_and_signatures(
         except (AttributeError, TypeError) as e:
             print(f'Warning: cannot set module docstring for {module.__name__}: {e}')
     # Non-module objects
-    for name in set(docs).union(set(signatures)):
+    for name in set(docs) | set(signatures):
         if name == '__module__':
             continue
         sig = signatures.get(name)
