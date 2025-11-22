@@ -25,7 +25,7 @@ select = [
     "ARG",    # flake8-unused-arguments
     "FBT",    # flake8-boolean-trap
     "RET",    # flake8-return
-    "TCH",    # flake8-type-checking
+    "TC",     # flake8-type-checking
 ]
 
 ignore = [
