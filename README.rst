@@ -36,6 +36,15 @@ CryptoPyX
 
 A python cryptography package written in Rust made for speed.
 
+Example Usage
+=============
+
+.. code-block:: python
+
+   from cryptopyx.encodings import base32
+   base32.encode_bytes(b'Hello World')  # b'JBSWY3DPEBLW64TMMQ======'
+   base32.decode_bytes(b'JBSWY3DPEBLW64TMMQ======')  # b'Hello World'
+
 Installation guide
 ==================
 
@@ -48,41 +57,26 @@ This package supports Python 3.10 and above
     
    pip install cryptopyx
 
-| See below for platform compatibility and more information
-| Or get the source code from github and build from source.
-| See Building From Source below for more information.
+See below for platform compatibility and more information
+See Building From Source below for more information.
 
 Wheel Compatibility
 -----------------
 
-The package provides pre-compiled wheels for the following platforms tags:
+The package provides pre-compiled wheels for the following platforms tags
 
-- Windows 
-   - win_amd64
-   - win32
-- macOS 
-   - 10_12_x86_64 
-   - 11_0_arm64
-- Linux 
-   - manylinux_2_34_x86_64
-   - manylinux_2_34_armv7l
-   - manylinux_2_34_aarch64
-   - manylinux_2_34_i686
+- win_amd64
+- win32
+- 10_12_x86_64 
+- 11_0_arm64
+- manylinux_2_34_x86_64
+- manylinux_2_34_armv7l
+- manylinux_2_34_aarch64
+- manylinux_2_34_i686
 
-| And supports python 3.10 above and free-threaded versions
-| See above for download information if your platform is supported.
-| However, if your platform is not supported, you will have to download the sdist and build from source.
-| It should work, however it's recommended to have Rust installed to avoid any issues.
-
-
-Example Usage
-=============
-
-.. code-block:: python
-
-   from cryptopyx.encodings import base32
-   base32.encode_bytes(b'Hello World')  # b'JBSWY3DPEBLW64TMMQ======'
-   base32.decode_bytes(b'JBSWY3DPEBLW64TMMQ======')  # b'Hello World'
+ for python 3.10 and above
+ See above for download information if your platform is supported.
+ However, if your platform is not supported, you will have to download the sdist and build from source.
 
 Documentation
 =============
@@ -105,4 +99,4 @@ To build from source without Rust after cloning the repository, run
 Licence
 =======
 
-This is licensed under MIT.
+This is licensed under MIT license. See LICENSE for full information.
