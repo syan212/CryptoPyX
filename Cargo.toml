@@ -18,7 +18,8 @@ panic = "abort"
 strip = "symbols"
 
 [dependencies]
+clap = "4.5.53"
 
 [dependencies.pyo3]
 version = "0.27.1"
-features = ["abi3-py310"]
+features = ["abi3-py310", "extension-module"]

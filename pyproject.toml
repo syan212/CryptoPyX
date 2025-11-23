@@ -18,9 +18,7 @@ authors = [
 ]
 
 # Dependencies
-dependencies = [
-  "click >=8.0",
-]
+dependencies = []
 
 # Classifiers
 classifiers = [
@@ -87,7 +85,7 @@ Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
 
 # CLI
 [project.scripts]
-cryptopyx = "cryptopyx.cli.main:cli"
+cryptopyx = "cryptopyx.cli:parse"
 
 # Maturin config
 [tool.maturin]

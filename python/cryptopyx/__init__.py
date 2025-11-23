@@ -23,6 +23,10 @@ sys.modules['cryptopyx.ciphers.rot13'] = ciphers.rot13
 sys.modules['cryptopyx.ciphers.caesar'] = ciphers.caesar
 sys.modules['cryptopyx.ciphers.vigenere'] = ciphers.vigenere
 
+# CLI
+cli: ModuleType = _cryptopyx.cli  # type: ignore
+sys.modules['cryptopyx.cli'] = cli
+
 # Apply docstrings from .pyi files
 for module_name, pyi_path in find_pyi_files('cryptopyx'):
     docs = parse_docstrings(pyi_path)
@@ -31,4 +35,4 @@ for module_name, pyi_path in find_pyi_files('cryptopyx'):
     apply_docs_and_signatures(module, docs, signatures)
 
 # All imports
-__all__ = ['ciphers', 'encodings']
+__all__ = ['ciphers', 'cli', 'encodings']

@@ -1,18 +1,18 @@
-// Skip
 #![cfg_attr(rustfmt, rustfmt::skip)]
 
 // For shorter functions name
 use ciphers::{caesar, rot13, vigenere};
 use encodings::base32 as b32;
-
 // pyo3
 use pyo3::prelude::*;
 use pyo3::types::PyModule;
 
+// CLI
+mod cli;
+
 // List of all submodules
 // Ciphers
 pub mod ciphers {
-    // Ciphers submodules
     pub mod caesar;
     pub mod rot13;
     pub mod vigenere;
@@ -20,7 +20,6 @@ pub mod ciphers {
 
 // Encodings
 pub mod encodings {
-    // Encodings submodules
     pub mod base32;
 }
 
@@ -42,6 +41,7 @@ macro_rules! reg_submodule {
 fn _cryptopyx<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     register_ciphers(m)?;
     register_encodings(m)?;
+    reg_submodule!(m, "cli", [cli::parse])?;
     Ok(())
 }
 
