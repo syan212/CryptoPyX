@@ -71,7 +71,7 @@ pub fn decode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
 }
 
 // Bytes encoding fully rust
-fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
+pub fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
     // Preallocate out vector
     let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 8).div_ceil(5));
     // Unroll input into 40 bits chunk
