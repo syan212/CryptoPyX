@@ -32,7 +32,7 @@ pub fn decrypt(data: &str) -> PyResult<String> {
 }
 
 // Main ROT13 logic
-fn rotate(data: &str) -> PyResult<String> {
+pub fn rotate(data: &str) -> PyResult<String> {
     let input = data.as_bytes();
     let mut out: Vec<u8> = vec![0; input.len()];
     unsafe {

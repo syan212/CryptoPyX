@@ -12,6 +12,11 @@ pub fn get_matches() -> Command {
                     Command::new("encode")
                         .about("Encode a string into base32.")
                         .arg(Arg::new("data").required(true)),
+                )
+                .subcommand(
+                    Command::new("decode")
+                        .about("Decode a string into base32.")
+                        .arg(Arg::new("data").required(true)),
                 ),
         )
 }

@@ -34,7 +34,7 @@ const fn build_all_tables() -> [[u8; 256]; 26] {
 
 // Special enum for encrypt/decrypt mode
 #[derive(Copy, Clone)]
-enum Mode {
+pub enum Mode {
     Encrypt,
     Decrypt,
 }
@@ -56,7 +56,12 @@ pub fn decrypt(data: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> 
 }
 
 // Main Vigenere function
-fn vigenere_rotate(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> PyResult<String> {
+pub fn vigenere_rotate(
+    data: &str,
+    key: &str,
+    mode: Mode,
+    skip_non_alpha: bool,
+) -> PyResult<String> {
     // Validate key
     if !data.is_ascii() || !key.is_ascii() {
         return Err(PyValueError::new_err("Only ASCII input is supported"));

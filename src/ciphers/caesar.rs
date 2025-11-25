@@ -22,7 +22,7 @@ const fn build_table(shift: u8) -> [u8; 256] {
 
 // Special enum for encrypt/decrypt mode
 #[derive(Copy, Clone)]
-enum Mode {
+pub enum Mode {
     Encrypt,
     Decrypt,
 }
@@ -41,18 +41,16 @@ static CAESAR_TABLES: [[u8; 256]; 26] = {
 // The exposed python functions
 #[pyfunction]
 pub fn encrypt(data: &str, shift: i32) -> PyResult<String> {
-    let result: String = encrypt_or_decrypt(data, shift, Mode::Encrypt)?;
-    Ok(result)
+    encrypt_or_decrypt(data, shift, Mode::Encrypt)
 }
 
 #[pyfunction]
 pub fn decrypt(data: &str, shift: i32) -> PyResult<String> {
-    let result: String = encrypt_or_decrypt(data, shift, Mode::Decrypt)?;
-    Ok(result)
+    encrypt_or_decrypt(data, shift, Mode::Decrypt)
 }
 
 // Actual implementation
-fn encrypt_or_decrypt(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
+pub fn encrypt_or_decrypt(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
     // Validate shift range
     if !(-25..=25).contains(&shift) {
         return Err(pyo3::exceptions::PyValueError::new_err(

@@ -7,6 +7,11 @@ use std::{env, process::exit};
 
 mod matches;
 
+fn not_found() {
+    eprintln!("(Sub)command not found. For more information, try '--help'.");
+    exit(1);
+}
+
 #[pyfunction]
 pub fn parse() -> PyResult<()> {
     // Get args
@@ -24,14 +29,19 @@ pub fn parse() -> PyResult<()> {
                         String::from_utf8(b32::encode_bytes_rust(data.as_bytes()))?
                     );
                 }
+                Some(("decode", m)) => {
+                    let data = m.get_one::<String>("data").unwrap();
+                    println!(
+                        "{}",
+                        String::from_utf8(b32::decode_bytes_rust(data.as_bytes())?)?
+                    );
+                }
                 _ => {
-                    eprintln!("(Sub)command not found. For more information, try '--help'.");
-                    exit(1);
+                    not_found();
                 }
             },
             _ => {
-                eprintln!("(Sub)command not found. For more information, try '--help'.");
-                exit(1);
+                not_found();
             }
         },
         // Display help
@@ -40,7 +50,6 @@ pub fn parse() -> PyResult<()> {
         }
         Err(e) => {
             eprintln!("{}", e);
-            // exit(1);
         }
     }
     Ok(())

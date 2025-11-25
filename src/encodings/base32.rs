@@ -139,7 +139,7 @@ pub fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
 }
 
 // Bytes decoding fully rust
-fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
+pub fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
     // Preallocate out vector
     let mut out = Vec::with_capacity((bytes.len() * 5) / 8);
     // Use buffer to track bits
