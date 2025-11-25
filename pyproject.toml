@@ -99,8 +99,8 @@ exclude = [
   'benchmarks/**', 'tests/**', 'scripts/**', 'utils/**', 'docs/**', 
   
   # Miscellaneous
-  '.editorconfig', 'requirements-dev.txt', '.ruff.toml', 
-  '.rustfmt.toml', 'roadmap.md', 'Cargo.lock', 'CHANGELOG.md',
+  '.editorconfig', '.ruff.toml', '.rustfmt.toml', 
+  'roadmap.md', 'Cargo.lock', 'CHANGELOG.md',
 ]
 strip = true
 features = ["pyo3/extension-module"]
