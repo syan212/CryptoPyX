@@ -17,7 +17,7 @@ fn no_commands() -> ! {
 }
 
 fn unexpected_error(message: String) -> ! {
-    eprintln!("Unexpected error occured.\nDetails: {}", message.red());
+    eprintln!("Unexpected error occurred.\nDetails: {}", message.red());
     exit(1);
 }
 
