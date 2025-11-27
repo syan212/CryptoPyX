@@ -74,9 +74,9 @@ The package provides pre-compiled wheels for the following platforms tags
 - manylinux_2_34_aarch64
 - manylinux_2_34_i686
 
- for python 3.10 and above
- See above for download information if your platform is supported.
- However, if your platform is not supported, you will have to download the sdist and build from source.
+for python 3.10 and above.
+See above for download information if your platform is supported.
+However, if your platform is not supported, you will have to download the sdist and build from source.
 
 Documentation
 =============
