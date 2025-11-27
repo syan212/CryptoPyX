@@ -18,7 +18,7 @@ This package supports Python 3.10 and above
 | See :ref:`building-from-source` below for more information.
 
 Wheel Compatibility
-=================
+===================
 
 The package provides pre-compiled wheels for the following platforms tags:
 
