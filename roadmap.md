@@ -10,6 +10,6 @@ CLI: Work in prgress. Written in rust using the clap buildr api
 
 Docs: Work in progress. Set up website for doc
 
-### Dev stuffq
+### Dev stuff
 
 Add rust benches and tests
