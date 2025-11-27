@@ -46,22 +46,17 @@ static CAESAR_TABLES: [[u8; 256]; 26] = build_all_tables();
 #[pyfunction]
 #[pyo3(signature = (data, key, skip_non_alpha=true))]
 pub fn encrypt(data: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> {
-    vigenere_rotate(data, key, Mode::Encrypt, skip_non_alpha)
+    vigenere_rust(data, key, Mode::Encrypt, skip_non_alpha)
 }
 
 #[pyfunction]
 #[pyo3(signature = (data, key, skip_non_alpha=true))]
 pub fn decrypt(data: &str, key: &str, skip_non_alpha: bool) -> PyResult<String> {
-    vigenere_rotate(data, key, Mode::Decrypt, skip_non_alpha)
+    vigenere_rust(data, key, Mode::Decrypt, skip_non_alpha)
 }
 
 // Main Vigenere function
-pub fn vigenere_rotate(
-    data: &str,
-    key: &str,
-    mode: Mode,
-    skip_non_alpha: bool,
-) -> PyResult<String> {
+pub fn vigenere_rust(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) -> PyResult<String> {
     // Validate key
     if !data.is_ascii() || !key.is_ascii() {
         return Err(PyValueError::new_err("Only ASCII input is supported"));

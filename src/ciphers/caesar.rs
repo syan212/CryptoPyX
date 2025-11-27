@@ -41,16 +41,16 @@ static CAESAR_TABLES: [[u8; 256]; 26] = {
 // The exposed python functions
 #[pyfunction]
 pub fn encrypt(data: &str, shift: i32) -> PyResult<String> {
-    encrypt_or_decrypt(data, shift, Mode::Encrypt)
+    caesar_rust(data, shift, Mode::Encrypt)
 }
 
 #[pyfunction]
 pub fn decrypt(data: &str, shift: i32) -> PyResult<String> {
-    encrypt_or_decrypt(data, shift, Mode::Decrypt)
+    caesar_rust(data, shift, Mode::Decrypt)
 }
 
 // Actual implementation
-pub fn encrypt_or_decrypt(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
+pub fn caesar_rust(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
     // Validate shift range
     if !(-25..=25).contains(&shift) {
         return Err(pyo3::exceptions::PyValueError::new_err(

@@ -102,6 +102,7 @@ exclude = [
   '.editorconfig', '.ruff.toml', '.rustfmt.toml', 
   'roadmap.md', 'Cargo.lock', 'CHANGELOG.md',
 ]
+auditwheel = "repair"
 strip = true
 features = ["pyo3/extension-module"]
 module-name = "cryptopyx._cryptopyx"

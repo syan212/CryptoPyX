@@ -23,16 +23,16 @@ static ROT13_TABLE: [u8; 256] = {
 // The exposed python functions
 #[pyfunction]
 pub fn encrypt(data: &str) -> PyResult<String> {
-    rotate(data)
+    rot13_rust(data)
 }
 
 #[pyfunction]
 pub fn decrypt(data: &str) -> PyResult<String> {
-    rotate(data)
+    rot13_rust(data)
 }
 
 // Main ROT13 logic
-pub fn rotate(data: &str) -> PyResult<String> {
+pub fn rot13_rust(data: &str) -> PyResult<String> {
     let input = data.as_bytes();
     let mut out: Vec<u8> = vec![0; input.len()];
     unsafe {
