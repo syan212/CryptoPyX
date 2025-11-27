@@ -66,7 +66,7 @@ pub fn parse() -> PyResult<()> {
                     fs::write(output, out).unwrap_or_else(|_| {
                         unexpected_error(format!("Could not write to file: {}", output))
                     });
-                    println!("Succesfully wrote data to {}", output);
+                    println!("Successfully wrote data to {}", output);
                 } else {
                     // Print to stdout
                     println!("{}", out.green());
@@ -93,7 +93,7 @@ pub fn parse() -> PyResult<()> {
                     fs::write(output, out).unwrap_or_else(|_| {
                         unexpected_error(format!("Could not write to file: {}", output))
                     });
-                    println!("Succesfully wrote data to {}", output);
+                    println!("Successfully wrote data to {}", output);
                 } else {
                     // Print to stdout
                     println!("{}", out.green());
