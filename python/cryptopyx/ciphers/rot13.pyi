@@ -5,21 +5,23 @@ def encrypt(data: str) -> str:
 
     Not really encryption as rot13 encryption is the exact same as rot13 decryption
 
-    :param data: The string to be encrypted.
-    :type data: str
-    :return: The "encrypted" string
-    :rtype: str
+    Args:
+        data: The string to be encrypted.
+
+    Returns:
+        The "encrypted" string
     """
     ...
 
 def decrypt(data: str) -> str:
     """ "Decrypt" a string using rot13.
 
-    Not really encryption as rot13 decryption is the exact same as rot13 encryption
+    Not really decryption as rot13 decryption is the exact same as rot13 encryption
 
-    :param data: The string to be decrypted.
-    :type data: str
-    :return: The "decrypted" string
-    :rtype: str
+    Args:
+        data: The string to be decrypted.
+
+    Returns:
+        The "decrypted" string
     """
     ...

@@ -17,9 +17,11 @@ release = '0.1.2'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc', 'sphinx_design']
+extensions = ['sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'sphinx_design']
 
 autodoc_typehints = 'both'
+napoleon_google_docstring = True
+napoleon_numpy_docstring = False
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']

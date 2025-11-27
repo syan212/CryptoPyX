@@ -6,14 +6,15 @@ def encrypt(data: str, shift: int) -> str:
     Equivalent to using decrypt with the sign of the shift flipped. \n
     e.g. caesar.encrypt('Hello', 5) is the same as caesar.decrypt('Hello', -5)
 
-    :param data: The string to be encrypted.
-    :type data: str
-    :param shift: How much to shift each letter.
-    :type shift: int
-    :return: The encrypted string.
-    :rtype: str
+    Args:
+        data: The string to be encrypted.
+        shift: How much to shift each letter.
 
-    :raises ValueError: If the shift is not in the range -25 to 25 (inclusive).
+    Returns:
+        The encrypted string.
+
+    Raises:
+        ValueError: If the shift is not in the range -25 to 25 (inclusive).
     """
     ...
 
@@ -23,14 +24,16 @@ def decrypt(data: str, shift: int) -> str:
     Equivalent to using encrypt with the sign of the shift flipped. \n
     e.g. caesar.encrypt('Hello', 5) is the same as caesar.decrypt('Hello', -5)
 
-    :param data: The string to be decrypted.
-    :type data: str
-    :param shift: How much to shift each letter.
-                  Should be the same as the one used to encrypt the data.
-    :type shift: int
-    :return: The decrypted string.
-    :rtype: str
+    Args:
+        data: The string to be decrypted.
+        shift: How much to shift each letter.
+            Should be the same as the one used to encrypt the data.
 
-    :raises ValueError: If the shift is not in the range -25 to 25 (inclusive).
+    Returns:
+        The decrypted string.
+
+    Raises:
+        ValueError: If the shift is not in the range -25 to 25 (inclusive).
+
     """
     ...
