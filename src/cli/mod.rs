@@ -4,7 +4,7 @@ use clap::error::{Error, ErrorKind::DisplayHelp, ErrorKind::DisplayVersion};
 use colored::Colorize;
 use matches::get_matches;
 use pyo3::prelude::*;
-use std::{env::args, process::exit};
+use std::{env::args, fs, process::exit};
 
 mod matches;
 
@@ -45,18 +45,60 @@ pub fn parse() -> PyResult<()> {
     let (cmd, sub) = matches.subcommand().unwrap_or(("", &matches));
     match (cmd, sub.subcommand()) {
         ("base32", Some(("encode", m))) => {
+            // Get options and args with error handling
+            let output_location = m.get_one::<String>("output");
             let data = m
                 .get_one::<String>("data")
                 .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string()));
-            let out = String::from_utf8(b32::encode_bytes_rust(data.as_bytes()))?;
-            println!("{}", out.green());
+            let string = m.get_flag("string");
+            // Interpret as string or file name
+            if string {
+                let out = String::from_utf8(b32::encode_bytes_rust(data.as_bytes()))?;
+                println!("{}", out.green());
+            } else {
+                // Get data from file
+                let data = fs::read(data)
+                    .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data)));
+                let out = String::from_utf8(b32::encode_bytes_rust(&data))?;
+                // Correctly output data
+                if let Some(output) = output_location {
+                    // Write to file
+                    fs::write(output, out).unwrap_or_else(|_| {
+                        unexpected_error(format!("Could not write to file: {}", output))
+                    });
+                    println!("Succesfully wrote data to {}", output);
+                } else {
+                    // Print to stdout
+                    println!("{}", out.green());
+                }
+            }
         }
         ("base32", Some(("decode", m))) => {
+            let output_location = m.get_one::<String>("output");
             let data = m
                 .get_one::<String>("data")
                 .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string()));
-            let out = String::from_utf8(b32::decode_bytes_rust(data.as_bytes())?)?;
-            println!("{}", out.green());
+            let string = m.get_flag("string");
+            if string {
+                let out = String::from_utf8(b32::decode_bytes_rust(data.as_bytes())?)?;
+                println!("{}", out.green());
+            } else {
+                // Get data from file
+                let data = fs::read(data)
+                    .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data)));
+                let out = String::from_utf8(b32::decode_bytes_rust(&data)?)?;
+                // Correctly output data
+                if let Some(output) = output_location {
+                    // Write to file
+                    fs::write(output, out).unwrap_or_else(|_| {
+                        unexpected_error(format!("Could not write to file: {}", output))
+                    });
+                    println!("Succesfully wrote data to {}", output);
+                } else {
+                    // Print to stdout
+                    println!("{}", out.green());
+                }
+            }
         }
         _ => {
             no_commands();
