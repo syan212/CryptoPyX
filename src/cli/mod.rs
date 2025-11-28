@@ -37,8 +37,7 @@ pub fn parse() -> PyResult<()> {
         }
         // Handle other errors
         Err(e) => {
-            eprintln!("{}", e);
-            exit(1);
+            e.exit();
         }
     };
     // Match result and execute
