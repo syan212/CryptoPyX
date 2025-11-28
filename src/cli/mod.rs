@@ -46,57 +46,59 @@ pub fn parse() -> PyResult<()> {
         ("base32", Some(("encode", m))) => {
             // Get options and args with error handling
             let output_location = m.get_one::<String>("output");
+            let string = m.get_flag("string");
             let data = m
                 .get_one::<String>("data")
                 .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string()));
-            let string = m.get_flag("string");
-            // Interpret as string or file name
+            // Compute output
+            let out: String;
             if string {
-                let out = String::from_utf8(b32::encode_bytes_rust(data.as_bytes()))?;
-                println!("{}", out.green());
+                out = String::from_utf8(b32::decode_bytes_rust(data.as_bytes())?)?;
             } else {
                 // Get data from file
                 let data = fs::read(data)
                     .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data)));
-                let out = String::from_utf8(b32::encode_bytes_rust(&data))?;
-                // Correctly output data
-                if let Some(output) = output_location {
-                    // Write to file
-                    fs::write(output, out).unwrap_or_else(|_| {
-                        unexpected_error(format!("Could not write to file: {}", output))
-                    });
-                    println!("Successfully wrote data to {}", output);
-                } else {
-                    // Print to stdout
-                    println!("{}", out.green());
-                }
+                out = String::from_utf8(b32::encode_bytes_rust(&data))?;
+            }
+            // Output encoded data
+            if let Some(output) = output_location {
+                // Write to file
+                fs::write(output, out).unwrap_or_else(|_| {
+                    unexpected_error(format!("Could not write to file: {}", output))
+                });
+                println!("Successfully wrote data to {}", output);
+            } else {
+                // Output to stdout
+                println!("{}", out.green());
             }
         }
         ("base32", Some(("decode", m))) => {
+            // Get options and args with error handling
             let output_location = m.get_one::<String>("output");
+            let string = m.get_flag("string");
             let data = m
                 .get_one::<String>("data")
                 .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string()));
-            let string = m.get_flag("string");
+            // Compute output
+            let out: String;
             if string {
-                let out = String::from_utf8(b32::decode_bytes_rust(data.as_bytes())?)?;
-                println!("{}", out.green());
+                out = String::from_utf8(b32::decode_bytes_rust(data.as_bytes())?)?;
             } else {
                 // Get data from file
                 let data = fs::read(data)
                     .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data)));
-                let out = String::from_utf8(b32::decode_bytes_rust(&data)?)?;
-                // Correctly output data
-                if let Some(output) = output_location {
-                    // Write to file
-                    fs::write(output, out).unwrap_or_else(|_| {
-                        unexpected_error(format!("Could not write to file: {}", output))
-                    });
-                    println!("Successfully wrote data to {}", output);
-                } else {
-                    // Print to stdout
-                    println!("{}", out.green());
-                }
+                out = String::from_utf8(b32::decode_bytes_rust(&data)?)?;
+            }
+            // Output decoded data
+            if let Some(output) = output_location {
+                // Write to file
+                fs::write(output, out).unwrap_or_else(|_| {
+                    unexpected_error(format!("Could not write to file: {}", output))
+                });
+                println!("Successfully wrote data to {}", output);
+            } else {
+                // Output to stdout
+                println!("{}", out.green());
             }
         }
         _ => {
