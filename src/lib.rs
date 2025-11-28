@@ -10,15 +10,14 @@ use pyo3::types::PyModule;
 // CLI
 mod cli;
 
-// List of all submodules
-// Ciphers
+// Ciphers submodules
 pub mod ciphers {
     pub mod caesar;
     pub mod rot13;
     pub mod vigenere;
 }
 
-// Encodings
+// Encodings submodules
 pub mod encodings {
     pub mod base32;
 }
