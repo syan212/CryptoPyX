@@ -1,6 +1,5 @@
 use pyo3::exceptions::*;
 use pyo3::prelude::*;
-use std::str;
 
 // Standard base 32 alphabet (RFC 3548, RFC 4648)
 const STANDARD_BASE_32_ALPHABET: &[u8; 32] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -51,7 +50,7 @@ pub fn decode(data: &str, strict: bool) -> PyResult<String> {
     // Convert to bytes
     let bytes = input.as_bytes();
     // Decode and check for valid UTF-8
-    match str::from_utf8(&decode_bytes_rust(bytes)?) {
+    match String::from_utf8(decode_bytes_rust(bytes)?) {
         Ok(s) => Ok(s.to_string()),
         Err(_) => Err(PyErr::new::<PyValueError, _>(
             "Invalid utf8. Use decode_bytes() instead.",
