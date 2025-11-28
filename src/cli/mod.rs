@@ -3,8 +3,8 @@ use clap::ArgMatches;
 use clap::error::{Error, ErrorKind::DisplayHelp, ErrorKind::DisplayVersion};
 use colored::Colorize;
 use matches::get_matches;
-use pyo3::prelude::*;
 use pyo3::exceptions::PyValueError;
+use pyo3::prelude::*;
 use std::{env::args, fs, process::exit};
 
 mod matches;
@@ -16,7 +16,7 @@ fn unexpected_error(message: String) -> ! {
 }
 
 /// Covert bytes to `String` with pyo3 error handling
-fn utf8_string(bytes: Vec<u8>) -> PyResult<String>{
+fn utf8_string(bytes: Vec<u8>) -> PyResult<String> {
     match String::from_utf8(bytes) {
         Ok(s) => Ok(s.to_string()),
         Err(_) => Err(PyErr::new::<PyValueError, _>(
