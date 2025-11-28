@@ -53,7 +53,7 @@ pub fn parse() -> PyResult<()> {
             // Compute output
             let out: String;
             if string {
-                out = String::from_utf8(b32::decode_bytes_rust(data.as_bytes())?)?;
+                out = String::from_utf8(b32::encode_bytes_rust(data.as_bytes()))?;
             } else {
                 // Get data from file
                 let data = fs::read(data)
