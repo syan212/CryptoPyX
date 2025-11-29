@@ -223,12 +223,12 @@ def wrapper(
     def inner(*args: object, **kwargs: object) -> object:
         return input_func(*args, **kwargs)
 
-    inner.__name__, inner.__module__, inner.__qualname__ = (
+    inner.__name__, inner.__module__, inner.__qualname__, inner.__wrapped__ = (  # type: ignore
         input_func.__name__,
         input_func.__module__,
         input_func.__qualname__,
+        input_func
     )
-    inner.__wrapped__ = input_func  # type: ignore
     if hasattr(input_func, '__dict__'):
         inner.__dict__.update(input_func.__dict__)
     # Apply signature and docs if available
