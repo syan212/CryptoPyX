@@ -1,6 +1,6 @@
 use crate::encodings::base32 as b32;
 use clap::ArgMatches;
-use clap::error::{Error, ErrorKind::DisplayHelp, ErrorKind::DisplayVersion};
+use clap::error::Error;
 use colored::Colorize;
 use matches::get_matches;
 use pyo3::exceptions::PyValueError;
