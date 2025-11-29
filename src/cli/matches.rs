@@ -43,8 +43,10 @@ pub fn get_matches() -> Command {
     Command::new("CryptoPyX")
         .about("CryptoPyX - CLI interface for fast cryptographic operations.")
         .version(crate_version!())
+        .subcommand_required(true)
         .subcommand(
             Command::new("base32")
+                .subcommand_required(true)
                 .about("Base32 encoding and decoding.")
                 .subcommand(
                     Command::new("encode")
