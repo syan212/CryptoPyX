@@ -227,7 +227,7 @@ def wrapper(
         input_func.__name__,
         input_func.__module__,
         input_func.__qualname__,
-        input_func
+        input_func,
     )
     if hasattr(input_func, '__dict__'):
         inner.__dict__.update(input_func.__dict__)
