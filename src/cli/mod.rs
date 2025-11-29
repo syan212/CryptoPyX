@@ -14,7 +14,7 @@ fn unexpected_error(message: String) -> ! {
     exit(1);
 }
 
-/// Covert bytes to `String` with error handling
+/// Convert bytes to `String` with error handling
 fn utf8_string(bytes: Vec<u8>) -> String {
     match String::from_utf8(bytes) {
         Ok(s) => s.to_string(),
