@@ -66,7 +66,8 @@ dev = [
   "ruff==0.14.6",
   "pytest==9.0.1",
   "pytest-benchmark==5.2.3",
-  "codespell==2.4.1"
+  "codespell==2.4.1",
+  "radon==6.0.1"
 ]
 
 # Doc dependencies, requires python 3.11
