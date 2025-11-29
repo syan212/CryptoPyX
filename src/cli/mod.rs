@@ -34,12 +34,7 @@ pub fn parse() -> PyResult<()> {
     // Handle clap
     let matches: ArgMatches = match matches_result {
         Ok(m) => m,
-        // Display help or version
-        Err(e) if e.kind() == DisplayHelp || e.kind() == DisplayVersion => {
-            e.print()?;
-            exit(0);
-        }
-        // Handle other errors
+        // Handle errors, includes `--help` and `--version`
         Err(e) => {
             e.exit();
         }
