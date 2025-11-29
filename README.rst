@@ -67,8 +67,8 @@ The package provides pre-compiled wheels for the following platforms tags
 
 - win_amd64
 - win32
-- 10_12_x86_64 
-- 11_0_arm64
+- macosx_10_12_x86_64 
+- macosx_11_0_arm64
 - manylinux_2_34_x86_64
 - manylinux_2_34_armv7l
 - manylinux_2_34_aarch64
