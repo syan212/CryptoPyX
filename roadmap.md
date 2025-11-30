@@ -1,15 +1,15 @@
 # Ideas
 
-### v0.2.0: Next major release
-Add the following tools:
+## v0.2.0
+- [x] Base32
+- [ ] Base64 (will do immediately after CLI)
+- [ ] Ascii85 (should i do it?)
+- [ ] CLI
+    * [ ] Caesar, Vigenere, ROT13
+    * [x] Base32
+    * [ ] Base64 (after actual base64 implementation)
+    
 
-Vigenere cipher (done!), ascii85, base32(done), base64(do soon) encodings
-
-### Other future features
-CLI: Work in progress. Written in rust using the clap buildr api
-
-Docs: Work in progress. Set up website for doc
-
-### Dev stuff
-
-Add rust benches and tests
+## Other stuff
+- [x] Docs
+- [ ] Actual docs website
