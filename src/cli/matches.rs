@@ -1,6 +1,6 @@
+use anstyle::{AnsiColor, Color, Style};
 use clap::{Arg, Command, builder::Styles};
 use clap::{ArgAction, crate_version};
-use anstyle::{Style, Color, AnsiColor};
 
 fn get_styles() -> Styles {
     Styles::styled()
@@ -16,9 +16,7 @@ fn get_styles() -> Styles {
                 .underline()
                 .fg_color(Some(Color::Ansi(AnsiColor::Yellow))),
         )
-        .literal(
-            Style::new().fg_color(Some(Color::Ansi(AnsiColor::Green))),
-        )
+        .literal(Style::new().fg_color(Some(Color::Ansi(AnsiColor::Green))))
         .invalid(
             Style::new()
                 .bold()
@@ -35,9 +33,7 @@ fn get_styles() -> Styles {
                 .underline()
                 .fg_color(Some(Color::Ansi(AnsiColor::Green))),
         )
-        .placeholder(
-            Style::new().fg_color(Some(Color::Ansi(AnsiColor::White))),
-        )
+        .placeholder(Style::new().fg_color(Some(Color::Ansi(AnsiColor::White))))
 }
 
 pub fn get_matches() -> Command {
