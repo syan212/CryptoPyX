@@ -89,7 +89,11 @@ pub fn vigenere_rust(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) ->
         for i in 0..input.len() {
             let b = *input.get_unchecked(i);
             let shift = *key_shifts.get_unchecked(key_i % key_len);
-            let rotated = single_rotate(b, shift);
+            let rotated = {
+                *CAESAR_TABLES
+                    .get_unchecked(shift as usize)
+                    .get_unchecked(b as usize)
+            };
             *out.get_unchecked_mut(i) = rotated;
             if !skip_non_alpha || rotated != b {
                 key_i += 1;
@@ -97,17 +101,5 @@ pub fn vigenere_rust(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) ->
         }
         // Return result
         Ok(String::from_utf8_unchecked(out))
-    }
-}
-
-// Implementation of single rotate on a single character
-// As the end user will not be able to use this, we can assume no errors
-#[inline(always)]
-fn single_rotate(data: u8, shift: u8) -> u8 {
-    // No need for shift validation as no one outside this module can call this function
-    unsafe {
-        *CAESAR_TABLES
-            .get_unchecked(shift as usize)
-            .get_unchecked(data as usize)
     }
 }

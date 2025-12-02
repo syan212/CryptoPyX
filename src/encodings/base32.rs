@@ -29,10 +29,12 @@ static DECODE_MAP: [u8; 256] = {
 // Exposed python encode function for strings
 #[pyfunction]
 pub fn encode(data: &str) -> PyResult<String> {
-    // Get bytes
-    let bytes = data.as_bytes();
     // Decode and return string (UTF-8 assumed)
-    unsafe { Ok(String::from_utf8_unchecked(encode_bytes_rust(bytes))) }
+    unsafe {
+        Ok(String::from_utf8_unchecked(encode_bytes_rust(
+            data.as_bytes(),
+        )))
+    }
 }
 
 // Exposed python decode function for strings
@@ -45,12 +47,10 @@ pub fn decode(data: &str, strict: bool) -> PyResult<String> {
             "Length of input is not valid. Use strict=False to disable length checking.",
         ));
     }
-    // Trim any whitespace and remove padding
-    let input = data.trim().trim_end_matches('=');
-    // Convert to bytes
-    let bytes = input.as_bytes();
-    // Decode and check for valid UTF-8
-    match String::from_utf8(decode_bytes_rust(bytes)?) {
+    // Trim any whitespace and padding, decode and check for valid UTF-8
+    match String::from_utf8(decode_bytes_rust(
+        data.trim().trim_end_matches('=').as_bytes(),
+    )?) {
         Ok(s) => Ok(s.to_string()),
         Err(_) => Err(PyErr::new::<PyValueError, _>(
             "Invalid utf8. Use decode_bytes() instead.",
