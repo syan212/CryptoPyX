@@ -80,14 +80,14 @@ pub fn vigenere_rust(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) ->
         .collect();
 
     let key_len = key_shifts.len();
-    let input = data.as_bytes();
-    let mut out = vec![0; input.len()];
+    let bytes = data.as_bytes();
+    let mut out: Vec<u8> = vec![0; bytes.len()];
     let mut key_i = 0usize;
     unsafe {
-        out.set_len(input.len());
+        out.set_len(bytes.len());
         // Main loop
-        for i in 0..input.len() {
-            let b = *input.get_unchecked(i);
+        for i in 0..bytes.len() {
+            let b = *bytes.get_unchecked(i);
             let shift = *key_shifts.get_unchecked(key_i % key_len);
             let rotated = {
                 *CAESAR_TABLES

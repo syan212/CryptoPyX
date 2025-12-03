@@ -64,15 +64,11 @@ pub fn caesar_rust(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
         Mode::Encrypt => shift,
         Mode::Decrypt => (26 - shift) % 26,
     };
-    let input = data.as_bytes();
-    let mut out: Vec<u8> = vec![0; input.len()];
-    // Main encryption/decryption logic inside unsafe block
-    unsafe {
-        out.set_len(input.len());
-        let table: &[u8; 256] = CAESAR_TABLES.get_unchecked(forward_shift);
-        for i in 0..input.len() {
-            *out.get_unchecked_mut(i) = *table.get_unchecked(*input.get_unchecked(i) as usize);
-        }
+    let bytes = data.as_bytes();
+    let mut out: Vec<u8> = vec![0; bytes.len()];
+    // Main encryption/decryption logic
+    for (i, &b) in bytes.iter().enumerate() {
+        out[i] = CAESAR_TABLES[forward_shift][b as usize];
     }
     let result_string: String = unsafe { String::from_utf8_unchecked(out) };
     Ok(result_string)
