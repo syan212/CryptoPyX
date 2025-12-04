@@ -106,17 +106,13 @@ pub fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
             while bits_left >= 5 {
                 bits_left -= 5;
                 let index = ((buffer >> bits_left) & 0x1F) as usize;
-                unsafe {
-                    out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(index));
-                }
+                out.push(STANDARD_BASE_32_ALPHABET[index]);
             }
         }
         // If leftover bits remain, emit one more 5-bit group (padded on the right)
         if bits_left > 0 {
             let index = ((buffer << (5 - bits_left)) & 0x1F) as usize;
-            unsafe {
-                out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(index));
-            }
+            out.push(STANDARD_BASE_32_ALPHABET[index]);
         }
         // Compute padding (8 chars per full 5-byte group)
         let pad_chars: u8 = match rem.len() {
@@ -149,7 +145,7 @@ pub fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
             break;
         }
         // Validate character
-        let val: u8 = unsafe { *DECODE_MAP.get_unchecked(b as usize) };
+        let val: u8 = DECODE_MAP[b as usize];
         if val == 0xFF {
             return Err(PyErr::new::<PyValueError, _>(format!(
                 "Invalid Base32 character: '{}'",
