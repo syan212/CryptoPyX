@@ -1,3 +1,5 @@
+use std::vec;
+
 // This Caesar shift implementation uses a precomputed lookup table for speed
 // The table is reused in the Vigenere implementation
 use pyo3::prelude::*;
@@ -65,10 +67,10 @@ pub fn caesar_rust(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
         Mode::Decrypt => (26 - shift) % 26,
     };
     let bytes = data.as_bytes();
-    let mut out: Vec<u8> = Vec::with_capacity(bytes.len());
+    let mut out: Vec<u8> = vec![0; bytes.len()];
     // Main encryption/decryption logic
-    for (i, &b) in bytes.iter().enumerate() {
-        out[i] = CAESAR_TABLES[forward_shift][b as usize];
+    for i in 0..bytes.len() {
+        out[i] = CAESAR_TABLES[forward_shift][bytes[i] as usize];
     }
     let result_string: String = String::from_utf8(out)?;
     Ok(result_string)

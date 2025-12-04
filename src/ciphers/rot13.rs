@@ -35,8 +35,8 @@ pub fn decrypt(data: &str) -> PyResult<String> {
 pub fn rot13_rust(data: &str) -> PyResult<String> {
     let bytes = data.as_bytes();
     let mut out: Vec<u8> = vec![0; bytes.len()];
-    for (i, &b) in bytes.iter().enumerate() {
-        out[i] = ROT13_TABLE[b as usize];
+    for i in 0..bytes.len() {
+        out[i] = ROT13_TABLE[bytes[i] as usize];
     }
     let result_string: String = String::from_utf8(out)?;
     Ok(result_string)
