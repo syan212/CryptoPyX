@@ -93,5 +93,5 @@ pub fn vigenere_rust(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) ->
         }
     }
     // Return result
-    Ok(unsafe {String::from_utf8_unchecked(out)} )
+    Ok(String::from_utf8(out)?)
 }

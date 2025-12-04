@@ -70,6 +70,6 @@ pub fn caesar_rust(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
     for (i, &b) in bytes.iter().enumerate() {
         out[i] = CAESAR_TABLES[forward_shift][b as usize];
     }
-    let result_string: String = unsafe { String::from_utf8_unchecked(out) };
+    let result_string: String = String::from_utf8(out)?;
     Ok(result_string)
 }

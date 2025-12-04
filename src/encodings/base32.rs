@@ -30,11 +30,7 @@ static DECODE_MAP: [u8; 256] = {
 #[pyfunction]
 pub fn encode(data: &str) -> PyResult<String> {
     // Decode and return string (UTF-8 assumed)
-    unsafe {
-        Ok(String::from_utf8_unchecked(encode_bytes_rust(
-            data.as_bytes(),
-        )))
-    }
+    Ok(String::from_utf8(encode_bytes_rust(data.as_bytes()))?)
 }
 
 // Exposed python decode function for strings

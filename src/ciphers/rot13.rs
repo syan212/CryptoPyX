@@ -38,6 +38,6 @@ pub fn rot13_rust(data: &str) -> PyResult<String> {
     for (i, &b) in bytes.iter().enumerate() {
         out[i] = ROT13_TABLE[b as usize];
     }
-    let result_string: String = unsafe { String::from_utf8_unchecked(out) };
+    let result_string: String = String::from_utf8(out)?;
     Ok(result_string)
 }
