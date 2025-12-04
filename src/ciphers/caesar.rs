@@ -65,7 +65,7 @@ pub fn caesar_rust(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
         Mode::Decrypt => (26 - shift) % 26,
     };
     let bytes = data.as_bytes();
-    let mut out: Vec<u8> = vec![0; bytes.len()];
+    let mut out: Vec<u8> = Vec::with_capacity(bytes.len());
     // Main encryption/decryption logic
     for (i, &b) in bytes.iter().enumerate() {
         out[i] = CAESAR_TABLES[forward_shift][b as usize];
