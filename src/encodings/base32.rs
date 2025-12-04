@@ -83,16 +83,14 @@ pub fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
             | ((bytes[i + 3] as u64) << 8)
             | (bytes[i + 4] as u64);
         // Extract 8 groups of 5 bits
-        unsafe {
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 35) & 0x1F) as usize));
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 30) & 0x1F) as usize));
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 25) & 0x1F) as usize));
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 20) & 0x1F) as usize));
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 15) & 0x1F) as usize));
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 10) & 0x1F) as usize));
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked(((chunk >> 5) & 0x1F) as usize));
-            out.push(*STANDARD_BASE_32_ALPHABET.get_unchecked((chunk & 0x1F) as usize));
-        }
+        out.push(STANDARD_BASE_32_ALPHABET[((chunk >> 35) & 0x1F) as usize]);
+        out.push(STANDARD_BASE_32_ALPHABET[((chunk >> 30) & 0x1F) as usize]);
+        out.push(STANDARD_BASE_32_ALPHABET[((chunk >> 25) & 0x1F) as usize]);
+        out.push(STANDARD_BASE_32_ALPHABET[((chunk >> 20) & 0x1F) as usize]);
+        out.push(STANDARD_BASE_32_ALPHABET[((chunk >> 15) & 0x1F) as usize]);
+        out.push(STANDARD_BASE_32_ALPHABET[((chunk >> 10) & 0x1F) as usize]);
+        out.push(STANDARD_BASE_32_ALPHABET[((chunk >> 5) & 0x1F) as usize]);
+        out.push(STANDARD_BASE_32_ALPHABET[(chunk & 0x1F) as usize]);
         i += 5;
     }
     // Handle remainder (less than 5 bytes left)
