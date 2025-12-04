@@ -78,28 +78,20 @@ pub fn vigenere_rust(data: &str, key: &str, mode: Mode, skip_non_alpha: bool) ->
             }
         })
         .collect();
-
     let key_len = key_shifts.len();
     let bytes = data.as_bytes();
-    let mut out: Vec<u8> = vec![0; bytes.len()];
+    let mut out: Vec<u8> = Vec::with_capacity(bytes.len());
     let mut key_i = 0usize;
-    unsafe {
-        out.set_len(bytes.len());
-        // Main loop
-        for i in 0..bytes.len() {
-            let b = *bytes.get_unchecked(i);
-            let shift = *key_shifts.get_unchecked(key_i % key_len);
-            let rotated = {
-                *CAESAR_TABLES
-                    .get_unchecked(shift as usize)
-                    .get_unchecked(b as usize)
-            };
-            *out.get_unchecked_mut(i) = rotated;
-            if !skip_non_alpha || rotated != b {
-                key_i += 1;
-            }
+    // Main loop
+    for i in 0..bytes.len() {
+        let b = bytes[i];
+        let shift = key_shifts[key_i % key_len];
+        let rotated = CAESAR_TABLES[shift as usize][b as usize];
+        out[i] = rotated;
+        if !skip_non_alpha || rotated != b {
+            key_i += 1;
         }
-        // Return result
-        Ok(String::from_utf8_unchecked(out))
     }
+    // Return result
+    Ok(unsafe {String::from_utf8_unchecked(out)} )
 }
