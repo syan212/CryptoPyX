@@ -107,3 +107,18 @@ auditwheel = "repair"
 strip = true
 features = ["pyo3/extension-module"]
 module-name = "cryptopyx._cryptopyx"
+
+# Pytest config
+[tool.pytest]
+minversion = "9.0"
+testpaths = ["benches", "tests"]
+python_files = ["*_test.py", "benches_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-W error",
+]
+
+# Codespell config
+[tool.codespell]
+skip = "./docs/_build/**"
