@@ -112,9 +112,9 @@ module-name = "cryptopyx._cryptopyx"
 [tool.pytest]
 minversion = "9.0"
 testpaths = ["benches", "tests"]
-python_files = ["*_test.py", "benches_*.py"]
+python_files = ["*_test.py", "*_benches.py"]
 python_classes = ["Test*"]
-python_functions = ["test_*"]
+python_functions = ["test_*", "bench_*"]
 addopts = [
     "-W error",
 ]

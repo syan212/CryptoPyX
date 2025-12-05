@@ -3,7 +3,7 @@ from utils.base32 import random_base32
 
 
 # Benchmarks (cause why not?)
-def test_base32_encode_benchmark(benchmark):
+def bench_base32_encode(benchmark):
     strings: list[str] = random_base32(
         1000000, string_num=100
     )  # 1 million chars, 100 strings
@@ -16,7 +16,7 @@ def test_base32_encode_benchmark(benchmark):
     benchmark(multi_encode)
 
 
-def test_base32_decode_benchmark(benchmark):
+def bench_base32_decode(benchmark):
     strings: list[str] = random_base32(
         1000000, string_num=100
     )  # 1 million chars, 100 strings
