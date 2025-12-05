@@ -51,7 +51,7 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     // Register submodules under ciphers
     reg_submodule!(ciphers_module, "caesar", [caesar::encrypt, caesar::decrypt])?;
     reg_submodule!(ciphers_module, "vigenere", [vigenere::encrypt, vigenere::decrypt])?;
-    reg_submodule!(ciphers_module, "rot13", [rot13::encrypt, rot13::decrypt])?;
+    reg_submodule!(ciphers_module, "rot13", [rot13::encrypt, rot13::decrypt, rot13::rotate])?;
     // Add ciphers submodule to parent module
     m.add_submodule(&ciphers_module)?;
     Ok(())

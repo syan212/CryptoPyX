@@ -25,3 +25,16 @@ def decrypt(data: str) -> str:
         The "decrypted" string
     """
     ...
+
+def rotate(data: str) -> str:
+    """Rotates a string using rot13.
+
+    Same as `decrypt()` and `encrypt()`.
+
+    Args:
+        data: The string to be rotated.
+
+    Returns:
+        The rotated string
+    """
+    ...

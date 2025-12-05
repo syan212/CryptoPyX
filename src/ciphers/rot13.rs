@@ -31,6 +31,11 @@ pub fn decrypt(data: &str) -> PyResult<String> {
     rot13_rust(data)
 }
 
+#[pyfunction]
+pub fn rotate(data: &str) -> PyResult<String> {
+    rot13_rust(data)
+}
+
 // Main ROT13 logic
 pub fn rot13_rust(data: &str) -> PyResult<String> {
     let bytes = data.as_bytes();
