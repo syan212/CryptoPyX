@@ -2,7 +2,7 @@
 
 // For shorter functions name
 use ciphers::{caesar, rot13, vigenere};
-use encodings::base32 as b32;
+use encodings::{base32 as b32, base64 as b64};
 // pyo3
 use pyo3::prelude::*;
 use pyo3::types::PyModule;
@@ -20,6 +20,7 @@ pub mod ciphers {
 // Encodings submodules
 pub mod encodings {
     pub mod base32;
+    pub mod base64;
 }
 
 // Macro to register submodules
@@ -61,13 +62,18 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
 fn register_encodings<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     // Submodule
     let encodings_module: Bound<'_, PyModule> = PyModule::new(m.py(), "encodings")?;
-    // Register submodules under ciphers
+    // Register submodules under encodings
     reg_submodule!(
         encodings_module,
         "base32",
         [b32::encode, b32::decode, b32::encode_bytes, b32::decode_bytes]
     )?;
-    // Add ciphers submodule to parent module
+    reg_submodule!(
+        encodings_module,
+        "base64",
+        [b64::encode_bytes]
+    )?;
+    // Add encodings submodule to parent module
     m.add_submodule(&encodings_module)?;
     Ok(())
 }
