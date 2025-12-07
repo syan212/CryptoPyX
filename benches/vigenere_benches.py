@@ -3,7 +3,7 @@ from utils.strings import random_key, random_string
 
 
 # Benchmarks (cause why not?)
-def test_vigenere_encrypt_benchmark(benchmark):
+def bench_vigenere_encrypt(benchmark):
     strings: list[str] = random_string(
         1000000, string_num=100
     )  # 1 million chars, 100 strings
@@ -16,7 +16,7 @@ def test_vigenere_encrypt_benchmark(benchmark):
     benchmark(multi_encrypt)
 
 
-def test_vigenere_decrypt_benchmark(benchmark):
+def bench_vigenere_decrypt(benchmark):
     strings: list[str] = random_string(
         1000000, string_num=100
     )  # 1 million chars, 100 strings
