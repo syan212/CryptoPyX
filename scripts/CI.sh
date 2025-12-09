@@ -3,11 +3,11 @@ set -euo pipefail
 shopt -s globstar 
 
 # Pytest(No no benchmark)
-pytest --benchmark-skip
+uv run pytest --benchmark-skip
 
 # Ruff formatting and linting
-ruff check .
-ruff format --diff
+uv run ruff check .
+uv run ruff format --diff
 
 # Rustfmt
 rustfmt --check src/**/*.rs

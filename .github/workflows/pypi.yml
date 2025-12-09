@@ -10,6 +10,9 @@ env:
   GH_TOKEN: ${{ github.token }}
   GH_branch: main
 
+permissions:
+  contents: write
+
 jobs:
   # Linux Build, covers x86_64, i686, aarch64 and armv7 (Rust target names)
   # Python arch tag names: x86_64, i686, aarch64 and armv7l
@@ -24,19 +27,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
-      - name: Setup Python
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      - name: Setup uv
+        uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
         with:
-            python-version: ${{ matrix.python-versions }}
-            cache: pip
+          python-version: ${{ matrix.python-versions }}
       
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@1780873c7b576612439a134613cc4cc74ce5538c # v1.15.2
         
-      - name: Install dependencies
-        run: |
-          pip install maturin
-      
       - name: Update apt
         run: | 
           sudo apt update
@@ -64,10 +62,10 @@ jobs:
         run: |
           if [ "${{ matrix.target }}" == "armv7" ]; then
             rustup target add ${{ matrix.target }}-unknown-linux-gnueabihf
-            maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnueabihf --interpreter python${{ matrix.python-versions }}
+            uv run maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnueabihf --interpreter python${{ matrix.python-versions }}
           else
             rustup target add ${{ matrix.target }}-unknown-linux-gnu
-            maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnu --interpreter python${{ matrix.python-versions }}
+            uv run maturin build --release --out dist --target ${{ matrix.target }}-unknown-linux-gnu --interpreter python${{ matrix.python-versions }}
           fi
 
       - name: Upload wheels
@@ -102,17 +100,18 @@ jobs:
             # Specifically for x64
             architecture: ${{ matrix.platform.arch }}
       
+      - name: Setup uv
+        uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+        with:
+          python-version: ${{ matrix.python-versions }}
+        
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@1780873c7b576612439a134613cc4cc74ce5538c # v1.15.2
-        
-      - name: Install dependencies
-        run: |
-          pip install maturin
-          
+                
       - name: Maturin build
         run: |
           rustup target add ${{ matrix.platform.target }}-pc-windows-msvc
-          maturin build --release --out dist --target ${{ matrix.platform.target }}-pc-windows-msvc --interpreter python${{ matrix.python-versions }}
+          uv run maturin build --release --out dist --target ${{ matrix.platform.target }}-pc-windows-msvc --interpreter python${{ matrix.python-versions }}
     
       - name: Upload wheels
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
@@ -137,22 +136,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
-      - name: Setup Python
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      - name: Setup uv
+        uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
         with:
-            python-version: ${{ matrix.python-versions }}
-            cache: pip
+          python-version: ${{ matrix.python-versions }}
       
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@1780873c7b576612439a134613cc4cc74ce5538c # v1.15.2
-        
-      - name: Install dependencies
-        run: |
-          pip install maturin
-          
+                 
       - name: Maturin build
         run: |
-          maturin build --release --out dist --interpreter python${{ matrix.python-versions }}
+          uv run maturin build --release --out dist --interpreter python${{ matrix.python-versions }}
   
       - name: Upload wheels
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
@@ -168,22 +162,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
-      - name: Setup Python
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      - name: Setup uv
+        uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
         with:
-            python-version: '3.10'
-            cache: pip
+          python-version: 3.10
       
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@1780873c7b576612439a134613cc4cc74ce5538c # v1.15.2
-
-      - name: Install dependencies
-        run: |
-          pip install maturin
-          
+         
       - name: Maturin build
         run: |
-          maturin build --release --sdist --out dist
+          uv run maturin build --release --sdist --out dist
 
       - name: Upload wheels
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
