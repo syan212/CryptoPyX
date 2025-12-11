@@ -1,12 +1,11 @@
 #![cfg_attr(rustfmt, rustfmt::skip)]
 
+use pyo3::prelude::*;
+use pyo3::types::PyModule;
+
 // For shorter functions name
 use ciphers::{caesar, rot13, vigenere};
 use encodings::{base32 as b32, base64 as b64};
-
-// pyo3
-use pyo3::prelude::*;
-use pyo3::types::PyModule;
 
 // CLI
 mod cli;
