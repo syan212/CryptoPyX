@@ -225,7 +225,9 @@ def wrapper(
         return input_func(*args, **kwargs)
 
     # Preserve metadata (excludes documentation)
-    functools.update_wrapper(inner, input_func, assigned={'__module__', '__name__', '__qualname__'})
+    functools.update_wrapper(
+        inner, input_func, assigned={'__module__', '__name__', '__qualname__'}
+    )
     # Apply signature and docs if available
     apply_docs_and_sigs_to_obj(inner, docs, input_sig)
     return inner
