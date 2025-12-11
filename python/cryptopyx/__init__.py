@@ -15,6 +15,7 @@ from .stubs_processing import (
 encodings: ModuleType = _cryptopyx.encodings
 sys.modules['cryptopyx.encodings'] = encodings
 sys.modules['cryptopyx.encodings.base32'] = encodings.base32
+sys.modules['cryptopyx.encodings.base64'] = encodings.base64
 
 # Ciphers submodule
 ciphers: ModuleType = _cryptopyx.ciphers
