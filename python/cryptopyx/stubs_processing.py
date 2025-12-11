@@ -1,6 +1,7 @@
 import ast
 import builtins
 from collections.abc import Callable, Generator
+import functools
 import importlib.util
 import inspect
 from inspect import Parameter, Signature
@@ -223,14 +224,8 @@ def wrapper(
     def inner(*args: object, **kwargs: object) -> object:
         return input_func(*args, **kwargs)
 
-    inner.__name__, inner.__module__, inner.__qualname__, inner.__wrapped__ = (  # type: ignore
-        input_func.__name__,
-        input_func.__module__,
-        input_func.__qualname__,
-        input_func,
-    )
-    if hasattr(input_func, '__dict__'):
-        inner.__dict__.update(input_func.__dict__)
+    # Preserve metadata (excludes documentation)
+    functools.update_wrapper(inner, input_func, assigned={'__module__', '__name__', '__qualname__'})
     # Apply signature and docs if available
     apply_docs_and_sigs_to_obj(inner, docs, input_sig)
     return inner
