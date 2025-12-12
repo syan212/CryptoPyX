@@ -3,6 +3,8 @@
 ## v0.2.0
 - [x] Base32
 - [ ] Base64 (will do immediately after CLI)
+    * [x] Encoding
+    * [ ] Decoding
 - [ ] Ascii85 (should i do it?)
 - [ ] CLI
     * [ ] Caesar, Vigenere, ROT13
