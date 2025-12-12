@@ -6,6 +6,11 @@ const STANDARD_BASE_64_ALPHABET: &[u8; 64] =
 
 // Exposed python functions
 #[pyfunction]
+pub fn encode(data: &str) -> PyResult<String> {
+    Ok(String::from_utf8(encode_bytes_rust(data.as_bytes()))?)
+}
+
+#[pyfunction]
 pub fn encode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
     Ok(encode_bytes_rust(data))
 }
