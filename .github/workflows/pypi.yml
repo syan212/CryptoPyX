@@ -69,7 +69,7 @@ jobs:
           fi
 
       - name: Upload wheels
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: wheels-manylinux-${{ matrix.target }}-${{ matrix.python-versions }}
           path: dist/cryptopyx-*.whl
@@ -114,7 +114,7 @@ jobs:
           uv run maturin build --release --out dist --target ${{ matrix.platform.target }}-pc-windows-msvc --interpreter python${{ matrix.python-versions }}
     
       - name: Upload wheels
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: wheels-windows-${{ matrix.platform.target }}-${{ matrix.python-versions }}
           path: dist/*.whl
@@ -149,7 +149,7 @@ jobs:
           uv run maturin build --release --out dist --interpreter python${{ matrix.python-versions }}
   
       - name: Upload wheels
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: wheels-macos-${{ matrix.platform.target }}-${{ matrix.python-versions }}
           path: dist/*.whl
@@ -175,7 +175,7 @@ jobs:
           uv run maturin build --release --sdist --out dist
 
       - name: Upload wheels
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: wheels-sdist
           path: dist/*.tar.gz
