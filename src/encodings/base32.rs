@@ -4,28 +4,6 @@ use pyo3::prelude::*;
 // Standard base 32 alphabet (RFC 3548, RFC 4648)
 const STANDARD_BASE_32_ALPHABET: &[u8; 32] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
-// Precomputed decode map (256 entries)
-static DECODE_MAP: [u8; 256] = {
-    const INVALID: u8 = 0xFF;
-    let mut table = [INVALID; 256];
-    let mut i = 0;
-    // Uppercase A–Z
-    while i < 26 {
-        let ch = b'A' + i as u8;
-        table[ch as usize] = i as u8;
-        // Lowercase a–z
-        table[(ch + 32) as usize] = i as u8; // 'a' = 'A' + 32 in ASCII
-        i += 1;
-    }
-    // Digits 2–7 (values 26–31)
-    let mut j = 0;
-    while j < 6 {
-        table[(b'2' + j as u8) as usize] = (26 + j) as u8;
-        j += 1;
-    }
-    table
-};
-
 // Exposed python encode function for strings
 #[pyfunction]
 pub fn encode(data: &str) -> PyResult<String> {
@@ -140,14 +118,17 @@ pub fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
         if b == b'=' {
             break;
         }
-        // Validate character
-        let val: u8 = DECODE_MAP[b as usize];
-        if val == 0xFF {
-            return Err(PyErr::new::<PyValueError, _>(format!(
-                "Invalid Base32 character: '{}'",
-                b as char
-            )));
-        }
+        // Convert and validate character
+        let val = match b {
+            b'A'..=b'Z' => b - b'A',
+            b'a'..=b'z' => b - b'a',
+            b'2'..=b'7' => b - b'2' + 26,
+            _ => {
+                return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
+                    format!("Invalid Base32 character: '{}'", b as char),
+                ))
+            }
+        };
         // Update buffer and bit count
         buffer = (buffer << 5) | val as u64;
         bits_left += 5;
