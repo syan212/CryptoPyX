@@ -3,9 +3,9 @@
 set -e
 
 if [[ $1 == "--no-docs" || $2 == "--no-docs" ]]; then 
-    uv pip install --group dev
+    uv sync --no-install-project --frozen --inexact
 else
-    uv pip install --group dev --group docs
+    uv sync --no-install-project --group dev --group docs --frozen --inexact
 fi
 
 if [[ $1 == "--debug" || $2 == "--debug" ]]; then
