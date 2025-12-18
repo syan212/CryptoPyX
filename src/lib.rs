@@ -71,7 +71,7 @@ fn register_encodings<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     reg_submodule!(
         encodings_module,
         "base64",
-        [b64::encode_bytes]
+        [b64::encode, b64::decode, b64::encode_bytes, b64::decode_bytes]
     )?;
     // Add encodings submodule to parent module
     m.add_submodule(&encodings_module)?;

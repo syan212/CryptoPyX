@@ -11,8 +11,25 @@ pub fn encode(data: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
+pub fn decode(data: &str) -> PyResult<String> {
+    match String::from_utf8(decode_bytes_rust(
+        data.trim().trim_end_matches('=').as_bytes(),
+    )?) {
+        Ok(s) => Ok(s.to_string()),
+        Err(_) => Err(pyo3::exceptions::PyValueError::new_err(
+            "Invalid utf8. Use decode_bytes() instead.",
+        )),
+    }
+}
+
+#[pyfunction]
 pub fn encode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
     Ok(encode_bytes_rust(data))
+}
+
+#[pyfunction]
+pub fn decode_bytes(data: &[u8]) -> PyResult<Vec<u8>> {
+    decode_bytes_rust(data)
 }
 
 // Bytes encoding
@@ -55,4 +72,40 @@ pub fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
     }
     // Return bytes
     out
+}
+
+// Bytes decoding
+pub fn decode_bytes_rust(data: &[u8]) -> PyResult<Vec<u8>> {
+    // Prepare output vector
+    let mut out: Vec<u8> = Vec::with_capacity((data.len() * 6).div_ceil(8));
+    // Buffer
+    let mut buffer: u32 = 0;
+    let mut bits_left: u8 = 0;
+    // Decode each byte
+    for &b in data {
+        // Get value from alphabet
+        let val = match b {
+            b'A'..=b'Z' => b - b'A',
+            b'a'..=b'z' => b - b'a' + 26,
+            b'0'..=b'9' => b - b'0' + 52,
+            b'+' => 62,
+            b'/' => 63,
+            b'=' => break, // Padding, stop processing
+            _ => {
+                return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
+                    "Invalid base64 character",
+                ))
+            }
+        } as u32;
+        // Update buffer
+        buffer = (buffer << 6) | val;                       
+        bits_left += 6;
+        // While we have at least 8 bits, extract byte
+        while bits_left >= 8 {
+            bits_left -= 8;
+            let byte = ((buffer >> bits_left) & 0xFF) as u8;
+            out.push(byte);
+        }
+    }
+    Ok(out)
 }

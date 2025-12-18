@@ -14,6 +14,16 @@ def encode(data: str) -> str:
     """
     ...
 
+def decode(data: str) -> str:
+    """Decodes base64 string.
+
+    Args:
+        data: The base64 string to be decoded. 
+    Returns:
+        Decoded base64 string.
+    """
+    ...
+
 def encode_bytes(data: bytes) -> bytes:
     """Encode bytes using base64.
 
@@ -22,5 +32,15 @@ def encode_bytes(data: bytes) -> bytes:
 
     Returns:
         Encoded base64 bytes.
+    """
+    ...
+
+def decode_bytes(data: bytes) -> bytes:
+    """Decode bytes using base64.
+
+    Args:
+        data: The data to be decoded.
+    Returns:
+        Decoded base64 bytes.
     """
     ...

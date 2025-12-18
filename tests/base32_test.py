@@ -31,5 +31,7 @@ def test_base32_decode():
     # Decode errors
     with pytest.raises(ValueError):
         base32.decode('Sphinx of black quartz, judge my vow')
+    with pytest.raises(ValueError):
         base32.decode('74======')
-        base32.decode('NBSWY3DP=')
+    with pytest.raises(ValueError):
+        base32.decode('NBSWY3DP=', strict=True)
