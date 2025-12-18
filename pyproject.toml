@@ -52,8 +52,9 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
     
     # OS
-    # This code is OS independent as it only depends on Python and Rust standard libraries
-    "Operating System :: OS Independent",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
 
     # Typing
     "Typing :: Stubs Only",
