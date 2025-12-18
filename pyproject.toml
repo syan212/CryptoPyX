@@ -123,6 +123,10 @@ addopts = [
 [tool.codespell]
 skip = "./docs/_build/**"
 
+# uv config
+[tool.uv]
+required-version = ">=0.9.18"
+
 # Ruff config
 [tool.ruff]
 target-version = "py310"
