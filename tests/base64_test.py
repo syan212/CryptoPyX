@@ -20,9 +20,7 @@ def test_base64_decode():
     assert base64.decode('aGVsbG8=') == 'hello'
     assert base64.decode('aGVsbG8gdGhlcmU=') == 'hello there'
     assert (
-        base64.decode(
-            'VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4='
-        )
+        base64.decode('VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4=')
         == 'The quick brown fox jumps over the lazy dog.'
     )
     # Decode bytes

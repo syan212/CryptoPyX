@@ -94,11 +94,11 @@ pub fn decode_bytes_rust(data: &[u8]) -> PyResult<Vec<u8>> {
             _ => {
                 return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
                     "Invalid base64 character",
-                ))
+                ));
             }
         } as u32;
         // Update buffer
-        buffer = (buffer << 6) | val;                       
+        buffer = (buffer << 6) | val;
         bits_left += 6;
         // While we have at least 8 bits, extract byte
         while bits_left >= 8 {

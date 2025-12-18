@@ -18,7 +18,7 @@ def decode(data: str) -> str:
     """Decodes base64 string.
 
     Args:
-        data: The base64 string to be decoded. 
+        data: The base64 string to be decoded.
     Returns:
         Decoded base64 string.
     """

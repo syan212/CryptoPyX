@@ -124,9 +124,10 @@ pub fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
             b'a'..=b'z' => b - b'a',
             b'2'..=b'7' => b - b'2' + 26,
             _ => {
-                return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
-                    format!("Invalid Base32 character: '{}'", b as char),
-                ))
+                return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
+                    "Invalid Base32 character: '{}'",
+                    b as char
+                )));
             }
         };
         // Update buffer and bit count
