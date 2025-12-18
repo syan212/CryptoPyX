@@ -1,25 +1,24 @@
 import ast
-import builtins
+from builtins import __dict__ as builtins_dict
 from collections.abc import Callable, Generator
-import functools
-import importlib.util
-import inspect
+from functools import update_wrapper
+from importlib.util import find_spec
 from inspect import Parameter, Signature
 from pathlib import Path
 from types import ModuleType
-import typing
+from typing import __dict__ as typing_dict
 
 # For `resolve_annotations` function
 SAFE_GLOBALS = {
-    **typing.__dict__,  # typing objects
-    **builtins.__dict__,  # builtins
+    **typing_dict,  # typing objects
+    **builtins_dict,  # builtins
 }
 
 
 def resolve_annotations(annotation: str, other_globals: dict | None = None) -> object:
     """Convert an annotation string(e.g. `'str'`)
     to a python object(e.g. the actual python class `str`).
-    Can also specify extra safe annotations via `other_globals`.
+    Can also specify extra safe annotations via `other_globals`(Going to be fully implemented some time).
     """
     # Checks
     if not annotation or annotation == 'None':
@@ -40,9 +39,9 @@ def sig_to_ann(sig: Signature) -> dict[str, object]:
     """Converts a `Signature` object into a dict suitable for `__annotations__`"""
     ann = {}
     for name, param in sig.parameters.items():
-        if param.annotation is not inspect._empty:
+        if param.annotation is not Signature.empty:
             ann[name] = param.annotation
-    if sig.return_annotation is not inspect._empty:
+    if sig.return_annotation is not Signature.empty:
         ann['return'] = sig.return_annotation
 
     return ann
@@ -51,7 +50,7 @@ def sig_to_ann(sig: Signature) -> dict[str, object]:
 def find_pyi_files(package: str) -> Generator[tuple[str, Path], None, None]:
     """Yield (`module_name`, `pyi_path`) for all .pyi files under a package."""
     # Load package spec to find its location
-    package_spec = importlib.util.find_spec(package)
+    package_spec = find_spec(package)
     if package_spec is None or package_spec.submodule_search_locations is None:
         raise ImportError(f'Cannot find package {package}')
     base_paths = package_spec.submodule_search_locations
@@ -225,7 +224,7 @@ def wrapper(
         return input_func(*args, **kwargs)
 
     # Preserve metadata (excludes documentation)
-    functools.update_wrapper(
+    update_wrapper(
         inner, input_func, assigned={'__module__', '__name__', '__qualname__'}
     )
     # Apply signature and docs if available
