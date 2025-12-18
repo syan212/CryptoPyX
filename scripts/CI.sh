@@ -13,4 +13,4 @@ uv run ruff format --diff
 rustfmt --check src/**/*.rs
 
 # Clippy
-cargo clippy --all-targets --all-features -- -D warnings
+uv run cargo clippy --all-targets --all-features -- -D warnings
