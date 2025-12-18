@@ -173,6 +173,9 @@ ignore = [
     "ANN", # No annotations
     "S311" # Allow use of random in benchmarks
 ]
+"utils/encodings.py" = [
+    "S311" # Allow use of random in utils/encodings.py
+]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10  # Maximum cyclomatic complexity
