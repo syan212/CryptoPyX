@@ -3,15 +3,12 @@
 **v0.1.3 (Next release)**
 Features
 - Added CLI, currently only for base32
+- Added base64 encoding and decoding, with the same API as base32
 - Changed logic for rot13, caesar and vigenere ciphers
 - Added `rotate()` alias for rot13
 - Reduce sdist size
 
 Dependencies
-- [gha]: Bump actions/setup-python to 6.1.0
-- [gha]: Bump actions/checkout to 6.0.0
-- [gha]: Bump actions/download-artifact to 6.0.0
-- [gha]: Bump actions/upload-artifact to 5.0.0
 - [cargo]: Bump pyo3 to 0.27.2
 - [pip]: Bump ruff to 0.14.7
 - [pip]: Bump maturin to 1.10.2
