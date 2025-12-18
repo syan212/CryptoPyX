@@ -1,5 +1,5 @@
 from cryptopyx.encodings import base32
-from utils.base32 import random_base32
+from utils.encodings import random_base32
 
 
 # Benchmarks (cause why not?)
