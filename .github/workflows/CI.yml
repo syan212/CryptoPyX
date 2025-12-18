@@ -39,7 +39,7 @@ jobs:
           uv python update-shell
           # Restart shell on windows to add python to PATH
           if [[ "${{ matrix.platform }}" == "windows-latest" ]]; then
-            source ~/.bashrc
+            $env:PATH = "C:\Users\runneradmin\.local\bin;$env:PATH"
           fi
 
       - name: Setup Rust
