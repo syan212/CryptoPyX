@@ -1,6 +1,6 @@
 """Base64 encoding and decoding functions.
 
-Currently only has encode_bytes and encode function.
+Currently only supports standard base64 alphabet (RFC 4648).
 """
 
 def encode(data: str) -> str:
