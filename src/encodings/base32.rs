@@ -4,6 +4,24 @@ use pyo3::prelude::*;
 // Standard base 32 alphabet (RFC 3548, RFC 4648)
 const STANDARD_BASE_32_ALPHABET: &[u8; 32] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
+/// Decode map for base32, with `0xff`` representing invalid
+static DECODE_MAP: [u8; 256] = {
+    let mut table: [u8; 256] = [0xff; 256];
+    let mut i: u8 = 0;
+    while i  < 26 {
+        table[(b'a' + i) as usize] = i;
+        table[(b'A' + i) as usize] = i;
+        i += 1;
+    }
+    i = 0;
+    while i < 6 {
+        table[(b'2' + i) as usize] = i + 26;
+        i += 1;
+    }
+
+    table
+};
+
 // Exposed python encode function for strings
 #[pyfunction]
 pub fn encode(data: &str) -> PyResult<String> {
@@ -119,17 +137,13 @@ pub fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
             break;
         }
         // Convert and validate character
-        let val = match b {
-            b'A'..=b'Z' => b - b'A',
-            b'a'..=b'z' => b - b'a',
-            b'2'..=b'7' => b - b'2' + 26,
-            _ => {
-                return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
-                    "Invalid Base32 character: '{}'",
-                    b as char
-                )));
-            }
-        };
+        let val = DECODE_MAP[b as usize];
+        if val == 0xff {
+            return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
+                "Invalid Base32 character: '{}'",
+                b as char
+            )));
+        }
         // Update buffer and bit count
         buffer = (buffer << 5) | val as u64;
         bits_left += 5;
