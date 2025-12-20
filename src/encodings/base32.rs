@@ -8,7 +8,7 @@ const STANDARD_BASE_32_ALPHABET: &[u8; 32] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 static DECODE_MAP: [u8; 256] = {
     let mut table: [u8; 256] = [0xff; 256];
     let mut i: u8 = 0;
-    while i  < 26 {
+    while i < 26 {
         table[(b'a' + i) as usize] = i;
         table[(b'A' + i) as usize] = i;
         i += 1;
