@@ -99,14 +99,18 @@ pub fn encode_bytes_rust(bytes: &[u8]) -> Vec<u8> {
 }
 
 // Bytes decoding
-pub fn decode_bytes_rust(data: &[u8]) -> PyResult<Vec<u8>> {
+pub fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
     // Prepare output vector
-    let mut out: Vec<u8> = Vec::with_capacity((data.len() * 6).div_ceil(8));
+    let mut out: Vec<u8> = Vec::with_capacity((bytes.len() * 6).div_ceil(8));
     // Buffer
     let mut buffer: u32 = 0;
     let mut bits_left: u8 = 0;
     // Decode each byte
-    for &b in data {
+    for &b in bytes {
+        // Check for padding
+        if b == b'=' {
+            break;
+        }
         // Get value from alphabet
         let val = DECODE_MAP[b as usize];
         if val == 0xff {
