@@ -4,6 +4,30 @@ use pyo3::prelude::*;
 const STANDARD_BASE_64_ALPHABET: &[u8; 64] =
     b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+static DECODE_MAP: [u8; 256] = {
+    let mut table: [u8; 256] = [0xff; 256];
+    let mut i: u8 = 0;
+    while i < 26 {
+        table[(b'A' + i) as usize] = i;
+        i += 1;
+    }
+    i = 0;
+    while i < 26 {
+        table[(b'a' + i) as usize] = 26 + i;
+        i += 1;
+    }
+    i = 0;
+    while i < 10 {
+        table[(b'0' + i) as usize] = 52 + i;
+        i += 1;
+    }
+
+    table[b'+' as usize] = 62;
+    table[b'/' as usize] = 63;
+
+    table
+};
+
 // Exposed python functions
 #[pyfunction]
 pub fn encode(data: &str) -> PyResult<String> {
@@ -84,21 +108,15 @@ pub fn decode_bytes_rust(data: &[u8]) -> PyResult<Vec<u8>> {
     // Decode each byte
     for &b in data {
         // Get value from alphabet
-        let val = match b {
-            b'A'..=b'Z' => b - b'A',
-            b'a'..=b'z' => b - b'a' + 26,
-            b'0'..=b'9' => b - b'0' + 52,
-            b'+' => 62,
-            b'/' => 63,
-            b'=' => break, // Padding, stop processing
-            _ => {
-                return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
-                    "Invalid base64 character",
-                ));
-            }
-        } as u32;
+        let val = DECODE_MAP[b as usize];
+        if val == 0xff {
+            return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
+                "Invalid base64 character: '{}'",
+                b as char
+            )));
+        }
         // Update buffer
-        buffer = (buffer << 6) | val;
+        buffer = (buffer << 6) | val as u32;
         bits_left += 6;
         // While we have at least 8 bits, extract byte
         while bits_left >= 8 {
