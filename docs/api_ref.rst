@@ -39,3 +39,8 @@ cryptopyx.encodings.base32
 --------------------------
 .. automodule:: cryptopyx.encodings.base32
    :members:
+
+cryptopyx.encodings.base64
+--------------------------
+.. automodule:: cryptopyx.encodings.base64
+   :members:
