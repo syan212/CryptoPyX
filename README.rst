@@ -99,4 +99,4 @@ To build from source without Rust after cloning the repository, run
 Licence
 =======
 
-This is licensed under MIT license. See LICENSE for full information.
+This is licensed under MIT licence. See LICENSE for full information.
