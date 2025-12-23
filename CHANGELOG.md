@@ -1,6 +1,6 @@
 # Changelog
 
-**v0.1.3 (Next release)**
+**v0.1.3**
 Features
 - Added CLI, currently only for base32
 - Added base64 encoding and decoding, with the same API as base32
