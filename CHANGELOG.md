@@ -8,7 +8,7 @@ Features
 - Added `rotate()` alias for rot13
 - Reduce sdist size
 
-Dependencies
+Dev dependencies
 - [cargo]: Bump pyo3 to 0.27.2
 - [pip]: Bump ruff to 0.14.7
 - [pip]: Bump maturin to 1.10.2
