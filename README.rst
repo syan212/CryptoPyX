@@ -61,7 +61,7 @@ See below for platform compatibility and more information
 See Building From Source below for more information.
 
 Wheel Compatibility
------------------
+-------------------
 
 The package provides pre-compiled wheels for the following platforms tags
 
