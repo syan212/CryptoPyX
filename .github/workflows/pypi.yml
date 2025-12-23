@@ -3,7 +3,7 @@ name: Publish to PyPI
 on:
   push:
     tags:
-      - v*.*.*
+      - v0.*.*
 
 env:
   GH_REPO: syan212/cryptopyx
