@@ -1,5 +1,5 @@
 use crate::encodings::base32 as b32;
-use clap::error::{Error, ErrorKind};
+use clap::error::ErrorKind;
 use clap::{ArgMatches, Command};
 use colored::Colorize;
 use matches::get_matches;
@@ -10,14 +10,10 @@ mod matches;
 
 #[pyfunction]
 pub fn parse() -> PyResult<()> {
-    // Get args
+    // Get args, command and matches
     let args: Vec<String> = args().skip(1).collect::<Vec<_>>();
-    // Command
     let mut command = get_matches();
-    // Get matches
-    let matches_result: Result<ArgMatches, Error> = get_matches().try_get_matches_from(args);
-    // Handle clap
-    let matches: ArgMatches = match matches_result {
+    let matches: ArgMatches = match get_matches().try_get_matches_from(args) {
         Ok(m) => m,
         // Handle errors, includes `--help` and `--version`
         Err(e) => {
