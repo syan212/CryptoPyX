@@ -5,12 +5,10 @@
 - [x] Base64 (will do immediately after CLI)
     * [x] Encoding
     * [x] Decoding
-- [ ] Ascii85 (should i do it?)
-- [ ] CLI
+- [ ] CLI (For v0.1.3)
     * [ ] Caesar, Vigenere, ROT13
     * [x] Base32
     * [ ] Base64 (after actual base64 implementation)
-    
 
 ## Other stuff
 - [x] Docs
