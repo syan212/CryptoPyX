@@ -82,13 +82,19 @@ pub fn parse() -> PyResult<()> {
                 .get_one::<String>("data")
                 .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string()));
             // Compute output
-            let out: String = if string {
-                utf8_string(b32::decode_bytes_rust(data.as_bytes())?)
+            let out: Vec<u8> = if string {
+                match b32::decode_bytes_rust(data.as_bytes()) {
+                    Ok(out) => out,
+                    Err(e) => unexpected_error(e.to_string()),
+                }
             } else {
-                // Get data from file
+                // Get data from file (could result in binary data)
                 let data = fs::read(data)
                     .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data)));
-                utf8_string(b32::decode_bytes_rust(&data)?)
+                match b32::decode_bytes_rust(&data) {
+                    Ok(out) => out,
+                    Err(e) => unexpected_error(e.to_string()),
+                }
             };
             // Output decoded data
             if let Some(output) = output_location {
@@ -102,7 +108,7 @@ pub fn parse() -> PyResult<()> {
                 );
             } else {
                 // Output to stdout
-                println!("{}", out.green());
+                println!("{}", utf8_string(out).green());
             }
         }
         _ => {
