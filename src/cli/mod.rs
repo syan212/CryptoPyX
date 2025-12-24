@@ -54,13 +54,15 @@ fn unexpected_error(message: String, error_kind: Option<(ErrorKind, &mut Command
 }
 
 /// Convert bytes to `String` with error handling
-fn utf8_string(bytes: Vec<u8>) -> String {
+fn utf8_string(bytes: Vec<u8>, cmd: &mut Command) -> String {
     match String::from_utf8(bytes) {
         Ok(s) => s.to_string(),
         Err(_) => {
-            get_matches()
-                .error(ErrorKind::InvalidUtf8, "Unable to convert bytes to string.")
-                .exit();
+            // get_matches()
+            //     .error(ErrorKind::InvalidUtf8, "Unable to convert bytes to string.")
+            //     .exit();
+            let e = cmd.error(ErrorKind::InvalidUtf8, "Unable to convert bytes to string.");
+            e.exit();
         }
     }
 }
@@ -77,7 +79,7 @@ fn base32_encode(m: &ArgMatches, command: &mut Command) {
     });
     // Compute output
     let out: String = if string {
-        utf8_string(b32::encode_bytes_rust(data.as_bytes()))
+        utf8_string(b32::encode_bytes_rust(data.as_bytes()), command)
     } else {
         // Get data from file
         let data = fs::read(data).unwrap_or_else(|_| {
@@ -86,7 +88,7 @@ fn base32_encode(m: &ArgMatches, command: &mut Command) {
                 Some((ErrorKind::Io, command)),
             )
         });
-        utf8_string(b32::encode_bytes_rust(&data))
+        utf8_string(b32::encode_bytes_rust(&data), command)
     };
     // Output encoded data
     if let Some(output) = output_location {
@@ -151,6 +153,6 @@ fn base32_decode(m: &ArgMatches, command: &mut Command) {
         );
     } else {
         // Output to stdout
-        println!("{}", utf8_string(out).green());
+        println!("{}", utf8_string(out, command).green());
     }
 }
