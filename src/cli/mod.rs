@@ -8,32 +8,6 @@ use std::{env::args, fs, process::exit};
 
 mod matches;
 
-/// Alert user of unexpected error and details and then exit
-fn unexpected_error(message: String, error_kind: Option<(ErrorKind, &mut Command)>) -> ! {
-    match error_kind {
-        None => {
-            eprintln!("Unexpected error occurred.\nDetails: {}", message.red());
-            exit(1);
-        }
-        Some((kind, cmd)) => {
-            let e = cmd.error(kind, message);
-            e.exit();
-        }
-    }
-}
-
-/// Convert bytes to `String` with error handling
-fn utf8_string(bytes: Vec<u8>) -> String {
-    match String::from_utf8(bytes) {
-        Ok(s) => s.to_string(),
-        Err(_) => {
-            get_matches()
-                .error(ErrorKind::InvalidUtf8, "Unable to convert bytes to string.")
-                .exit();
-        }
-    }
-}
-
 #[pyfunction]
 pub fn parse() -> PyResult<()> {
     // Get args
@@ -67,6 +41,32 @@ pub fn parse() -> PyResult<()> {
         }
     }
     Ok(())
+}
+
+/// Alert user of unexpected error and details and then exit
+fn unexpected_error(message: String, error_kind: Option<(ErrorKind, &mut Command)>) -> ! {
+    match error_kind {
+        None => {
+            eprintln!("Unexpected error occurred.\nDetails: {}", message.red());
+            exit(1);
+        }
+        Some((kind, cmd)) => {
+            let e = cmd.error(kind, message);
+            e.exit();
+        }
+    }
+}
+
+/// Convert bytes to `String` with error handling
+fn utf8_string(bytes: Vec<u8>) -> String {
+    match String::from_utf8(bytes) {
+        Ok(s) => s.to_string(),
+        Err(_) => {
+            get_matches()
+                .error(ErrorKind::InvalidUtf8, "Unable to convert bytes to string.")
+                .exit();
+        }
+    }
 }
 
 fn base32_encode(m: &ArgMatches, command: &mut Command) {
