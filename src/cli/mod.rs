@@ -1,5 +1,5 @@
 use crate::encodings::base32 as b32;
-use clap::ArgMatches;
+use clap::{ArgMatches, Command};
 use clap::error::{Error, ErrorKind};
 use colored::Colorize;
 use matches::get_matches;
@@ -9,9 +9,17 @@ use std::{env::args, fs, process::exit};
 mod matches;
 
 /// Alert user of unexpected error and details and then exit
-fn unexpected_error(message: String) -> ! {
-    eprintln!("Unexpected error occurred.\nDetails: {}", message.red());
-    exit(1);
+fn unexpected_error(message: String, error_kind: Option<(ErrorKind, &mut Command)>) -> ! {
+    match error_kind {
+        None => {
+            eprintln!("Unexpected error occurred.\nDetails: {}", message.red());
+            exit(1);
+        },
+        Some((kind, cmd)) => {
+            let e = cmd.error(kind, message);
+            e.exit();
+        }
+    }
 }
 
 /// Convert bytes to `String` with error handling
@@ -30,6 +38,8 @@ fn utf8_string(bytes: Vec<u8>) -> String {
 pub fn parse() -> PyResult<()> {
     // Get args
     let args: Vec<String> = args().skip(1).collect::<Vec<_>>();
+    // Command
+    let mut command = get_matches();
     // Get matches
     let matches_result: Result<ArgMatches, Error> = get_matches().try_get_matches_from(args);
     // Handle clap
@@ -44,76 +54,85 @@ pub fn parse() -> PyResult<()> {
     let (cmd, sub) = matches.subcommand().unwrap_or(("", &matches));
     match (cmd, sub.subcommand()) {
         ("base32", Some(("encode", m))) => {
-            // Get options and args with error handling
-            let output_location = m.get_one::<String>("output");
-            let string = m.get_flag("string");
-            let data = m
-                .get_one::<String>("data")
-                .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string()));
-            // Compute output
-            let out: String = if string {
-                utf8_string(b32::encode_bytes_rust(data.as_bytes()))
-            } else {
-                // Get data from file
-                let data = fs::read(data)
-                    .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data)));
-                utf8_string(b32::encode_bytes_rust(&data))
-            };
-            // Output encoded data
-            if let Some(output) = output_location {
-                // Write to file
-                fs::write(output, out).unwrap_or_else(|_| {
-                    unexpected_error(format!("Could not write to file: {}", output))
-                });
-                println!(
-                    "{}",
-                    format!("Successfully wrote data to {}", output).green()
-                );
-            } else {
-                // Output to stdout
-                println!("{}", out.green());
-            }
+            base32_encode(m, &mut command);
         }
         ("base32", Some(("decode", m))) => {
-            // Get options and args with error handling
-            let output_location = m.get_one::<String>("output");
-            let string = m.get_flag("string");
-            let data = m
-                .get_one::<String>("data")
-                .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string()));
-            // Compute output
-            let out: Vec<u8> = if string {
-                match b32::decode_bytes_rust(data.as_bytes()) {
-                    Ok(out) => out,
-                    Err(e) => unexpected_error(e.to_string()),
-                }
-            } else {
-                // Get data from file (could result in binary data)
-                let data = fs::read(data)
-                    .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data)));
-                match b32::decode_bytes_rust(&data) {
-                    Ok(out) => out,
-                    Err(e) => unexpected_error(e.to_string()),
-                }
-            };
-            // Output decoded data
-            if let Some(output) = output_location {
-                // Write to file
-                fs::write(output, out).unwrap_or_else(|_| {
-                    unexpected_error(format!("Could not write to file: {}", output))
-                });
-                println!(
-                    "{}",
-                    format!("Successfully wrote data to {}", output).green()
-                );
-            } else {
-                // Output to stdout
-                println!("{}", utf8_string(out).green());
-            }
+            base32_decode(m, &mut command);
         }
         _ => {
-            unexpected_error("Command not recognised or not provided".to_string());
+            unexpected_error("Command not recognised or not provided".to_string(), Some((ErrorKind::MissingSubcommand, &mut command)));
         }
     }
     Ok(())
 }
+
+fn base32_encode(m: &ArgMatches, command: &mut Command) {
+    // Get options and args with error handling
+    let output_location = m.get_one::<String>("output");
+    let string = m.get_flag("string");
+    let data = m
+        .get_one::<String>("data")
+        .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string(), Some((ErrorKind::MissingRequiredArgument, command))));
+    // Compute output
+    let out: String = if string {
+        utf8_string(b32::encode_bytes_rust(data.as_bytes()))
+    } else {
+        // Get data from file
+        let data = fs::read(data)
+            .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data), Some((ErrorKind::Io, command))));
+        utf8_string(b32::encode_bytes_rust(&data))
+    };
+    // Output encoded data
+    if let Some(output) = output_location {
+        // Write to file
+        fs::write(output, out).unwrap_or_else(|_| {
+            unexpected_error(format!("Could not write to file: {}", output), Some((ErrorKind::Io, command)))
+        });
+        println!(
+            "{}",
+            format!("Successfully wrote data to {}", output).green()
+        );
+    } else {
+        // Output to stdout
+        println!("{}", out.green());
+    }
+}
+
+fn base32_decode(m: &ArgMatches, command: &mut Command) {
+    // Get options and args with error handling
+    let output_location = m.get_one::<String>("output");
+    let string = m.get_flag("string");
+    let data = m
+        .get_one::<String>("data")
+        .unwrap_or_else(|| unexpected_error("Argument <data> was not found".to_string(), Some((ErrorKind::MissingRequiredArgument, command))));
+    // Compute output
+    let out: Vec<u8> = if string {
+        match b32::decode_bytes_rust(data.as_bytes()) {
+            Ok(out) => out,
+            Err(e) => unexpected_error(e.to_string(), None),
+        }
+    } else {
+        // Get data from file (could result in binary data)
+        let data = fs::read(data)
+            .unwrap_or_else(|_| unexpected_error(format!("Could not read file: {}", data), Some((ErrorKind::Io, command))));
+        match b32::decode_bytes_rust(&data) {
+            Ok(out) => out,
+            Err(e) => unexpected_error(e.to_string(), None),
+        }
+    };
+    // Output decoded data
+    if let Some(output) = output_location {
+        // Write to file
+        fs::write(output, out).unwrap_or_else(|_| {
+            unexpected_error(format!("Could not write to file: {}", output), Some((ErrorKind::Io, command)))
+        });
+        println!(
+            "{}",
+            format!("Successfully wrote data to {}", output).green()
+        );
+    } else {
+        // Output to stdout
+        println!("{}", utf8_string(out).green());
+    }
+}
+
