@@ -23,7 +23,7 @@ def decode(data: str) -> str:
 
     Returns:
         Decoded base64 string.
-    
+
     Raises:
         ValueError: If the string is invalid base64.
     """
@@ -48,7 +48,7 @@ def decode_bytes(data: bytes) -> bytes:
 
     Returns:
         Decoded base64 bytes.
-        
+
     Raises:
         ValueError: If the bytes are invalid base32.
     """
