@@ -1,12 +1,14 @@
-use crate::encodings::base32 as b32;
+use base32::*;
+use clap::ArgMatches;
 use clap::error::ErrorKind;
-use clap::{ArgMatches, Command};
-use colored::Colorize;
 use matches::get_matches;
 use pyo3::prelude::*;
-use std::{env::args, fs, process::exit};
+use std::env::args;
+use utils::*;
 
+mod base32;
 mod matches;
+mod utils;
 
 #[pyfunction]
 pub fn parse() -> PyResult<()> {
@@ -30,129 +32,11 @@ pub fn parse() -> PyResult<()> {
             base32_decode(m, &mut command);
         }
         _ => {
-            unexpected_error(
+            error(
                 "Command not recognised or not provided".to_string(),
                 Some((ErrorKind::MissingSubcommand, &mut command)),
             );
         }
     }
     Ok(())
-}
-
-/// Alert user of unexpected error and details and then exit
-fn unexpected_error(message: String, error_kind: Option<(ErrorKind, &mut Command)>) -> ! {
-    match error_kind {
-        None => {
-            eprintln!("Unexpected error occurred.\nDetails: {}", message.red());
-            exit(1);
-        }
-        Some((kind, cmd)) => {
-            let e = cmd.error(kind, message);
-            e.exit();
-        }
-    }
-}
-
-/// Convert bytes to `String` with error handling
-fn utf8_string(bytes: Vec<u8>, cmd: &mut Command) -> String {
-    match String::from_utf8(bytes) {
-        Ok(s) => s.to_string(),
-        Err(_) => {
-            // get_matches()
-            //     .error(ErrorKind::InvalidUtf8, "Unable to convert bytes to string.")
-            //     .exit();
-            let e = cmd.error(ErrorKind::InvalidUtf8, "Unable to convert bytes to string.");
-            e.exit();
-        }
-    }
-}
-
-fn base32_encode(m: &ArgMatches, command: &mut Command) {
-    // Get options and args with error handling
-    let output_location = m.get_one::<String>("output");
-    let string = m.get_flag("string");
-    let data = m.get_one::<String>("data").unwrap_or_else(|| {
-        unexpected_error(
-            "Argument <data> was not found".to_string(),
-            Some((ErrorKind::MissingRequiredArgument, command)),
-        )
-    });
-    // Compute output
-    let out: String = if string {
-        utf8_string(b32::encode_bytes_rust(data.as_bytes()), command)
-    } else {
-        // Get data from file
-        let data = fs::read(data).unwrap_or_else(|_| {
-            unexpected_error(
-                format!("Could not read file: {}", data),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        utf8_string(b32::encode_bytes_rust(&data), command)
-    };
-    // Output encoded data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            unexpected_error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", out.green());
-    }
-}
-
-fn base32_decode(m: &ArgMatches, command: &mut Command) {
-    // Get options and args with error handling
-    let output_location = m.get_one::<String>("output");
-    let string = m.get_flag("string");
-    let data = m.get_one::<String>("data").unwrap_or_else(|| {
-        unexpected_error(
-            "Argument <data> was not found".to_string(),
-            Some((ErrorKind::MissingRequiredArgument, command)),
-        )
-    });
-    // Compute output
-    let out: Vec<u8> = if string {
-        match b32::decode_bytes_rust(data.as_bytes()) {
-            Ok(out) => out,
-            Err(e) => unexpected_error(e.to_string(), None),
-        }
-    } else {
-        // Get data from file (could result in binary data)
-        let data = fs::read(data).unwrap_or_else(|_| {
-            unexpected_error(
-                format!("Could not read file: {}", data),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        match b32::decode_bytes_rust(&data) {
-            Ok(out) => out,
-            Err(e) => unexpected_error(e.to_string(), None),
-        }
-    };
-    // Output decoded data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            unexpected_error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", utf8_string(out, command).green());
-    }
 }
