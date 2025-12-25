@@ -1,12 +1,12 @@
-use base32::*;
+use encodings::*;
 use clap::ArgMatches;
 use clap::error::ErrorKind;
 use matches::get_matches;
 use pyo3::prelude::*;
 use std::env::args;
-use utils::*;
+use utils::error;
 
-mod base32;
+mod encodings;
 mod matches;
 mod utils;
 
@@ -30,6 +30,12 @@ pub fn parse() -> PyResult<()> {
         }
         ("base32", Some(("decode", m))) => {
             base32_decode(m, &mut command);
+        }
+        ("base64", Some(("encode", m))) => {
+            base64_encode(m, &mut command);
+        }
+        ("base64", Some(("decode", m))) => {
+            base64_decode(m, &mut command);
         }
         _ => {
             error(
