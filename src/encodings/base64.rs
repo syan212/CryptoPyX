@@ -1,3 +1,4 @@
+use pyo3::exceptions::*;
 use pyo3::prelude::*;
 
 // Standard Base64 alphabet
@@ -35,7 +36,14 @@ pub fn encode(data: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
-pub fn decode(data: &str) -> PyResult<String> {
+#[pyo3(signature = (data, strict=false))]
+pub fn decode(data: &str, strict: bool) -> PyResult<String> {
+    // Check for length if strict
+    if data.len() % 4 != 0 && strict {
+        return Err(PyErr::new::<PyValueError, _>(
+            "Length of input is not valid. Use strict=False to disable length checking.",
+        ));
+    }
     match String::from_utf8(decode_bytes_rust(
         data.trim().trim_end_matches('=').as_bytes(),
     )?) {
@@ -114,7 +122,7 @@ pub fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
         // Get value from alphabet
         let val = DECODE_MAP[b as usize];
         if val == 0xff {
-            return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
+            return Err(PyErr::new::<PyValueError, _>(format!(
                 "Invalid base64 character: '{}'",
                 b as char
             )));

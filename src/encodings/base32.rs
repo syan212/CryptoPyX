@@ -139,7 +139,7 @@ pub fn decode_bytes_rust(bytes: &[u8]) -> PyResult<Vec<u8>> {
         // Convert and validate character
         let val = DECODE_MAP[b as usize];
         if val == 0xff {
-            return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(format!(
+            return Err(PyErr::new::<PyValueError, _>(format!(
                 "Invalid Base32 character: '{}'",
                 b as char
             )));
