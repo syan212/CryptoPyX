@@ -185,4 +185,3 @@ pub fn base64_decode(m: &ArgMatches, command: &mut Command) {
         println!("{}", utf8_string(out, command).green());
     }
 }
-
