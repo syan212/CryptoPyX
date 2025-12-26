@@ -8,7 +8,7 @@
 - [ ] CLI (For v0.1.3)
     * [ ] Caesar, Vigenere, ROT13
     * [x] Base32
-    * [ ] Base64 (after actual base64 implementation)
+    * [x] Base64 (after actual base64 implementation)
 
 ## Other stuff
 - [x] Docs
