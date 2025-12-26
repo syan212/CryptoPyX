@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
-shopt -s globstar 
 
 # Help option
 if [[ $1 == "--help" || $1 == "-h" ]]; then
@@ -9,6 +7,9 @@ if [[ $1 == "--help" || $1 == "-h" ]]; then
     echo "Usage: ci.sh"
     exit 0
 fi
+
+set -euo pipefail
+shopt -s globstar 
 
 # Pytest(No no benchmark)
 uv run pytest --benchmark-skip
