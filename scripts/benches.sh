@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
+# Help option
+if [[ $1 == "--help" || $1 == "-h" ]]; then
+    echo "benches.sh - run pytest benchmarks."
+    echo ""
+    echo "Usage: benches.sh <output> <iterations>"
+    echo "       <output>: where the generated csv will go inside .benchmarks/."
+    echo "       <iterations>: how many times to repeat benchmarks. Default is 3 times."
+    exit 0
+fi
+
 # Run benchmark thrice
 if [[ $2 != "" ]]; then
     echo "Running benchmarks $2 times..."

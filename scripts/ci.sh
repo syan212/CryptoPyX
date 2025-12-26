@@ -2,6 +2,14 @@
 set -euo pipefail
 shopt -s globstar 
 
+# Help option
+if [[ $1 == "--help" || $1 == "-h" ]]; then
+    echo "ci.sh - run tests like in CI."
+    echo ""
+    echo "Usage: ci.sh"
+    exit 0
+fi
+
 # Pytest(No no benchmark)
 uv run pytest --benchmark-skip
 echo "Passed pytest testing"

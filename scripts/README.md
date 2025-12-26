@@ -8,5 +8,5 @@ install.sh -  Installs dev and doc dependencies and installs the actual package
 
 analyse_csv.py - Prints out average of field from csv
 
-CI.sh - runs CI locally. Note that this will not be the same as the github CI, 
+ci.sh - runs CI locally. Note that this will not be the same as the github CI, 
         as it only runs it on your specific OS and architecture

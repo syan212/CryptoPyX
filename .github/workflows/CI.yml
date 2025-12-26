@@ -52,8 +52,8 @@ jobs:
           chmod +x scripts/*
           scripts/install.sh --no-docs
           
-      # Runs scripts/CI.sh
+      # Runs scripts/ci.sh
       - name: Run tests, linting and formatting
         run: |
-          scripts/CI.sh
+          scripts/ci.sh
           
