@@ -5,7 +5,7 @@
 - [x] Base64 (will do immediately after CLI)
     * [x] Encoding
     * [x] Decoding
-- [ ] CLI (For v0.1.3)
+- [ ] CLI
     * [ ] Caesar, Vigenere, ROT13
     * [x] Base32
     * [x] Base64 (after actual base64 implementation)
