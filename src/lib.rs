@@ -45,7 +45,7 @@ fn _cryptopyx<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     Ok(())
 }
 
-// Register ciphers submodule
+/// Register ciphers submodule
 fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     // Submodule
     let ciphers_module: Bound<'_, PyModule> = PyModule::new(m.py(), "ciphers")?;
@@ -58,7 +58,7 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     Ok(())
 }
 
-// Register encodings submodule
+/// Register encodings submodule
 fn register_encodings<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     // Submodule
     let encodings_module: Bound<'_, PyModule> = PyModule::new(m.py(), "encodings")?;
