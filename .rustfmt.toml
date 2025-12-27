@@ -2,6 +2,5 @@
 edition = "2024"
 style_edition = "2024"
 
-# Other stuff
-max_width = 100
+# Newline style
 newline_style = "Unix"
