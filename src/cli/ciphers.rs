@@ -1,5 +1,5 @@
-use crate::cli::utils::*;
 use crate::ciphers::{caesar, rot13, vigenere};
+use crate::cli::utils::*;
 use clap::error::ErrorKind;
 use clap::{ArgMatches, Command};
 use colored::Colorize;

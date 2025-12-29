@@ -1,14 +1,14 @@
+use ciphers::*;
 use clap::ArgMatches;
 use clap::error::ErrorKind;
 use encodings::*;
-use ciphers::*;
 use matches::get_matches;
 use pyo3::prelude::*;
 use std::env::args;
 use utils::error;
 
-mod encodings;
 mod ciphers;
+mod encodings;
 mod matches;
 mod utils;
 
