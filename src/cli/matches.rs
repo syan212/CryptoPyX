@@ -1,6 +1,6 @@
 use anstyle::{AnsiColor, Color, Style};
 use clap::{Arg, Command, builder::Styles};
-use clap::{ArgAction, crate_version};
+use clap::{ArgAction, crate_version, value_parser};
 
 fn get_styles() -> Styles {
     Styles::styled()
@@ -47,7 +47,7 @@ pub fn get_matches() -> Command {
                 .about("Base32 encoding and decoding.")
                 .subcommand(
                     Command::new("encode")
-                        .about("Encode a string into base32.")
+                        .about("Encode data into base32. Data can be a binary file, but then outputting to stdout is not allowed.")
                         .arg(
                             Arg::new("data")
                                 .help("Data to encode. Can be a file name (default behaviour) or a raw string (pass in -s).")
@@ -69,8 +69,8 @@ pub fn get_matches() -> Command {
                         ),
                 )
                 .subcommand(
-                    Command::new("decode")
-                        .about("Decode base32 into a string.")
+                    Command::new("decode Output data can be binary, but then output must be to a file.")
+                        .about("Decode base32.")
                         .arg(
                             Arg::new("data")
                                 .help("Data to decode. Can be a file name (default behaviour) or a raw string (pass in -s).")
@@ -98,7 +98,7 @@ pub fn get_matches() -> Command {
                 .about("Base64 encoding and decoding.")
                 .subcommand(
                     Command::new("encode")
-                        .about("Encode a string into base64")
+                        .about("Encode data into base64. Data can be a binary file, but then outputting to stdout is not allowed.")
                         .arg(
                             Arg::new("data")
                                 .help("Data to encode. Can be a file name (default behaviour) or a raw string (pass in -s).")
@@ -121,11 +121,74 @@ pub fn get_matches() -> Command {
                 )
                 .subcommand(
                     Command::new("decode")
-                        .about("Decode base64 into a string")
+                        .about("Decode base64. Output data can be binary, but then output must be to a file.")
                         .arg(
                             Arg::new("data")
                                 .help("Data to decode. Can be a file name (default behaviour) or a raw string (pass in -s).")
                                 .required(true),
+                        )
+                        .arg(
+                            Arg::new("string")
+                                .help("Flag to indicate that the input data is a string.")
+                                .short('s')
+                                .long("string")
+                                .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("output")
+                                .help("Sets the file output of the decoded data. Default is stdout.")
+                                .short('o')
+                                .long("output")
+                                .action(ArgAction::Set),
+                        ),
+                )
+        )
+        .subcommand(
+            Command::new("caesar")
+                .subcommand_required(true)
+                .about("Caesar encryption and decryption. Data must be utf8 and all non-alphabetical characters are ignored.")
+                .subcommand(
+                    Command::new("encrypt")
+                        .about("Encrypt a string using Caesar shift.")
+                        .arg(
+                            Arg::new("data")
+                                .help("Data to encode. Can be a file name (default behaviour) or a raw string (pass in -s).")
+                                .required(true),
+                        )
+                        .arg(
+                            Arg::new("shift")
+                                .help("Shift to use when encrypting data.")
+                                .value_parser(value_parser!(i8).range(-25..=25))
+                                .required(true)
+                        )
+                        .arg(
+                            Arg::new("string")
+                            .help("Flag to indicate that the input data is a string.")
+                            .short('s')
+                            .long("string")
+                            .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("output")
+                                .help("Sets the file output of the encrypted data. Default is stdout.")
+                                .short('o')
+                                .long("output")
+                                .action(ArgAction::Set),
+                        ),
+                )
+                .subcommand(
+                    Command::new("decrypt")
+                        .about("Decrypt data using Caesar shift.")
+                        .arg(
+                            Arg::new("data")
+                                .help("Data to decode. Can be a file name (default behaviour) or a raw string (pass in -s).")
+                                .required(true),
+                        )
+                        .arg(
+                            Arg::new("shift")
+                                .help("Shift to use when decrypting data. Should be the same as the one used to encrypt the data.")
+                                .value_parser(value_parser!(i8).range(-25..=25))
+                                .required(true)
                         )
                         .arg(
                             Arg::new("string")

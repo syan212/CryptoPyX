@@ -1,12 +1,14 @@
 use clap::ArgMatches;
 use clap::error::ErrorKind;
 use encodings::*;
+use ciphers::*;
 use matches::get_matches;
 use pyo3::prelude::*;
 use std::env::args;
 use utils::error;
 
 mod encodings;
+mod ciphers;
 mod matches;
 mod utils;
 
@@ -36,6 +38,12 @@ pub fn parse() -> PyResult<()> {
         }
         ("base64", Some(("decode", m))) => {
             base64_decode(m, &mut command);
+        }
+        ("caesar", Some(("encrypt", m))) => {
+            caesar_encrypt(m, &mut command);
+        }
+        ("caesar", Some(("decrypt", m))) => {
+            caesar_decrypt(m, &mut command);
         }
         _ => {
             error(

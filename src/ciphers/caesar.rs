@@ -1,5 +1,3 @@
-use std::vec;
-
 // This Caesar shift implementation uses a precomputed lookup table for speed
 // The table is reused in the Vigenere implementation
 use pyo3::prelude::*;
@@ -43,22 +41,28 @@ static CAESAR_TABLES: [[u8; 256]; 26] = {
 // The exposed python functions
 #[pyfunction]
 pub fn encrypt(data: &str, shift: i32) -> PyResult<String> {
-    caesar_rust(data, shift, Mode::Encrypt)
-}
-
-#[pyfunction]
-pub fn decrypt(data: &str, shift: i32) -> PyResult<String> {
-    caesar_rust(data, shift, Mode::Decrypt)
-}
-
-// Actual implementation
-pub fn caesar_rust(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
     // Validate shift range
     if !(-25..=25).contains(&shift) {
         return Err(pyo3::exceptions::PyValueError::new_err(
             "Shift must be in the range -25 to 25",
         ));
     }
+    Ok(caesar_rust(data, shift as i8, Mode::Encrypt))
+}
+
+#[pyfunction]
+pub fn decrypt(data: &str, shift: i32) -> PyResult<String> {
+    // Validate shift range
+    if !(-25..=25).contains(&shift) {
+        return Err(pyo3::exceptions::PyValueError::new_err(
+            "Shift must be in the range -25 to 25",
+        ));
+    }
+    Ok(caesar_rust(data, shift as i8, Mode::Decrypt))
+}
+
+// Actual implementation
+pub fn caesar_rust(data: &str, shift: i8, mode: Mode) -> String {
     // Convert shift to usize for indexing and handle wrap-around
     let shift: usize = shift.rem_euclid(26) as usize;
     // Compute forwards shift to find correct table
@@ -72,6 +76,7 @@ pub fn caesar_rust(data: &str, shift: i32, mode: Mode) -> PyResult<String> {
     for i in 0..bytes.len() {
         out[i] = CAESAR_TABLES[forward_shift][bytes[i] as usize];
     }
-    let result_string: String = String::from_utf8(out)?;
-    Ok(result_string)
+    // Unwrap should be safe here
+    let result_string: String = String::from_utf8(out).unwrap();
+    result_string
 }

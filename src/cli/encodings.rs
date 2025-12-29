@@ -1,6 +1,5 @@
 use crate::cli::utils::*;
-use crate::encodings::base32 as b32;
-use crate::encodings::base64 as b64;
+use crate::encodings::{base32 as b32, base64 as b64};
 use clap::error::ErrorKind;
 use clap::{ArgMatches, Command};
 use colored::Colorize;

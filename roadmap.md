@@ -6,7 +6,9 @@
     * [x] Encoding
     * [x] Decoding
 - [ ] CLI
-    * [ ] Caesar, Vigenere, ROT13
+    * [x] Caesar
+    * [ ] Vigenere
+    * [ ] ROT13
     * [x] Base32
     * [x] Base64 (after actual base64 implementation)
 
