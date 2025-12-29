@@ -23,7 +23,7 @@ pub fn caesar_encrypt(m: &ArgMatches, command: &mut Command) {
     });
     // Compute output
     let out: String = if string {
-        caesar::caesar_rust(&data, *shift, caesar::Mode::Encrypt)
+        caesar::caesar_rust(data, *shift, caesar::Mode::Encrypt)
     } else {
         // Get data from file
         let data = fs::read_to_string(data).unwrap_or_else(|_| {
@@ -32,7 +32,7 @@ pub fn caesar_encrypt(m: &ArgMatches, command: &mut Command) {
                 Some((ErrorKind::Io, command)),
             )
         });
-        caesar::caesar_rust(&data, *shift, caesar::Mode::Encrypt)
+        caesar::caesar_rust(data, *shift, caesar::Mode::Encrypt)
     };
     // Output data
     if let Some(output) = output_location {
