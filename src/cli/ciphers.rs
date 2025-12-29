@@ -32,7 +32,7 @@ pub fn caesar_encrypt(m: &ArgMatches, command: &mut Command) {
                 Some((ErrorKind::Io, command)),
             )
         });
-        caesar::caesar_rust(data, *shift, caesar::Mode::Encrypt)
+        caesar::caesar_rust(&data, *shift, caesar::Mode::Encrypt)
     };
     // Output data
     if let Some(output) = output_location {
