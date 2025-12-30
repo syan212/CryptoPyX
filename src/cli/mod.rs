@@ -45,6 +45,15 @@ pub fn parse() -> PyResult<()> {
         ("caesar", Some(("decrypt", m))) => {
             caesar_decrypt(m, &mut command);
         }
+        ("rot13", Some(("encrypt", m))) => {
+            rot13_rotate(m, &mut command);
+        }
+        ("rot13", Some(("decrypt", m))) => {
+            rot13_rotate(m, &mut command);
+        }
+        ("rot13", Some(("rotate", m))) => {
+            rot13_rotate(m, &mut command);
+        }
         _ => {
             error(
                 "Command not recognised or not provided".to_string(),

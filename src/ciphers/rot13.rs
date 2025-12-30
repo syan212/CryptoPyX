@@ -23,26 +23,27 @@ static ROT13_TABLE: [u8; 256] = {
 // The exposed python functions
 #[pyfunction]
 pub fn encrypt(data: &str) -> PyResult<String> {
-    rot13_rust(data)
+    Ok(rot13_rust(data))
 }
 
 #[pyfunction]
 pub fn decrypt(data: &str) -> PyResult<String> {
-    rot13_rust(data)
+    Ok(rot13_rust(data))
 }
 
 #[pyfunction]
 pub fn rotate(data: &str) -> PyResult<String> {
-    rot13_rust(data)
+    Ok(rot13_rust(data))
 }
 
 // Main ROT13 logic
-pub fn rot13_rust(data: &str) -> PyResult<String> {
+pub fn rot13_rust(data: &str) -> String {
     let bytes = data.as_bytes();
     let mut out: Vec<u8> = vec![0; bytes.len()];
     for i in 0..bytes.len() {
         out[i] = ROT13_TABLE[bytes[i] as usize];
     }
-    let result_string: String = String::from_utf8(out)?;
-    Ok(result_string)
+    // Unwrap should be safe here
+    let result_string: String = String::from_utf8(out).unwrap();
+    result_string
 }

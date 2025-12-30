@@ -206,5 +206,79 @@ pub fn get_matches() -> Command {
                         ),
                 )
         )
+        .subcommand(
+            Command::new("rot13")
+                .subcommand_required(true)
+                .about("Rot13 encryption and decryption. Data must be utf8 and all non-alphabetical characters are ignored.")
+                .subcommand(
+                    Command::new("encrypt")
+                        .about("\"Encrypt\" a string using rot13. Same as decrypt and rotate.")
+                        .arg(
+                            Arg::new("data")
+                                .help("Data to encode. Can be a file name (default behaviour) or a raw string (pass in -s).")
+                                .required(true),
+                        )
+                        .arg(
+                            Arg::new("string")
+                            .help("Flag to indicate that the input data is a string.")
+                            .short('s')
+                            .long("string")
+                            .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("output")
+                                .help("Sets the file output of the encrypted data. Default is stdout.")
+                                .short('o')
+                                .long("output")
+                                .action(ArgAction::Set),
+                        ),
+                )
+                .subcommand(
+                    Command::new("decrypt")
+                        .about("\"Decrypt\" data using rot13. Same as encrypt and rotate.")
+                        .arg(
+                            Arg::new("data")
+                                .help("Data to decode. Can be a file name (default behaviour) or a raw string (pass in -s).")
+                                .required(true),
+                        )
+                        .arg(
+                            Arg::new("string")
+                                .help("Flag to indicate that the input data is a string.")
+                                .short('s')
+                                .long("string")
+                                .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("output")
+                                .help("Sets the file output of the decoded data. Default is stdout.")
+                                .short('o')
+                                .long("output")
+                                .action(ArgAction::Set),
+                        ),
+                )
+                .subcommand(
+                    Command::new("rotate")
+                        .about("Rotate data using rot13. Same as encrypt and decrypt.")
+                        .arg(
+                            Arg::new("data")
+                                .help("Data to decode. Can be a file name (default behaviour) or a raw string (pass in -s).")
+                                .required(true),
+                        )
+                        .arg(
+                            Arg::new("string")
+                                .help("Flag to indicate that the input data is a string.")
+                                .short('s')
+                                .long("string")
+                                .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("output")
+                                .help("Sets the file output of the decoded data. Default is stdout.")
+                                .short('o')
+                                .long("output")
+                                .action(ArgAction::Set),
+                        ),
+                )
+        )
         .styles(get_styles())
 }
