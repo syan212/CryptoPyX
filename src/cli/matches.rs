@@ -1,6 +1,6 @@
 use anstyle::{AnsiColor, Color, Style};
-use clap::{Arg, Command, builder::Styles};
-use clap::{ArgAction, crate_version, value_parser};
+use clap::builder::Styles;
+use clap::{Arg, ArgAction, Command, crate_version, value_parser};
 
 fn get_styles() -> Styles {
     Styles::styled()
