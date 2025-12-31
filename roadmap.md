@@ -2,15 +2,15 @@
 
 ## v0.2.0
 - [x] Base32
-- [x] Base64 (will do immediately after CLI)
+- [x] Base64
     * [x] Encoding
     * [x] Decoding
-- [ ] CLI
+- [x] CLI
     * [x] Caesar
-    * [ ] Vigenere
-    * [ ] ROT13
+    * [x] Vigenere
+    * [x] ROT13
     * [x] Base32
-    * [x] Base64 (after actual base64 implementation)
+    * [x] Base64
 
 ## Other stuff
 - [x] Docs

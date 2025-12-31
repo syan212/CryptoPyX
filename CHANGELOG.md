@@ -1,5 +1,9 @@
 # Changelog
 
+**v0.2.0 (Yet to be released)**
+Features
+- Extended CLI for all current available methods
+
 **v0.1.3**
 Features
 - Added CLI, currently only for base32
