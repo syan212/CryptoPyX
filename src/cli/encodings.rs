@@ -61,7 +61,7 @@ pub fn base32_decode(m: &ArgMatches, command: &mut Command) {
     let out: Vec<u8> = if string {
         match b32::decode_bytes_rust(data.as_bytes()) {
             Ok(out) => out,
-            Err(e) => error(e.to_string(), None),
+            Err(e) => error(e.to_string(), Some((ErrorKind::InvalidValue, command))),
         }
     } else {
         // Get data from file (could result in binary data)

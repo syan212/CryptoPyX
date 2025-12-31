@@ -54,6 +54,12 @@ pub fn parse() -> PyResult<()> {
         ("rot13", Some(("rotate", m))) => {
             rot13_rotate(m, &mut command);
         }
+        ("vigenere", Some(("encrypt", m))) => {
+            vigenere_encrypt(m, &mut command);
+        }
+        ("vigenere", Some(("decrypt", m))) => {
+            vigenere_decrypt(m, &mut command);
+        }
         _ => {
             error(
                 "Command not recognised or not provided".to_string(),

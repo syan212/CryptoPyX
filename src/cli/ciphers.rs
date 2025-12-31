@@ -142,3 +142,113 @@ pub fn rot13_rotate(m: &ArgMatches, command: &mut Command) {
         println!("{}", out.green());
     }
 }
+
+pub fn vigenere_encrypt(m: &ArgMatches, command: &mut Command) {
+    // Get options and args with error handling
+    let output_location = m.get_one::<String>("output");
+    let string = m.get_flag("string");
+    let skip_non_alpha = m.get_flag("skip-non-alpha");
+    let data = m.get_one::<String>("data").unwrap_or_else(|| {
+        error(
+            "Argument <data> was not found".to_string(),
+            Some((ErrorKind::MissingRequiredArgument, command)),
+        )
+    });
+    let key = m.get_one::<String>("key").unwrap_or_else(|| {
+        error(
+            "Argument <key> was not found".to_string(),
+            Some((ErrorKind::MissingRequiredArgument, command)),
+        )
+    });
+    // Compute output
+    let out: String = if string {
+        match vigenere::vigenere_rust(data, key, vigenere::Mode::Encrypt, skip_non_alpha) {
+            Ok(out) => out,
+            Err(e) => error(e.to_string(), Some((ErrorKind::InvalidValue, command))),
+        }
+    } else {
+        // Get data from file
+        let data = fs::read_to_string(data).unwrap_or_else(|_| {
+            error(
+                format!("Could not read file: {}", data),
+                Some((ErrorKind::Io, command)),
+            )
+        });
+        match vigenere::vigenere_rust(&data, key, vigenere::Mode::Encrypt, skip_non_alpha) {
+            Ok(out) => out,
+            Err(e) => error(e.to_string(), Some((ErrorKind::InvalidValue, command))),
+        }
+    };
+    // Output data
+    if let Some(output) = output_location {
+        // Write to file
+        fs::write(output, out).unwrap_or_else(|_| {
+            error(
+                format!("Could not write to file: {}", output),
+                Some((ErrorKind::Io, command)),
+            )
+        });
+        println!(
+            "{}",
+            format!("Successfully wrote data to {}", output).green()
+        );
+    } else {
+        // Output to stdout
+        println!("{}", out.green());
+    }
+}
+
+pub fn vigenere_decrypt(m: &ArgMatches, command: &mut Command) {
+    // Get options and args with error handling
+    let output_location = m.get_one::<String>("output");
+    let string = m.get_flag("string");
+    let skip_non_alpha = m.get_flag("skip-non-alpha");
+    let data = m.get_one::<String>("data").unwrap_or_else(|| {
+        error(
+            "Argument <data> was not found".to_string(),
+            Some((ErrorKind::MissingRequiredArgument, command)),
+        )
+    });
+    let key = m.get_one::<String>("key").unwrap_or_else(|| {
+        error(
+            "Argument <key> was not found".to_string(),
+            Some((ErrorKind::MissingRequiredArgument, command)),
+        )
+    });
+    // Compute output
+    let out: String = if string {
+        match vigenere::vigenere_rust(data, key, vigenere::Mode::Decrypt, skip_non_alpha) {
+            Ok(out) => out,
+            Err(e) => error(e.to_string(), Some((ErrorKind::InvalidValue, command))),
+        }
+    } else {
+        // Get data from file
+        let data = fs::read_to_string(data).unwrap_or_else(|_| {
+            error(
+                format!("Could not read file: {}", data),
+                Some((ErrorKind::Io, command)),
+            )
+        });
+        match vigenere::vigenere_rust(&data, key, vigenere::Mode::Decrypt, skip_non_alpha) {
+            Ok(out) => out,
+            Err(e) => error(e.to_string(), Some((ErrorKind::InvalidValue, command))),
+        }
+    };
+    // Output data
+    if let Some(output) = output_location {
+        // Write to file
+        fs::write(output, out).unwrap_or_else(|_| {
+            error(
+                format!("Could not write to file: {}", output),
+                Some((ErrorKind::Io, command)),
+            )
+        });
+        println!(
+            "{}",
+            format!("Successfully wrote data to {}", output).green()
+        );
+    } else {
+        // Output to stdout
+        println!("{}", out.green());
+    }
+}

@@ -280,5 +280,80 @@ pub fn get_matches() -> Command {
                         ),
                 )
         )
+        .subcommand(
+            Command::new("vigenere")
+                .subcommand_required(true)
+                .about("Vigenere encryption and decryption. Data must be utf8 and all non-alphabetical characters are ignored.")
+                .subcommand(
+                    Command::new("encrypt")
+                        .about("Encrypt a string using Vigenere cipher.")
+                        .arg(
+                            Arg::new("data")
+                                .help("Data to encode. Can be a file name (default behaviour) or a raw string (pass in -s).")
+                                .required(true),
+                        )
+                        .arg(
+                            Arg::new("key")
+                                .help("Key to use when decrypting data. Should be the same as the one used to encrypt the data.")
+                                .required(true)
+                        )
+                        .arg(
+                            Arg::new("skip-non-alpha")
+                                .help("Flag to indicate that non-alphabetic characters should be skipped when encrypting/decrypting.")
+                                .short('k')
+                                .long("skip-non-alpha")
+                                .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("string")
+                            .help("Flag to indicate that the input data is a string.")
+                            .short('s')
+                            .long("string")
+                            .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("output")
+                                .help("Sets the file output of the encrypted data. Default is stdout.")
+                                .short('o')
+                                .long("output")
+                                .action(ArgAction::Set),
+                        ),
+                )
+                .subcommand(
+                    Command::new("decrypt")
+                        .about("Decrypt data using Vigenere cipher.")
+                        .arg(
+                            Arg::new("data")
+                                .help("Data to decode. Can be a file name (default behaviour) or a raw string (pass in -s).")
+                                .required(true),
+                        )
+                        .arg(
+                            Arg::new("key")
+                                .help("Key to use when decrypting data. Should be the same as the one used to encrypt the data.")
+                                .required(true)
+                        )
+                        .arg(
+                            Arg::new("skip-non-alpha")
+                                .help("Flag to indicate that non-alphabetic characters should be skipped when encrypting/decrypting.")
+                                .short('k')
+                                .long("skip-non-alpha")
+                                .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("string")
+                                .help("Flag to indicate that the input data is a string.")
+                                .short('s')
+                                .long("string")
+                                .action(ArgAction::SetTrue),
+                        )
+                        .arg(
+                            Arg::new("output")
+                                .help("Sets the file output of the decoded data. Default is stdout.")
+                                .short('o')
+                                .long("output")
+                                .action(ArgAction::Set),
+                        ),
+                )
+        )
         .styles(get_styles())
 }
