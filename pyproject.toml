@@ -67,7 +67,6 @@ dev = [
   "ruff==0.14.10",
   "pytest==9.0.2",
   "pytest-benchmark==5.2.3",
-  "codespell==2.4.1",
   "radon==6.0.1"
 ]
 

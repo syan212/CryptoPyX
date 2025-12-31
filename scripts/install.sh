@@ -7,7 +7,7 @@ if [[ $1 == "--help" || $1 == "-h" ]]; then
     echo "install.sh - install all dependencies and editable version of CryptoPyX."
     echo ""
     echo "Usage: install.sh [OPTIONS]"
-    echo "       --no-docs: do not install doc dependencies. This is used as doc dependecies reuqire python>=3.11."
+    echo "       --no-docs: do not install doc dependencies. This is used as doc dependencies require python>=3.11."
     exit 0
 fi
 
