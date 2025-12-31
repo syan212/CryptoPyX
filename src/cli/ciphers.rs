@@ -71,7 +71,7 @@ pub fn caesar_decrypt(m: &ArgMatches, command: &mut Command) {
     });
     // Compute output
     let out: String = if string {
-        caesar::caesar_rust(&data, *shift, caesar::Mode::Decrypt)
+        caesar::caesar_rust(data, *shift, caesar::Mode::Decrypt)
     } else {
         // Get data from file
         let data = fs::read_to_string(data).unwrap_or_else(|_| {
