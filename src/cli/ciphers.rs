@@ -2,7 +2,6 @@ use crate::ciphers::{caesar, rot13, vigenere};
 use crate::cli::utils::*;
 use clap::error::ErrorKind;
 use clap::{ArgMatches, Command};
-use colored::Colorize;
 use std::fs;
 
 pub fn caesar_encrypt(m: &ArgMatches, command: &mut Command) {
@@ -35,22 +34,7 @@ pub fn caesar_encrypt(m: &ArgMatches, command: &mut Command) {
         caesar::caesar_rust(&data, *shift, caesar::Mode::Encrypt)
     };
     // Output data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", out.green());
-    }
+    output_string(output_location, out, command);
 }
 
 pub fn caesar_decrypt(m: &ArgMatches, command: &mut Command) {
@@ -83,22 +67,7 @@ pub fn caesar_decrypt(m: &ArgMatches, command: &mut Command) {
         caesar::caesar_rust(&data, *shift, caesar::Mode::Decrypt)
     };
     // Output data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", out.green());
-    }
+    output_string(output_location, out, command);
 }
 
 pub fn rot13_rotate(m: &ArgMatches, command: &mut Command) {
@@ -125,22 +94,7 @@ pub fn rot13_rotate(m: &ArgMatches, command: &mut Command) {
         rot13::rot13_rust(&data)
     };
     // Output data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", out.green());
-    }
+    output_string(output_location, out, command);
 }
 
 pub fn vigenere_encrypt(m: &ArgMatches, command: &mut Command) {
@@ -180,22 +134,7 @@ pub fn vigenere_encrypt(m: &ArgMatches, command: &mut Command) {
         }
     };
     // Output data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", out.green());
-    }
+    output_string(output_location, out, command);
 }
 
 pub fn vigenere_decrypt(m: &ArgMatches, command: &mut Command) {
@@ -235,20 +174,5 @@ pub fn vigenere_decrypt(m: &ArgMatches, command: &mut Command) {
         }
     };
     // Output data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", out.green());
-    }
+    output_string(output_location, out, command);
 }

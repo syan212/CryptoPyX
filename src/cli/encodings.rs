@@ -2,7 +2,6 @@ use crate::cli::utils::*;
 use crate::encodings::{base32 as b32, base64 as b64};
 use clap::error::ErrorKind;
 use clap::{ArgMatches, Command};
-use colored::Colorize;
 use std::fs;
 
 pub fn base32_encode(m: &ArgMatches, command: &mut Command) {
@@ -29,22 +28,7 @@ pub fn base32_encode(m: &ArgMatches, command: &mut Command) {
         utf8_string(b32::encode_bytes_rust(&data), command)
     };
     // Output encoded data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", out.green());
-    }
+    output_string(output_location, out, command);
 }
 
 pub fn base32_decode(m: &ArgMatches, command: &mut Command) {
@@ -77,22 +61,7 @@ pub fn base32_decode(m: &ArgMatches, command: &mut Command) {
         }
     };
     // Output decoded data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", utf8_string(out, command).green());
-    }
+    output_vec(output_location, out, command);
 }
 
 pub fn base64_encode(m: &ArgMatches, command: &mut Command) {
@@ -119,22 +88,7 @@ pub fn base64_encode(m: &ArgMatches, command: &mut Command) {
         utf8_string(b64::encode_bytes_rust(&data), command)
     };
     // Output encoded data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", out.green());
-    }
+    output_string(output_location, out, command);
 }
 
 pub fn base64_decode(m: &ArgMatches, command: &mut Command) {
@@ -167,20 +121,5 @@ pub fn base64_decode(m: &ArgMatches, command: &mut Command) {
         }
     };
     // Output decoded data
-    if let Some(output) = output_location {
-        // Write to file
-        fs::write(output, out).unwrap_or_else(|_| {
-            error(
-                format!("Could not write to file: {}", output),
-                Some((ErrorKind::Io, command)),
-            )
-        });
-        println!(
-            "{}",
-            format!("Successfully wrote data to {}", output).green()
-        );
-    } else {
-        // Output to stdout
-        println!("{}", utf8_string(out, command).green());
-    }
+    output_vec(output_location, out, command);
 }
