@@ -96,11 +96,10 @@ exclude = [
   '.git*', '.github/**', 
   
   # Dev files and directories
-  'benchmarks/**', 'tests/**', 'scripts/**', 'utils/**', 'docs/**', 
+  'benches/**', 'tests/**', 'scripts/**', 'utils/**', 'docs/**', 
   
   # Miscellaneous
-  '.editorconfig', '.ruff.toml', '.rustfmt.toml', 
-  'roadmap.md', 'Cargo.lock', 'CHANGELOG.md',
+  '.editorconfig', '.rustfmt.toml', 'roadmap.md', 'Cargo.lock', 'CHANGELOG.md',
 ]
 auditwheel = "repair"
 strip = true
