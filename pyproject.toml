@@ -7,7 +7,7 @@ name = "cryptopyx"
 # The package itself requires python 3.10, but doc dependencies require python 3.11
 requires-python = ">=3.10"
 # Update cargo version too
-version = "0.1.3"
+version = "0.2.0"
 description = "A python cryptography package written in Rust made for speed."
 readme = "README.rst"
 license = "MIT"

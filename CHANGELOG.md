@@ -1,6 +1,6 @@
 # Changelog
 
-**v0.2.0 (Yet to be released)**
+**v0.2.0**
 Features
 - Extended CLI for all current available methods
 
