@@ -1,4 +1,4 @@
-# Implmentation checklist
+# Implementation checklist
 
 - AES
   * [ ] KeyExpansion 
