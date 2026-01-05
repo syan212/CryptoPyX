@@ -1,6 +1,6 @@
 // Substitution cipher with an arbitrary mapping between characters.
-use std::collections::HashMap;
 use pyo3::prelude::*;
+use std::collections::HashMap;
 
 // The exposed python function
 #[pyfunction]
