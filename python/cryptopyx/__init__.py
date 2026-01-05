@@ -23,6 +23,7 @@ sys.modules['cryptopyx.ciphers'] = ciphers
 sys.modules['cryptopyx.ciphers.rot13'] = ciphers.rot13
 sys.modules['cryptopyx.ciphers.caesar'] = ciphers.caesar
 sys.modules['cryptopyx.ciphers.vigenere'] = ciphers.vigenere
+sys.modules['cryptopyx.ciphers.substitution'] = ciphers.substitution
 
 # CLI
 cli: ModuleType = _cryptopyx.cli  # type: ignore
