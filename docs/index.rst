@@ -13,6 +13,7 @@ This project is licensed under the MIT License - see the :ref:`licence<licence>`
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :includehidden:
 
    installation
    introduction/index

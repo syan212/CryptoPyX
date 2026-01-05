@@ -2,6 +2,12 @@
 Introduction
 ############
 
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   simple_ciphers
+
 .. important:: This is still a work in progress. The API and features may change in future releases.
 
 Installation
@@ -22,12 +28,12 @@ Here is a simple example of how to use the package to encode and decode data usi
 
 .. code-block:: python
 
-   from cryptopyx.encodings import base32
+   from cryptopyx.encodings import base64
 
-   # Encoding bytes to base32
-   encoded = base32.encode_bytes(b'Hello World')
-   print(encoded)  # Output: b'JBSWY3DPEBLW64TMMQ======'
+   # Encoding bytes to base64
+   encoded = base64.encode_bytes(b'Hello World')
+   print(encoded)  # Output: b'SGVsbG8gV29ybGQ='
 
-   # Decoding base32 back to bytes
-   decoded = base32.decode_bytes(encoded)
+   # Decoding base64 back to bytes
+   decoded = base64.decode_bytes(encoded)
    print(decoded)  # Output: b'Hello World'
