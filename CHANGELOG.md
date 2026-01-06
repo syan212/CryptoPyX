@@ -1,5 +1,9 @@
 # Changelog
 
+**v0.2.1 (Not yet released)**
+Features:
+- Added custom substitution cipher
+
 **v0.2.0**
 Features
 - Extended CLI for all current available methods
