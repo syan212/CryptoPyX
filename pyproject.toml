@@ -71,8 +71,8 @@ dev = [
 
 # Doc dependencies, requires python 3.11
 docs = [
-  "sphinxawesome-theme==5.3.2",
-  "sphinx_design==0.6.1",
+  "sphinxawesome-theme==5.3.2; python_version >= '3.11'",
+  "sphinx_design==0.6.1; python_version >= '3.11'",
   "sphinx==8.2.3; python_version >= '3.11'",
 ]
 
