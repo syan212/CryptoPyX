@@ -22,7 +22,7 @@ anstyle = "1.0.13"
 colored = "3.0.0"
 
 [dependencies.clap]
-version = "4.5.53"
+version = "4.5.54"
 features = ["cargo"]
 
 [dependencies.pyo3]
