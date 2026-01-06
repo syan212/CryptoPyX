@@ -1,5 +1,5 @@
 [build-system]
-requires = ["maturin>=1.0,<2.0"]
+requires = ["maturin<2.0,>=1.0"]
 build-backend = "maturin"
 
 [project]
@@ -63,7 +63,7 @@ classifiers = [
 [dependency-groups]
 # Dev dependencies
 dev = [
-  "maturin==1.10.2",
+  "maturin==1.11.2",
   "ruff==0.14.10",
   "pytest==9.0.2",
   "pytest-benchmark==5.2.3",
