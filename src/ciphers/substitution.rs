@@ -35,10 +35,7 @@ pub fn substitute_bytes(data: &[u8], mapping: HashMap<u8, u8>) -> PyResult<Vec<u
 #[pyfunction]
 pub fn substitute_reverse_bytes(data: &[u8], mapping: HashMap<u8, u8>) -> PyResult<Vec<u8>> {
     // Invert the mapping
-    let mapping: HashMap<u8, u8> = mapping
-        .into_iter()
-        .map(|(k, v)| (v, k))
-        .collect();
+    let mapping: HashMap<u8, u8> = mapping.into_iter().map(|(k, v)| (v, k)).collect();
     Ok(substitution_rust(data, &mapping))
 }
 
