@@ -1,3 +1,5 @@
+// The encoding implementation for base64 uses the standard alphabet, processing input bytes in chunks of 3 bytes (24 bits).
+// The general implementation is similar to base32, using a buffer for encoding and a decode map for decoding.
 use pyo3::exceptions::*;
 use pyo3::prelude::*;
 

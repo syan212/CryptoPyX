@@ -1,3 +1,5 @@
+// The encoding implementation for base32 uses the standard alphabet, loading each bytes into a buffer and extracting
+// 5-bit groups to map to base32 characters. Decoding first validates input characters, and uses a decode map to decode the base32.
 use pyo3::exceptions::*;
 use pyo3::prelude::*;
 
