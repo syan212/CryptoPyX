@@ -1,8 +1,8 @@
 # Implementation checklist
 
-- AES
-  * [ ] KeyExpansion 
+* AES
+  * [ ] KeyExpansion
   * [ ] SubBytes (S-box)
   * [ ] ShiftRows
   * [ ] MixColumns
-  * [ ] AddRoundKey 
+  * [ ] AddRoundKey
