@@ -63,7 +63,7 @@ classifiers = [
 [dependency-groups]
 # Dev dependencies
 dev = [
-  "maturin==1.11.2",
+  "maturin==1.11.5",
   "ruff==0.14.10",
   "pytest==9.0.2",
   "pytest-benchmark==5.2.3",
