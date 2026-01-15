@@ -16,6 +16,7 @@ pub mod ciphers {
     pub mod rot13;
     pub mod vigenere;
     pub mod substitution;
+    pub mod aes;
 }
 
 // Encodings submodules
