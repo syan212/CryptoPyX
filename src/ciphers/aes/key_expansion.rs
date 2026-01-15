@@ -21,7 +21,8 @@ fn get_word(n: usize, list: &Vec<u8>) -> Vec<u8> {
 
 /// Expands key using AES key schedule
 /// For a 16 byte (128 bit) key returns 176 bytes (11 keys),
-/// 312 bytes for 24 bytes (192 bit) and 480 bytes for 32 bytes (256 bit)
+/// 312 bytes for 24 bytes (192 bit) and 480 bytes for 32 bytes (256 bit).
+/// Returns a Vec<u32>
 fn key_expandsion(key: &[u8]) -> Result<Vec<u32>, String> {
     if !KEY_LENGTHS.contains(&key.len()) {
         return Err(format!("Invalid key length: {}", key.len()));
