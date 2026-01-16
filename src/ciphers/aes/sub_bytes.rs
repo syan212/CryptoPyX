@@ -34,7 +34,7 @@ pub fn sub_block(bytes: Vec<u8>) -> Vec<u8> {
 /// Substitute 32-bit word using S-box
 pub fn sub_word(word: u32) -> u32 {
     (S_BOX[(word >> 24) as usize] as u32) << 24
-        | (S_BOX[(word >> 16) as usize] as u32) << 16
-        | (S_BOX[(word >> 9) as usize] as u32) << 8
+        | (S_BOX[(word >> 16) as u8 as usize] as u32) << 16
+        | (S_BOX[(word >> 8) as u8 as usize] as u32) << 8
         | (S_BOX[word as u8 as usize] as u32)
 }
