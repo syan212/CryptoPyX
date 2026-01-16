@@ -16,7 +16,10 @@ fn combine_bytes(bytes: &[u8]) -> u32 {
 
 /// Combine four 32-bit words into a u128 block
 fn combine_words(words: &[u32]) -> u128 {
-    (words[0] as u128) << 96 | (words[1] as u128) << 64 | (words[2] as u128) << 32 | words[3] as u128
+    (words[0] as u128) << 96
+        | (words[1] as u128) << 64
+        | (words[2] as u128) << 32
+        | words[3] as u128
 }
 
 /// Get nth 32-bit word
@@ -90,7 +93,7 @@ mod test {
             0x217517873550620bacaf6b3cc61bf09b,
             0x0ef903333ba9613897060a04511dfa9f,
             0xb1d4d8e28a7db9da1d7bb3de4c664941,
-            0xb4ef5bcb3e92e21123e951cf6f8f188e
+            0xb4ef5bcb3e92e21123e951cf6f8f188e,
         ];
         let keys = key_expansion(&key).unwrap();
         assert_eq!(keys, expected);
