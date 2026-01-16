@@ -41,10 +41,9 @@ fn key_expandsion(key: &[u8]) -> Result<Vec<u32>, String> {
             // Return original key part
             out.push(combine_bytes(&key[(i * 4)..i * 4 + 4]));
         } else if i % key_length == 0 {
-            let word =
-                out[i - key_length] ^
-                sub_word(rot_word(out[i - 1])) ^
-                (ROUND_CONSTANTS[i / key_length] as u32) << 24;
+            let word = out[i - key_length]
+                ^ sub_word(rot_word(out[i - 1]))
+                ^ (ROUND_CONSTANTS[i / key_length] as u32) << 24;
             out.push(word);
         } else if key_length > 6 && i % key_length == 4 {
             out.push(out[i - key_length] ^ sub_word(out[i - 1]));

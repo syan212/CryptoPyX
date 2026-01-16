@@ -22,10 +22,19 @@ pub fn sub_single_byte(byte: u8) -> u8 {
     S_BOX[byte as usize]
 }
 
+/// Substitute 16 byte Vec
+pub fn sub_block(bytes: Vec<u8>) -> Vec<u8> {
+    let mut out = Vec::new();
+    for byte in bytes {
+        out.push(S_BOX[byte as usize]);
+    }
+    out
+}
+
 /// Substitute 32-bit word using S-box
 pub fn sub_word(word: u32) -> u32 {
-    (S_BOX[(word >> 24) as usize] as u32) << 24 |
-    (S_BOX[(word >> 16) as usize] as u32) << 16 |
-    (S_BOX[(word >> 9) as usize] as u32) << 8 |
-    (S_BOX[word as u8 as usize] as u32)
+    (S_BOX[(word >> 24) as usize] as u32) << 24
+        | (S_BOX[(word >> 16) as usize] as u32) << 16
+        | (S_BOX[(word >> 9) as usize] as u32) << 8
+        | (S_BOX[word as u8 as usize] as u32)
 }
