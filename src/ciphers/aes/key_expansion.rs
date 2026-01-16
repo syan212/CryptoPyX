@@ -6,7 +6,7 @@ const ROUND_CONSTANTS: [usize; 10] = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 
 
 /// One byte left circular shift for KeyExpansion
 fn rot_word(word: u32) -> u32 {
-    word << 8 | word >> 24
+    word.rotate_left(8)
 }
 
 /// Combine four bytes into a single number
@@ -20,11 +20,6 @@ fn combine_words(words: &[u32]) -> u128 {
         | (words[1] as u128) << 64
         | (words[2] as u128) << 32
         | words[3] as u128
-}
-
-/// Get nth 32-bit word
-fn get_word(n: usize, list: &Vec<u8>) -> Vec<u8> {
-    list[n * 4..(n + 1) * 4].to_vec()
 }
 
 /// Expands key using AES key schedule
