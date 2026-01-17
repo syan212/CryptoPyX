@@ -62,7 +62,7 @@ fn key_expansion(key: &[u8]) -> Result<Vec<u128>, String> {
             pre_out.push(pre_out[i - key_length] ^ pre_out[i - 1]);
         }
     }
-    // Combine all wors into 128-bit blocks
+    // Combine all words into 128-bit blocks
     let mut out = Vec::new();
     for i in 0..(pre_out.len() / 4) {
         out.push(combine_words(&pre_out[i * 4..(i + 1) * 4]))
