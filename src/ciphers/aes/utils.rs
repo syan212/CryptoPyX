@@ -41,21 +41,3 @@ pub fn separate_block(block: u128) -> Vec<u8> {
         (block >> 24) as u8, (block >> 16) as u8, (block >> 8) as u8, block as u8,
     ]
 }
-
-/// Multiplication with GF(2^8)
-pub fn multiply(num1: u8, num2: u8) -> u8 {
-    let mut a = num1;
-    let mut b = num2;
-    let mut p = 0u8;
-    for _ in 0..8 {
-        if b & 1 != 0 {
-            p ^= a;
-        }
-        a <<= 1;
-        if a & 0x80 != 0 {
-            a ^= 0x1b;
-        }
-        b >>= 1;
-    }
-    p
-}
