@@ -41,3 +41,13 @@ pub fn separate_block(block: u128) -> Vec<u8> {
         (block >> 24) as u8, (block >> 16) as u8, (block >> 8) as u8, block as u8,
     ]
 }
+
+/// Separate block into Vec<u32>
+pub fn separate_block_into_u32(block: u128) -> Vec<u32> {
+    vec![
+        (block >> 96) as u32,
+        (block >> 64) as u32,
+        (block >> 32) as u32,
+        block as u32,
+    ]
+}
