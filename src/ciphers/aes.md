@@ -2,9 +2,10 @@
 
 * AES
   * [*] KeyExpansion
-  * [ ] SubBytes (S-box)
+  * [x] SubBytes (S-box)
     * [x] Box
-    * [ ] Implement for 128-bit block
+    * [x] Implement for 128-bit block
+  * [ ] One of these is not working, I don't know which
   * [ ] ShiftRows
   * [ ] MixColumns
   * [ ] AddRoundKey
