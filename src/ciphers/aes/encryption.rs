@@ -8,10 +8,8 @@ const KEY_LENGTHS: [usize; 3] = [16, 24, 32];
 /// Peform ShiftRows on block
 fn shift_rows(block: Vec<u8>) -> Vec<u8> {
     vec![
-        block[0], block[5], block[9], block[14],
-        block[1], block[6], block[8], block[13],
-        block[2], block[7], block[11], block[12],
-        block[3], block[4], block[10], block[15],
+        block[0], block[5], block[9], block[14], block[1], block[6], block[8], block[13], block[2],
+        block[7], block[11], block[12], block[3], block[4], block[10], block[15],
     ]
 }
 
@@ -23,7 +21,7 @@ fn shift_rows(block: Vec<u8>) -> Vec<u8> {
 /// [3, 1, 1, 2] [4]   [10]
 fn multiply_matrix(matrix: Vec<u8>) -> Vec<u8> {
     // `a` is the input multiplied by 2 in GF(2^8)
-    let mut a = vec![0, 0, 0, 0];
+    let mut a = [0, 0, 0, 0];
     // `h` is flag for whether modulo is needed
     let mut h: u8;
     for i in 0..4 {
@@ -35,7 +33,7 @@ fn multiply_matrix(matrix: Vec<u8>) -> Vec<u8> {
         a[0] ^ matrix[3] ^ matrix[2] ^ a[1] ^ matrix[1],
         a[1] ^ matrix[0] ^ matrix[3] ^ a[2] ^ matrix[2],
         a[2] ^ matrix[1] ^ matrix[0] ^ a[3] ^ matrix[3],
-        a[3] ^ matrix[2] ^ matrix[1] ^ a[0] ^ matrix[0]
+        a[3] ^ matrix[2] ^ matrix[1] ^ a[0] ^ matrix[0],
     ]
 }
 
@@ -46,10 +44,8 @@ fn mix_columns(block: Vec<u8>) -> Vec<u8> {
     let col3 = multiply_matrix(block[8..12].to_vec());
     let col4 = multiply_matrix(block[12..16].to_vec());
     vec![
-        col1[0], col1[1], col1[2], col1[3],
-        col2[0], col2[1], col2[2], col2[3],
-        col3[0], col3[1], col3[2], col3[3],
-        col4[0], col4[1], col4[2], col4[3],
+        col1[0], col1[1], col1[2], col1[3], col2[0], col2[1], col2[2], col2[3], col3[0], col3[1],
+        col3[2], col3[3], col4[0], col4[1], col4[2], col4[3],
     ]
 }
 
@@ -61,7 +57,10 @@ pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
         return Err(format!("Invalid key length: {}", key.len()));
     }
     if block.len() != 16 {
-        return Err(format!("Amount of bytes in block is not correct: {}", block.len()));
+        return Err(format!(
+            "Amount of bytes in block is not correct: {}",
+            block.len()
+        ));
     }
     println!("Intial text: {:x?}", block);
     println!("Key: {:x?}", key);
@@ -84,15 +83,16 @@ pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
         println!("Sub block round {}: {:x?}", i, out);
         // ShiftRows
         out = shift_rows(out);
-        println!("ShiftRows round {}: {:x?}",i , out);
+        println!("ShiftRows round {}: {:x?}", i, out);
         // MixColumns
         out = mix_columns(out);
-        println!("Mix columns round {}: {:x?}",i,  out);
+        println!("Mix columns round {}: {:x?}", i, out);
         // AddRoundKey
         out = separate_block(combine_block(&out) ^ expanded_keys[i + 1]);
-        println!("Add round key round {}: {:x?}",i , out);
+        println!("Add round key round {}: {:x?}", i, out);
     }
-    out = separate_block(combine_block(&shift_rows(sub_block(out))) ^ expanded_keys.last().unwrap());
+    out =
+        separate_block(combine_block(&shift_rows(sub_block(out))) ^ expanded_keys.last().unwrap());
     println!("Final result: {:x?}", out);
     Ok(out)
 }
@@ -105,7 +105,11 @@ mod test {
     fn test_encryption() {
         let ciphertext = encrypt_rust(
             &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6],
-            &[48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48]).unwrap();
+            &[
+                48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48,
+            ],
+        )
+        .unwrap();
         let expected = 0x7C63DF0893B213F4381A4D3B2024F465;
         assert_eq!(combine_block(&ciphertext), expected);
     }

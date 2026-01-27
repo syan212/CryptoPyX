@@ -28,17 +28,29 @@ pub fn separate_word(word: u32) -> Vec<u8> {
         (word >> 24) as u8,
         (word >> 16) as u8,
         (word >> 8) as u8,
-        word as u8
+        word as u8,
     ]
 }
 
 /// Separate u128 into Vec<u8>
 pub fn separate_block(block: u128) -> Vec<u8> {
     vec![
-        (block >> 120) as u8, (block >> 112) as u8, (block >> 104) as u8, (block >> 96) as u8,
-        (block >> 88) as u8, (block >> 80) as u8, (block >> 72) as u8, (block >> 64) as u8,
-        (block >> 56) as u8, (block >> 48) as u8, (block >> 40) as u8, (block >> 32) as u8,
-        (block >> 24) as u8, (block >> 16) as u8, (block >> 8) as u8, block as u8,
+        (block >> 120) as u8,
+        (block >> 112) as u8,
+        (block >> 104) as u8,
+        (block >> 96) as u8,
+        (block >> 88) as u8,
+        (block >> 80) as u8,
+        (block >> 72) as u8,
+        (block >> 64) as u8,
+        (block >> 56) as u8,
+        (block >> 48) as u8,
+        (block >> 40) as u8,
+        (block >> 32) as u8,
+        (block >> 24) as u8,
+        (block >> 16) as u8,
+        (block >> 8) as u8,
+        block as u8,
     ]
 }
 
