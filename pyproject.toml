@@ -50,7 +50,7 @@ classifiers = [
     # Rust Implementation
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
-    
+
     # OS
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: Microsoft :: Windows",
@@ -93,11 +93,11 @@ python-source = "python"
 bindings = "pyo3"
 exclude = [
   # Git and GitHub
-  '.git*', '.github/**', 
-  
+  '.git*', '.github/**',
+
   # Dev files and directories
-  'benches/**', 'tests/**', 'scripts/**', 'utils/**', 'docs/**', 
-  
+  'benches/**', 'tests/**', 'scripts/**', 'utils/**', 'docs/**',
+
   # Miscellaneous
   '.editorconfig', '.rustfmt.toml', 'roadmap.md', 'Cargo.lock', 'CHANGELOG.md',
 ]
@@ -158,7 +158,8 @@ select = [
 ]
 
 ignore = [
-    "E501" # Delegate to formatter
+    "E501", # Delegate to formatter
+    "RUF067" # Disable, I break it here too much
 ]
 
 [tool.ruff.lint.per-file-ignores]
