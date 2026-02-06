@@ -5,7 +5,7 @@ use crate::ciphers::aes::utils::*;
 /// Allowed AES key lengths in bytes
 const KEY_LENGTHS: [usize; 3] = [16, 24, 32];
 
-/// Peform ShiftRows on block
+/// Perform ShiftRows on block
 fn shift_rows(block: Vec<u8>) -> Vec<u8> {
     vec![
         block[0], block[5], block[9], block[14], block[1], block[6], block[8], block[13], block[2],
@@ -13,7 +13,7 @@ fn shift_rows(block: Vec<u8>) -> Vec<u8> {
     ]
 }
 
-/// Multiplys column with AES fixed matrix.
+/// Multiplies column with AES fixed matrix.
 /// For example, with the input [1, 2, 3, 4], returns
 /// [2, 3, 1, 1] [1]   [4]
 /// [1, 2, 3, 1] [2]   [8]
@@ -62,7 +62,7 @@ pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
             block.len()
         ));
     }
-    println!("Intial text: {:x?}", block);
+    println!("Initial text: {:x?}", block);
     println!("Key: {:x?}", key);
     // Number of rounds
     let round_num = match key.len() / 4 {
@@ -75,7 +75,7 @@ pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     let expanded_keys = key_expansion(key)?;
     // Initial AddRoundKey
     let mut out = separate_block(combine_block(block) ^ expanded_keys[0]);
-    println!("Inital add round key: {:x?}", out);
+    println!("Initial add round key: {:x?}", out);
     // round_num - 1 rounds
     for i in 0..round_num - 1 {
         // SubBytes
