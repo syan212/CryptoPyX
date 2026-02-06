@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-    
+
   pull_request:
     branches:
       - main
@@ -19,6 +19,7 @@ defaults:
 jobs:
   # Quick CI on MacOS, Windows and Ubuntu
   CI:
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
@@ -32,7 +33,7 @@ jobs:
         uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7.2.1
         with:
           python-version: ${{ env.PY_VERSION }}
-      
+
       - name: Setup python with uv
         run: |
           uv python install --default
@@ -41,19 +42,19 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@1780873c7b576612439a134613cc4cc74ce5538c # v1.15.2
         with:
           components: rustfmt, clippy
-        
+
       - name: Create virtual environment
-        run: | 
+        run: |
           uv venv
-          
+
       # Runs scripts/install.sh. Also runs chmod +x on scripts/*
       - name: Maturin build
         run: |
           chmod +x scripts/*
           scripts/install.sh --no-docs
-          
+
       # Runs scripts/ci.sh
       - name: Run tests, linting and formatting
         run: |
           scripts/ci.sh
-          
+
