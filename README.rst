@@ -36,14 +36,19 @@ CryptoPyX
 
 A python cryptography package written in Rust made for speed.
 
-Example Usage
-=============
+Example Library Usage
+=====================
 
 .. code-block:: python
 
    from cryptopyx.encodings import base32
    base32.encode_bytes(b'Hello World')  # b'JBSWY3DPEBLW64TMMQ======'
    base32.decode_bytes(b'JBSWY3DPEBLW64TMMQ======')  # b'Hello World'
+
+Example CLI Usage
+=================
+
+.. image:: images/cli.png
 
 Installation guide
 ==================
@@ -54,7 +59,7 @@ Install from PyPI
 This package supports Python 3.10 and above
 
 .. code-block:: shell
-    
+
    pip install cryptopyx
 
 See below for platform compatibility and more information.
@@ -67,7 +72,7 @@ The package provides pre-compiled wheels for the following platforms tags
 
 - win_amd64
 - win32
-- macosx_10_12_x86_64 
+- macosx_10_12_x86_64
 - macosx_11_0_arm64
 - manylinux_2_34_x86_64
 - manylinux_2_34_armv7l
