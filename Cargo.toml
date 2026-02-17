@@ -26,5 +26,5 @@ version = "4.5.56"
 features = ["cargo"]
 
 [dependencies.pyo3]
-version = "0.28.0"
+version = "0.28.1"
 features = ["abi3-py310", "extension-module"]
