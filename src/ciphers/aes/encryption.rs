@@ -8,17 +8,13 @@ const KEY_LENGTHS: [usize; 3] = [16, 24, 32];
 /// Perform ShiftRows on block
 fn shift_rows(block: Vec<u8>) -> Vec<u8> {
     vec![
-        block[0], block[5], block[9], block[14], block[1], block[6], block[8], block[13], block[2],
-        block[7], block[11], block[12], block[3], block[4], block[10], block[15],
+        block[0], block[5], block[10], block[15], block[4], block[9], block[14], block[3],
+        block[8], block[13], block[2], block[7], block[12], block[1], block[6], block[11],
     ]
 }
 
 /// Multiplies column with AES fixed matrix.
 /// For example, with the input [1, 2, 3, 4], returns
-/// [2, 3, 1, 1] [1]   [4]
-/// [1, 2, 3, 1] [2]   [8]
-/// [1, 1, 2, 3] [3] = [9]
-/// [3, 1, 1, 2] [4]   [10]
 fn multiply_matrix(matrix: Vec<u8>) -> Vec<u8> {
     // `a` is the input multiplied by 2 in GF(2^8)
     let mut a = [0, 0, 0, 0];
@@ -62,8 +58,6 @@ pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
             block.len()
         ));
     }
-    println!("Initial text: {:x?}", block);
-    println!("Key: {:x?}", key);
     // Number of rounds
     let round_num = match key.len() / 4 {
         4 => 10,
@@ -75,25 +69,19 @@ pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     let expanded_keys = key_expansion(key)?;
     // Initial AddRoundKey
     let mut out = separate_block(combine_block(block) ^ expanded_keys[0]);
-    println!("Initial add round key: {:x?}", out);
     // round_num - 1 rounds
     for i in 0..round_num - 1 {
         // SubBytes
         out = sub_block(out);
-        println!("Sub block round {}: {:x?}", i, out);
         // ShiftRows
         out = shift_rows(out);
-        println!("ShiftRows round {}: {:x?}", i, out);
         // MixColumns
         out = mix_columns(out);
-        println!("Mix columns round {}: {:x?}", i, out);
         // AddRoundKey
         out = separate_block(combine_block(&out) ^ expanded_keys[i + 1]);
-        println!("Add round key round {}: {:x?}", i, out);
     }
     out =
         separate_block(combine_block(&shift_rows(sub_block(out))) ^ expanded_keys.last().unwrap());
-    println!("Final result: {:x?}", out);
     Ok(out)
 }
 
@@ -104,13 +92,17 @@ mod test {
     #[test]
     fn test_encryption() {
         let ciphertext = encrypt_rust(
-            &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6],
             &[
-                48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48,
+                0x6b, 0xc1, 0xbe, 0xe2, 0x2e, 0x40, 0x9f, 0x96, 0xe9, 0x3d, 0x7e, 0x11, 0x73, 0x93,
+                0x17, 0x2a,
+            ],
+            &[
+                0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf,
+                0x4f, 0x3c,
             ],
         )
         .unwrap();
-        let expected = 0x7C63DF0893B213F4381A4D3B2024F465;
+        let expected = 0x3ad77bb40d7a3660a89ecaf32466ef97;
         assert_eq!(combine_block(&ciphertext), expected);
     }
 }
