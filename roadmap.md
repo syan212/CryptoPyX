@@ -11,6 +11,10 @@
     * [x] ROT13
     * [x] Base32
     * [x] Base64
+- [ ] AES
+    * [ ] ECB
+    * [ ] GCM
+    * [ ] CBC
 
 ## Other stuff
 - [x] Docs
