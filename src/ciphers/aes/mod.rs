@@ -1,3 +1,4 @@
+pub mod decryption;
 pub mod encryption;
 pub mod key_expansion;
 pub mod sub_bytes;

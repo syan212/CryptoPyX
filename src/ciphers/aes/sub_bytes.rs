@@ -39,7 +39,7 @@ const REVERSE_S_BOX: [u8; 256] = [
 ];
 
 /// Substitute 16 byte Vec
-pub fn sub_block(bytes: Vec<u8>) -> Vec<u8> {
+pub fn sub_bytes(bytes: Vec<u8>) -> Vec<u8> {
     let mut out = Vec::new();
     for byte in bytes {
         out.push(S_BOX[byte as usize]);
@@ -48,7 +48,7 @@ pub fn sub_block(bytes: Vec<u8>) -> Vec<u8> {
 }
 
 /// Reverse substitute 16 byte Vec
-pub fn reverse_sub_block(bytes: Vec<u8>) -> Vec<u8> {
+pub fn inv_sub_bytes(bytes: Vec<u8>) -> Vec<u8> {
     let mut out = Vec::new();
     for byte in bytes {
         out.push(REVERSE_S_BOX[byte as usize]);

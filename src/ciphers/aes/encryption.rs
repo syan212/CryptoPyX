@@ -1,5 +1,5 @@
 use crate::ciphers::aes::key_expansion::key_expansion;
-use crate::ciphers::aes::sub_bytes::sub_block;
+use crate::ciphers::aes::sub_bytes::sub_bytes;
 use crate::ciphers::aes::mix_columns::mix_columns;
 use crate::ciphers::aes::shift_rows::shift_rows;
 use crate::ciphers::aes::utils::*;
@@ -10,7 +10,7 @@ const KEY_LENGTHS: [usize; 3] = [16, 24, 32];
 /// Encrypt block using provided key
 /// Performs KeyExpansion, SubBytes, ShiftRows, MixColumns and AddRoundKey,
 /// but no mode specific operations. Assumes block is 128-bit.
-pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
+pub fn single_encrypt(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     if !KEY_LENGTHS.contains(&key.len()) {
         return Err(format!("Invalid key length: {}", key.len()));
     }
@@ -37,7 +37,7 @@ pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
             combine_block(
                 &mix_columns( // MixColumns (3rd)
                     shift_rows( // ShiftRows (2nd)
-                        sub_block(out) // SubBytes (1st)
+                        sub_bytes(out) // SubBytes (1st)
                     )
                 )
             ) ^ expanded_keys[i + 1] // AddRoundKey (4th)
@@ -45,7 +45,7 @@ pub fn encrypt_rust(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     }
     // Final round without MixColumns
     out =
-        separate_block(combine_block(&shift_rows(sub_block(out))) ^ expanded_keys.last().unwrap());
+        separate_block(combine_block(&shift_rows(sub_bytes(out))) ^ expanded_keys[round_num]);
     Ok(out)
 }
 
@@ -55,7 +55,7 @@ mod test {
 
     #[test]
     fn test_encryption() {
-        let ciphertext = encrypt_rust(
+        let ciphertext = single_encrypt(
             &[
                 0x6b, 0xc1, 0xbe, 0xe2, 0x2e, 0x40, 0x9f, 0x96, 0xe9, 0x3d, 0x7e, 0x11, 0x73, 0x93,
                 0x17, 0x2a,
