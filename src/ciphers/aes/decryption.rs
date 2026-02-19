@@ -1,7 +1,7 @@
 use crate::ciphers::aes::key_expansion::key_expansion;
-use crate::ciphers::aes::sub_bytes::inv_sub_bytes;
 use crate::ciphers::aes::mix_columns::inv_mix_columns;
 use crate::ciphers::aes::shift_rows::inv_shift_rows;
+use crate::ciphers::aes::sub_bytes::inv_sub_bytes;
 use crate::ciphers::aes::utils::*;
 
 /// Allowed AES key lengths in bytes
@@ -33,22 +33,12 @@ pub fn single_decrypt(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     let mut out = separate_block(combine_block(block) ^ expanded_keys[round_num]);
     // round_num - 1 rounds
     for i in 0..round_num - 1 {
-        out = inv_mix_columns(
-            separate_block(expanded_keys[round_num - 1 - i] ^ combine_block(
-                    &inv_sub_bytes(
-                        inv_shift_rows(out)
-                    )
-                )
-            )
-        );
+        out = inv_mix_columns(separate_block(
+            expanded_keys[round_num - 1 - i] ^ combine_block(&inv_sub_bytes(inv_shift_rows(out))),
+        ));
     }
     // Final round
-    out = separate_block(expanded_keys[0] ^ combine_block(
-            &inv_sub_bytes(
-                inv_shift_rows(out)
-            )
-        )
-    );
+    out = separate_block(expanded_keys[0] ^ combine_block(&inv_sub_bytes(inv_shift_rows(out))));
     Ok(out)
 }
 
@@ -60,7 +50,7 @@ mod test {
     fn test_decryption() {
         let ciphertext = single_decrypt(
             &separate_block(0x6d251e6944b051e04eaa6fb4dbf78465),
-            &separate_block(0x10a58869d74be5a374cf867cfb473859)
+            &separate_block(0x10a58869d74be5a374cf867cfb473859),
         )
         .unwrap();
         let expected = 0x00000000000000000000000000000000;

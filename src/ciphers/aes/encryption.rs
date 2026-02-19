@@ -1,7 +1,7 @@
 use crate::ciphers::aes::key_expansion::key_expansion;
-use crate::ciphers::aes::sub_bytes::sub_bytes;
 use crate::ciphers::aes::mix_columns::mix_columns;
 use crate::ciphers::aes::shift_rows::shift_rows;
+use crate::ciphers::aes::sub_bytes::sub_bytes;
 use crate::ciphers::aes::utils::*;
 
 /// Allowed AES key lengths in bytes
@@ -34,18 +34,15 @@ pub fn single_encrypt(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     // round_num - 1 rounds
     for i in 0..round_num - 1 {
         out = separate_block(
-            combine_block(
-                &mix_columns( // MixColumns (3rd)
-                    shift_rows( // ShiftRows (2nd)
-                        sub_bytes(out) // SubBytes (1st)
-                    )
-                )
-            ) ^ expanded_keys[i + 1] // AddRoundKey (4th)
+            combine_block(&mix_columns(
+                shift_rows(
+                    sub_bytes(out),
+                ),
+            )) ^ expanded_keys[i + 1],
         );
     }
     // Final round without MixColumns
-    out =
-        separate_block(combine_block(&shift_rows(sub_bytes(out))) ^ expanded_keys[round_num]);
+    out = separate_block(combine_block(&shift_rows(sub_bytes(out))) ^ expanded_keys[round_num]);
     Ok(out)
 }
 
