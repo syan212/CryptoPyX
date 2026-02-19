@@ -34,11 +34,7 @@ pub fn single_encrypt(block: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     // round_num - 1 rounds
     for i in 0..round_num - 1 {
         out = separate_block(
-            combine_block(&mix_columns(
-                shift_rows(
-                    sub_bytes(out),
-                ),
-            )) ^ expanded_keys[i + 1],
+            combine_block(&mix_columns(shift_rows(sub_bytes(out)))) ^ expanded_keys[i + 1],
         );
     }
     // Final round without MixColumns
