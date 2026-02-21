@@ -1,58 +1,85 @@
 # Changelog
 
-**v0.2.1 (Not yet released)**
-Features:
+## v0.3.0
+
+Not yet released
+
+### New features
 
 - Added custom substitution cipher
 
-**v0.2.0**
-Features
+## v0.2.0
 
-- Extended CLI for all current available methods
+### New features
 
-**v0.1.3**
-Features
+- Extended CLI for all current available methods, that is:
+    - Caesar cipher
+    - ROT13 cipher
+    - Vigenere cipher
+    - Base64 encoding
+    - Base32 encoding
 
-- Added CLI, currently only for base32
-- Added base64 encoding and decoding, with the same API as base32
-- Changed logic for rot13, caesar and vigenere ciphers
+## v0.1.3
+
+### New features
+
+- CLI, currently only for base32
+- Base64 encoding and decoding, with the same API as base32
 - Added `rotate()` alias for rot13
+
+### Minor dev changes
+
+- Changed logic for rot13, caesar and vigenere ciphers
 - Reduce sdist size
 
-Dev dependencies
+## v0.1.2
 
-- [cargo]: Bump pyo3 to 0.27.2
-- [pip]: Bump ruff to 0.14.7
-- [pip]: Bump maturin to 1.10.2
-- [pip]: Bump pytest-benchmark to 5.2.3
-- [pip]: Bump pytest to 9.0.0
+### New features
 
-**v0.1.2: Base32**
-Features
+- New `encodings` submodule containing:
+    - Base32 decoding and encoding, for both strings and bytes
 
-- Added the base32 decoding and encoding, for both strings and bytes
+## v0.1.1
 
-**v0.1.1: One more feature**
-Features
+### New features
 
-- Added the vigenere ciphers as planned
+- Vigenere cipher under `ciphers` submodule
 
-**v0.1.0: First full release**
-Features
+## v0.1.0
 
-- Changed all main code to rust
+First full release
+-
+### Breaking changes
+
 - Removed vigenere cipher (will be added soon)
+
+### Fixes
+
 - Fixed [Issue 1](https://github.com/syan212/CryptoPyX/issues/1)
 
-**v0.0.2: Second test release**
-Features
+### Major dev changes
+
+- Changed all main code to rust
+
+## v0.0.2
+
+Second test release
+
+### New features
+
+- ROT13 encryption and decryption under the `ciphers` submodule
+
+### Minor dev changes
 
 - Updated README to reStructuredText
 - Added CHANGELOG.md
-- ROT13 added
 
-**v0.0.1: First test release**
-Features
+## v0.0.1
 
-- Caesar Shift encryption and decryption using `cryptopyx.ciphers.caesar.encrypt()` and `cryptopyx.ciphers.caesar.decrypt()` respectively
-- Vigenere Cipher encryption and decryption using `cryptopyx.ciphers.viginere.encrypt()` and `cryptopyx.ciphers.viginere.decrypt()` respectively
+First test release
+
+### New features
+
+- `ciphers` submodule containing:
+    - Caesar Shift encryption and decryption
+    - Vigenere Cipher encryption and decryption
