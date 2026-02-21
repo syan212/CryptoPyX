@@ -4,7 +4,7 @@ use pyo3::prelude::*;
 use pyo3::types::PyModule;
 
 // For shorter functions name
-use ciphers::{caesar, rot13, vigenere, substitution};
+use ciphers::{caesar, rot13, vigenere, substitution, aes};
 use encodings::{base32 as b32, base64 as b64};
 
 // CLI
@@ -55,7 +55,17 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
     reg_submodule!(ciphers_module, "caesar", [caesar::encrypt, caesar::decrypt])?;
     reg_submodule!(ciphers_module, "vigenere", [vigenere::encrypt, vigenere::decrypt])?;
     reg_submodule!(ciphers_module, "rot13", [rot13::encrypt, rot13::decrypt, rot13::rotate])?;
-    reg_submodule!(ciphers_module, "substitution", [substitution::substitute])?;
+    reg_submodule!(
+        ciphers_module,
+        "substitution",
+        [
+            substitution::substitute,
+            substitution::substitute_reverse,
+            substitution::substitute_bytes,
+            substitution::substitute_reverse_bytes
+        ]
+    )?;
+    reg_submodule!(ciphers_module, "aes", [aes::encrypt_ecb])?;
     // Add ciphers submodule to parent module
     m.add_submodule(&ciphers_module)?;
     Ok(())
