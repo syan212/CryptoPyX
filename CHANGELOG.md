@@ -7,6 +7,7 @@ Not yet released
 ### New features
 
 - Added custom substitution cipher
+- [Documentation website](https://cryptopyx.readthedocs.io/en/latest/index.html)!
 
 ## v0.2.0
 
