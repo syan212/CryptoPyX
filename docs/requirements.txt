@@ -47,7 +47,7 @@ pytest==9.0.2
 pytest-benchmark==5.2.3
 requests==2.32.5 ; python_full_version >= '3.11'
     # via sphinx
-roman-numerals-py==3.1.0 ; python_full_version >= '3.11'
+roman-numerals-py==4.1.0 ; python_full_version >= '3.11'
     # via sphinx
 ruff==0.15.1
 snowballstemmer==3.0.1 ; python_full_version >= '3.11'
