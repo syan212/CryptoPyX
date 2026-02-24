@@ -11,7 +11,7 @@ pub fn encrypt_ecb_rust(text: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     Ok(out)
 }
 
-/// Decrypt text using key, Uses ECB.
+/// Decrypt text using key, Uses ECB. Performs no padding removal.
 pub fn decrypt_ecb_rust(text: &[u8], key: &[u8]) -> Result<Vec<u8>, String> {
     let chunks: Vec<Vec<u8>> = text.to_vec().chunks(16).map(|v| v.to_vec()).collect();
     let mut out = Vec::new();

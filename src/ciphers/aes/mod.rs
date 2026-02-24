@@ -19,3 +19,12 @@ pub fn encrypt_ecb(text: Vec<u8>, key: &[u8], padding_mode: &str) -> PyResult<Ve
         Err(e) => Err(PyValueError::new_err(e)),
     }
 }
+
+#[pyfunction]
+pub fn decrypt_ecb(text: Vec<u8>, key: &[u8], padding_mode: &str) -> PyResult<Vec<u8>> {
+    let unpadded = match ecb::decrypt_ecb_rust(&text, key) {
+        Ok(ciphertext) => ciphertext,
+        Err(e) => return Err(PyValueError::new_err(e)),
+    };
+    Ok(padding::unpad(unpadded, padding_mode)?)
+}
