@@ -47,9 +47,11 @@ pub fn unpad(text: Vec<u8>, padding_mode: &str) -> PyResult<Vec<u8>> {
         out.pop();
         let last = match out.last() {
             Some(num) => *num,
-            None => return Err(PyValueError::new_err(format!(
-                "Unexpected end when unpadding text",
-            )))
+            None => {
+                return Err(PyValueError::new_err(format!(
+                    "Unexpected end when unpadding text",
+                )));
+            }
         };
         while *(out.last().unwrap()) != 0x80 {
             out.pop();
@@ -59,7 +61,6 @@ pub fn unpad(text: Vec<u8>, padding_mode: &str) -> PyResult<Vec<u8>> {
             "Not a valid padding mode: {}. Acceptable padding mode are: iso, pkcs.",
             padding_mode
         )));
-
     }
     Ok(out)
 }
