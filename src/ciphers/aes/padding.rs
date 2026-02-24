@@ -32,7 +32,7 @@ pub fn pad(text: Vec<u8>, padding_mode: &str) -> PyResult<Vec<u8>> {
 /// Assumes text is a multiple of 16
 pub fn unpad(text: Vec<u8>, padding_mode: &str) -> PyResult<Vec<u8>> {
     let mut out = text;
-    if out.len() % 16 != 0 || out.len() == 0 {
+    if out.len() % 16 != 0 || out.is_empty() {
         return Err(PyValueError::new_err(format!(
             "Invalid ciphertext length: {}",
             out.len()
@@ -44,17 +44,21 @@ pub fn unpad(text: Vec<u8>, padding_mode: &str) -> PyResult<Vec<u8>> {
             out.pop();
         }
     } else if ISO_ALIASES.contains(&padding_mode) {
-        out.pop();
-        let last = match out.last() {
-            Some(num) => *num,
-            None => {
+        if let Some(num) = out.pop() {
+            if num != 0 {
                 return Err(PyValueError::new_err(format!(
-                    "Unexpected end when unpadding text",
+                    "Unexpected character found when unpadding, expected 0, found: {:x}",
+                    num
                 )));
             }
-        };
+        }
         while *(out.last().unwrap()) != 0x80 {
             out.pop();
+            if out.is_empty() {
+                return Err(PyValueError::new_err(
+                    "Unexpected end before finding 0x80".to_string(),
+                ));
+            }
         }
     } else {
         return Err(PyValueError::new_err(format!(

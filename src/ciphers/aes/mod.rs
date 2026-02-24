@@ -26,5 +26,5 @@ pub fn decrypt_ecb(text: Vec<u8>, key: &[u8], padding_mode: &str) -> PyResult<Ve
         Ok(ciphertext) => ciphertext,
         Err(e) => return Err(PyValueError::new_err(e)),
     };
-    Ok(padding::unpad(unpadded, padding_mode)?)
+    padding::unpad(unpadded, padding_mode)
 }
