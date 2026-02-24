@@ -160,7 +160,7 @@ pub fn mix_columns(block: Vec<u8>) -> Vec<u8> {
         col1[0], col1[1], col1[2], col1[3], // Column 1
         col2[0], col2[1], col2[2], col2[3], // Column 2
         col3[0], col3[1], col3[2], col3[3], // Column 3
-        col4[0], col4[1], col4[2], col4[3], // Colum 4
+        col4[0], col4[1], col4[2], col4[3], // Column 4
     ]
 }
 
@@ -174,6 +174,6 @@ pub fn inv_mix_columns(block: Vec<u8>) -> Vec<u8> {
         col1[0], col1[1], col1[2], col1[3], // Column 1
         col2[0], col2[1], col2[2], col2[3], // Column 2
         col3[0], col3[1], col3[2], col3[3], // Column 3
-        col4[0], col4[1], col4[2], col4[3], // Colum 4
+        col4[0], col4[1], col4[2], col4[3], // Column 4
     ]
 }
