@@ -78,7 +78,7 @@ docs = [
 
 [project.urls]
 # Urls
-# TODO: add docs link
+Documentation = "https://cryptopyx.readthedocs.io/"
 Repository = "https://github.com/syan212/CryptoPyX"
 Issues = "https://github.com/syan212/CryptoPyX/issues"
 Changelog = "https://github.com/syan212/CryptoPyX/blob/main/CHANGELOG.md"
