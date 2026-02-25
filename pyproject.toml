@@ -9,7 +9,7 @@ requires-python = ">=3.10"
 # Update cargo version too
 version = "0.2.0"
 description = "A python cryptography package written in Rust made for speed."
-readme = "README.rst"
+readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 keywords = ["cryptography", "cipher", "encryption", "decryption", "security"]
