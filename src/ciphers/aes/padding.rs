@@ -8,10 +8,10 @@ const ISO_ALIASES: [&str; 4] = ["ISO", "iso", "ISO/IEC", "iso/iec"];
 pub fn pad(text: Vec<u8>, padding_mode: &str) -> PyResult<Vec<u8>> {
     let mut out = text;
     if PKCS_ALIASES.contains(&padding_mode) {
-        let padding_amount = if out.len() % 16 != 0 {
+        let padding_amount = if out.len() % 16 == 0 {
             16u8
         } else {
-            (out.len() % 16) as u8
+            (16 - out.len() % 16) as u8
         };
         out.extend(vec![padding_amount; padding_amount.into()]);
     } else if ISO_ALIASES.contains(&padding_mode) {
