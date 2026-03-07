@@ -65,7 +65,7 @@ fn register_ciphers<'py>(m: &Bound<'py, PyModule>) -> PyResult<()> {
             substitution::substitute_reverse_bytes
         ]
     )?;
-    reg_submodule!(ciphers_module, "aes", [aes::encrypt_ecb])?;
+    reg_submodule!(ciphers_module, "aes", [aes::encrypt_ecb, aes::decrypt_ecb])?;
     // Add ciphers submodule to parent module
     m.add_submodule(&ciphers_module)?;
     Ok(())
