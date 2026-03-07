@@ -30,7 +30,7 @@ cryptopyx.ciphers.rot13
    :members:
 
 cryptopyx.ciphers.substitution
------------------------
+------------------------------
 .. automodule:: cryptopyx.ciphers.substitution
    :members:
 
