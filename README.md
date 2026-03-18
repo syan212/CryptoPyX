@@ -50,3 +50,4 @@ pip install .
 ## Licence
 
 This is licensed under MIT licence. See `LICENSE` for full information.
+

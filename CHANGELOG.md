@@ -49,7 +49,7 @@ Not yet released
 ## v0.1.0
 
 First full release
--
+
 ### Breaking changes
 
 - Removed vigenere cipher (will be added soon)
