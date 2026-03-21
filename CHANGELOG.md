@@ -6,6 +6,7 @@ Not yet released
 
 ### New features
 
+- AES ECB encryption
 - Added custom substitution cipher
 - [Documentation website](https://cryptopyx.readthedocs.io/en/latest/index.html)!
 
