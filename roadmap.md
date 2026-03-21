@@ -1,6 +1,6 @@
 # Ideas
 
-## v0.2.0
+## v0.3.0
 - [x] Base32
 - [x] Base64
     * [x] Encoding
@@ -12,10 +12,10 @@
     * [x] Base32
     * [x] Base64
 - [ ] AES
-    * [ ] ECB
-    * [ ] GCM
-    * [ ] CBC
+    * [x] ECB
+    * [ ] GCM (later)
+    * [ ] CBC (later)
 
 ## Other stuff
 - [x] Docs
-- [ ] Actual docs website
+- [x] Actual docs website
