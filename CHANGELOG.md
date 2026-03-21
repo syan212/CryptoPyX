@@ -2,8 +2,6 @@
 
 ## v0.3.0
 
-Not yet released
-
 ### New features
 
 - AES ECB encryption
