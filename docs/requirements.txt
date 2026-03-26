@@ -45,7 +45,7 @@ pygments==2.19.2
 pytest==9.0.2
     # via pytest-benchmark
 pytest-benchmark==5.2.3
-requests==2.32.5 ; python_full_version >= '3.11'
+requests==2.33.0 ; python_full_version >= '3.11'
     # via sphinx
 roman-numerals-py==3.1.0 ; python_full_version >= '3.11'
     # via sphinx
