@@ -21,7 +21,7 @@ exceptiongroup==1.3.1 ; python_full_version < '3.11'
     # via pytest
 idna==3.11 ; python_full_version >= '3.11'
     # via requests
-imagesize==1.4.1 ; python_full_version >= '3.11'
+imagesize==1.5.0 ; python_full_version >= '3.11'
     # via sphinx
 iniconfig==2.3.0
     # via pytest
