@@ -15,6 +15,7 @@ A python cryptography package written in Rust made for speed.
 
 ``` python
 from cryptopyx.encodings import base32
+
 base32.encode_bytes(b'Hello World')  # b'JBSWY3DPEBLW64TMMQ======'
 base32.decode_bytes(b'JBSWY3DPEBLW64TMMQ======')  # b'Hello World'
 ```
