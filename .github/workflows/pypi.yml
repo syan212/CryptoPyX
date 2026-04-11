@@ -38,21 +38,22 @@ jobs:
 
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
-        
+
       - name: Update apt
-        run: | 
+        run: |
           sudo apt update
 
       - name: Install cross-compile tools for i686
         if: matrix.target == 'i686'
         run: |
-          sudo dpkg --add-architecture i386
+          sudo dpkg --add-architectu   with:
+     verbose: truere i386
           sudo apt install -y gcc-multilib g++-multilib libc6-dev-i386
 
       - name: Install cross-compile tools for aarch64
         if: matrix.target == 'aarch64'
         run: |
-          sudo dpkg --add-architecture aarch64 
+          sudo dpkg --add-architecture aarch64
           sudo apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
       - name: Install cross-compile tools for armv7
@@ -85,7 +86,7 @@ jobs:
       matrix:
         python-versions: ['3.10','3.13t','3.14t']
         platform:
-          # For windows we need to specify the arch to cross compile
+          # For windows we need to specify the architecture to cross compile
           - target: x86_64
             arch: x64
           - target: i686
@@ -100,10 +101,10 @@ jobs:
         with:
             python-version: ${{ matrix.python-versions }}
             cache: pip
-            # For windows the arch needs to be specified
+            # For windows the architecture needs to be specified
             # Specifically for x64
             architecture: ${{ matrix.platform.arch }}
-      
+
       - name: Setup uv
         uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
         with:
@@ -115,12 +116,12 @@ jobs:
 
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
-                
+
       - name: Maturin build
         run: |
           rustup target add ${{ matrix.platform.target }}-pc-windows-msvc
           uv run maturin build --release --out dist --target ${{ matrix.platform.target }}-pc-windows-msvc --interpreter python${{ matrix.python-versions }}
-    
+
       - name: Upload wheels
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
@@ -155,11 +156,11 @@ jobs:
 
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
-                 
+
       - name: Maturin build
         run: |
           uv run maturin build --release --out dist --interpreter python${{ matrix.python-versions }}
-  
+
       - name: Upload wheels
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
@@ -185,7 +186,7 @@ jobs:
 
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
-         
+
       - name: Maturin build
         run: |
           uv run maturin build --release --sdist --out dist
@@ -215,6 +216,8 @@ jobs:
 
       - name: Upload Wheels to PyPI
         uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
+        with:
+          verbose: true
 
   create-release:
     name: Create Github release
@@ -228,7 +231,7 @@ jobs:
           # Download all the wheels to the same folder
           path: dist
           merge-multiple: true
-      
+
       - name: Create release
         run: |
           gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}" --notes "${{ github.ref_name }}" dist/*
