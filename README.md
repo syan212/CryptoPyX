@@ -42,7 +42,7 @@ The documentation is still work in progress, but you can see it here: [Documenta
 
 ## Building From source
 
-To build from source without Rust after cloning the repository, simply run
+To build from source with or without Rust after cloning the repository, simply run
 
 ``` shell
 pip install .
