@@ -46,8 +46,7 @@ jobs:
       - name: Install cross-compile tools for i686
         if: matrix.target == 'i686'
         run: |
-          sudo dpkg --add-architectu   with:
-     verbose: truere i386
+          sudo dpkg --add-architecture i386
           sudo apt install -y gcc-multilib g++-multilib libc6-dev-i386
 
       - name: Install cross-compile tools for aarch64
