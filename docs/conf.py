@@ -11,8 +11,8 @@ from sphinxawesome_theme.postprocess import Icons
 project = 'CryptoPyX'
 copyright = '2025 Siqi Yan'
 author = 'Siqi Yan'
-version = '0.1'
-release = '0.1.2'
+version = '0.3'
+release = '0.3.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

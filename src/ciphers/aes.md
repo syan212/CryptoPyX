@@ -9,6 +9,6 @@
   * [x] MixColumns
   * [x] AddRoundKey
   * [ ] Modes
-    * [ ] ECB (sorta)
+    * [x] ECB (sorta)
     * [ ] CBC
     * [ ] GCM

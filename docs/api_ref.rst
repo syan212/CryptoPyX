@@ -14,6 +14,11 @@ cryptopyx.ciphers
 .. automodule:: cryptopyx.ciphers
    :members:
 
+cryptopyx.ciphers.aes
+---------------------
+.. automodule:: cryptopyx.ciphers.aes
+   :members:
+
 cryptopyx.ciphers.caesar
 ------------------------
 .. automodule:: cryptopyx.ciphers.caesar

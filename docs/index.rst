@@ -7,15 +7,16 @@ Welcome to the documentation for CryptoPyX, a cryptography library written in ru
 Features
 ========
 
-This repository is still in earl development, so only the following features are implemented:
+This repository is still in early development, so only the following features are implemented:
 
-- Caesar shift
+- Caesar cipher
 - Vigenere cipher
 - Rot13 cipher
+- AES cipher (only ECB mode)
 - Base32 encoding
 - Base64 encoding
 
-Currently AES is in development.
+Currently AES is still in development.
 
 Licence
 =======

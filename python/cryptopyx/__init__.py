@@ -20,6 +20,7 @@ sys.modules['cryptopyx.encodings.base64'] = encodings.base64
 # Ciphers submodule
 ciphers: ModuleType = _cryptopyx.ciphers
 sys.modules['cryptopyx.ciphers'] = ciphers
+sys.modules['cryptopyx.ciphers.aes'] = ciphers.aes
 sys.modules['cryptopyx.ciphers.rot13'] = ciphers.rot13
 sys.modules['cryptopyx.ciphers.caesar'] = ciphers.caesar
 sys.modules['cryptopyx.ciphers.vigenere'] = ciphers.vigenere
