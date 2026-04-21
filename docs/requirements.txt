@@ -59,7 +59,7 @@ sphinx==9.1.0 ; python_full_version >= '3.12'
     #   sphinx-design
     #   sphinxawesome-theme
 sphinx-design==0.7.0 ; python_full_version >= '3.12'
-sphinxawesome-theme==6.0.0 ; python_full_version >= '3.12'
+sphinxawesome-theme==6.0.2 ; python_full_version >= '3.12'
 sphinxcontrib-applehelp==2.0.0 ; python_full_version >= '3.12'
     # via sphinx
 sphinxcontrib-devhelp==2.0.0 ; python_full_version >= '3.12'
