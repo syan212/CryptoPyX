@@ -49,7 +49,7 @@ requests==2.33.1 ; python_full_version >= '3.12'
     # via sphinx
 roman-numerals==4.1.0 ; python_full_version >= '3.12'
     # via sphinx
-ruff==0.15.10
+ruff==0.15.12
 snowballstemmer==3.0.1 ; python_full_version >= '3.12'
     # via sphinx
 soupsieve==2.8.3 ; python_full_version >= '3.12'
