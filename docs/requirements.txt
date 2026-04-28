@@ -19,7 +19,7 @@ docutils==0.22.4 ; python_full_version >= '3.12'
     # via sphinx
 exceptiongroup==1.3.1 ; python_full_version < '3.11'
     # via pytest
-idna==3.11 ; python_full_version >= '3.12'
+idna==3.13 ; python_full_version >= '3.12'
     # via requests
 imagesize==2.0.0 ; python_full_version >= '3.12'
     # via sphinx
