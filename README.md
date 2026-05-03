@@ -22,7 +22,7 @@ base32.decode_bytes(b'JBSWY3DPEBLW64TMMQ======')  # b'Hello World'
 
 ## Example CLI Usage
 
-![image](images/cli.png)
+![image](https://raw.githubusercontent.com/syan212/CryptoPyX/main/images/cli.png)
 
 ## Installation guide
 
