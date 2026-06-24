@@ -538,15 +538,15 @@ wheels = [
 
 [[package]]
 name = "sphinxawesome-theme"
-version = "6.0.0"
+version = "6.0.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4", marker = "python_full_version >= '3.12'" },
     { name = "sphinx", marker = "python_full_version >= '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d3/0e/6b8fc5e645c995c669c6895127703993f76dce2417018c09b2c6e92591dd/sphinxawesome_theme-6.0.0.tar.gz", hash = "sha256:b76e41fc56fcbf6691172530e61bcf352623eb3298114ba3e323fec5d792e07b", size = 342940, upload-time = "2026-01-22T07:01:56.482Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3c/15/96d7b46d987d9894d5fc69328f05596f6c9ca3a8cafc28ea73a250ba4c1c/sphinxawesome_theme-6.0.2.tar.gz", hash = "sha256:984c1a107584eb6a913ba4c2e4c74b23212fbffeee9ef60688810b46823ade25", size = 344034, upload-time = "2026-04-16T04:40:30.533Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/ae/d28dfaa91e0baebccff073b45792a84eccd0c2572424423f033882c433e9/sphinxawesome_theme-6.0.0-py3-none-any.whl", hash = "sha256:aa076bafdd10f215bce2d586a77f765c2bf08992468cdaa28dc24815b847b291", size = 376107, upload-time = "2026-01-22T07:01:55.04Z" },
+    { url = "https://files.pythonhosted.org/packages/17/d4/6bcc860549d4894fc30c79be0224f60ee190e37bdcb59a715c247358bbe6/sphinxawesome_theme-6.0.2-py3-none-any.whl", hash = "sha256:a35dcabe3b0906aff270e1d18948f93040769e76551a2eb26cf26b29e06d1e51", size = 377296, upload-time = "2026-04-16T04:40:28.88Z" },
 ]
 
 [[package]]
